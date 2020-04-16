@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/4 | Hexo</title>
+  <title>数据结构--单链表和双链表的操作 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/04/index.html">
+  <meta name="description" content="单链表的增删查改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构--单链表和双链表的操作">
+<meta property="og:url" content="http://yoursite.com/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="单链表的增删查改">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-16T09:41:17.000Z">
+<meta property="article:modified_time" content="2020-04-16T10:14:03.322Z">
 <meta property="article:author" content="KamRayn">
+<meta property="article:tag" content="代码集">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -152,36 +157,862 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-数据结构-单链表和双链表的操作" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  	<time datetime="2020-04-16T09:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">数据结构--单链表和双链表的操作</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构--单链表和双链表的操作
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="archive-article-date">
+  	<time datetime="2020-04-16T09:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 单链表的增删查改</p>
+<a id="more"></a>
+<hr>
+<h3 id="创建一个节点"><a href="#创建一个节点" class="headerlink" title="创建一个节点"></a>创建一个节点</h3><pre><code>//首先定义节点
+class  HeroNode {
+
+//属性
+  int no; //英雄编号
+  String name;//英雄姓名
+  String nickName;//英雄称号
+  HeroNode next;//节点的next域，指向下一个节点(它就是连接的下一个对象的地址)
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public String getNickName() {
+    return nickName;
+}
+
+public void setNickName(String nickName) {
+    this.nickName = nickName;
+}
+
+//定义构造函数
+//定义英雄节点属性的时候不需要用到next域，默认为空，因为后面增删查改会对它进行处理,这样才会连起来
+
+public HeroNode(int no, String name, String nickName) {
+    this.no = no;
+    this.name = name;
+    this.nickName = nickName;
+}
+
+@Override
+public String toString() {
+    return &quot;HeroNode{&quot; +
+            &quot;no=&quot; + no +
+            &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; +
+            &quot;, nickName=&apos;&quot; + nickName + &apos;\&apos;&apos; +
+            &apos;}&apos;;
+}
+ }</code></pre><h3 id="创建一个单链表"><a href="#创建一个单链表" class="headerlink" title="创建一个单链表"></a>创建一个单链表</h3><pre><code>//创建一个单链表
+
+class  SingleLinkedList{
+
+//单链表是由节点组成的，先给它一个固定的头结点。以后的几点增删改查
+
+//编号为0，其他为空,头结点不存放数据
+HeroNode head=new HeroNode(0,&quot;&quot;,&quot;&quot;);
+
+//类中可写增删查改方法
+
+
+}</code></pre><h3 id="添加节点（直接在链表后面添加）"><a href="#添加节点（直接在链表后面添加）" class="headerlink" title="添加节点（直接在链表后面添加）"></a>添加节点（直接在链表后面添加）</h3><pre><code>    //添加
+//不管编号顺序，直接在链表最后添加
+public void add(HeroNode heroNode){
+
+    //得遍历链表，找到最后一个节点就退出,在节点的后面添加
+    //需要一个辅助变量来辅助遍历,头结点不能动
+
+    //代表从头结点开始，因为添加节点的话如果原来为空链表，
+    // 就要在头节点后面添加，需要与头节点建立联系，所以temp指向头节点是可取的
+    HeroNode temp=head;
+
+    while (true){
+
+        //表示是temp指向的节点是链表最后一个节点,退出
+        if(temp.next==null){
+
+            break;
+
+        }
+        //如果不是最后一个节点，temp就持续指向下一个
+
+        temp=temp.next;
+
+    }
+
+    //循环退出，添加
+    //此时temp指向最后一个节点
+    temp.next=heroNode;
+
+
+}</code></pre><h3 id="添加节点-（排序节点不重复添加）"><a href="#添加节点-（排序节点不重复添加）" class="headerlink" title="添加节点 （排序节点不重复添加）"></a>添加节点 （排序节点不重复添加）</h3><pre><code> //接下来是编号排序（从一开始）且编号唯一的添加
+
+public  void  addOrder(HeroNode heroNode){
+
+    //条件分析：
+    /*
+    插入：1.节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
+          2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
+    不插入:temp.next.no == 传入节点.no,实现唯一插入
+   三个条件只要满足一个就会退出循环，实现插与不插
+    每次插入节点都要遍历链表，如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
+
+     */
+
+    HeroNode temp=head; //添加节点与head要联系起来,况且中间插入需要temp指定在要被插入位置的前一位
+    boolean flag=false; //默认插入的节点不重复
+    while (true){
+
+        if(temp.next==null){
+
+            //节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
+            break;
+        }
+        if (temp.next.no &gt;heroNode.no){
+            //中间插入需要temp指定在要被插入位置的前一位
+            //2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
+            break;
+        }
+        if (temp.next.no==heroNode.no){
+
+            //不插入:temp.next.no == 传入节点.no,实现唯一插入
+            flag=true;//重复数据
+            break;
+
+        }
+
+        //如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
+        temp = temp.next;
+
+
+    }
+
+    //三个条件只要满足一个就会退出循环，实现插与不插
+    if(flag){
+
+        //重复数据不插入
+        System.out.println(&quot;插入的节点数据重复，无法添加！&quot;+heroNode.no);
+
+    }
+    else {
+
+        //进行插入操作
+
+        //这里一定要注意，顺序不能颠倒。如果颠倒了那么链表就连不起来了。
+        heroNode.next=temp.next;
+        temp.next=heroNode;
+
+    }
+
+
+
+
+}</code></pre><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><pre><code>   //遍历
+
+public  void list(){
+
+    //遍历链表
+
+    HeroNode temp=head.next; //直接遍历操作不操作头节点，所以辅助变量直接指向第一个节点
+        if (head.next == null) {
+
+            //链表为空，直接返回
+            return;
+
+        }
+
+        while (true){
+
+            //如果到最后一个就退出
+
+            if(temp==null){
+
+                //到最后了
+                break;
+
+            }
+            //每遍历一个节点就输出
+            System.out.println(temp);
+
+            //temp指向下一个节点
+            temp=temp.next;
+
+        }
+
+
+
+
+    }</code></pre><h3 id="修改单链表节点"><a href="#修改单链表节点" class="headerlink" title="修改单链表节点"></a>修改单链表节点</h3><pre><code>//修改节点数据
+public void  update(HeroNode heroNode){
+
+    //修改节点就要通过遍历找到要被修改的节点，修改数据即可（编号不修改，修改英雄名字或者昵称）
+    //不与头节点联系，所以
+    HeroNode temp=head.next; //直接指向第一个节点
+
+    if(temp==null){
+
+        //说明链表为空，直接返回
+        return;
+    }
+    while (true){
+
+
+        //找到了要被修改的数据
+        if(temp.no==heroNode.no){
+            //进行修改
+            temp.name=heroNode.name;
+            temp.nickName=heroNode.nickName;
+            break;
+        }
+        //遍历到最后了也没找到，退出
+//            if(temp==null){
+//                System.out.println(&quot;节点数据未找到！&quot;);
+//                break;
+//
+//            }
+        if(temp.next!=null) {
+            temp = temp.next;
+        }
+        else {
+            System.out.println(&quot;修改未找到数据&quot;);
+            break;
+        }
+    }
+
+
+}</code></pre><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><pre><code> //删除节点
+
+public  void  delete(HeroNode heroNode){
+
+    //遍历找到要被删除节点的前一个节点，这样能把被删除数据前一个与被删除数据后一个的连接连起来
+    //所以temp从head开始
+    HeroNode temp=head;
+
+    //判断链表是否为空
+    if(head.next==null){
+        return;
+    }
+    while (true){
+
+        if(temp.next.no==heroNode.no){
+
+            //说明该temp是被删除节点的前一个节点
+
+            //这是删除的节点不是最后一个节点的时候
+
+                temp.next = temp.next.next;
+
+
+            break;
+
+        }
+
+        if(temp.next!=null){
+
+            temp=temp.next;
+        }
+       else {
+            System.out.println(&quot;未找到要被删除的数据！&quot;);
+            break;
+        }
+
+
+    }
+
+
+}</code></pre><h2 id="单链表面试题"><a href="#单链表面试题" class="headerlink" title="单链表面试题"></a>单链表面试题</h2><p>求单链表中有效数据的个数</p>
+<pre><code>public  int getLength(){
+
+
+HeroNode temp=head.next; //直接遍历有效节点，不与head联系
+//说白就是了遍历节点，求出遍历次数
+    int length=0;
+
+    if(head.next==null){
+
+        return  0;
+
+    }
+    while (true){
+
+        if(temp==null){
+
+            //到最后了
+            break;
+
+        }
+        length++;
+        temp=temp.next;
+
+
+    }
+
+
+return length;
+}</code></pre><hr>
+<p>新浪面试题，查找单链表中的倒数第k个节点</p>
+<pre><code>   public void getBackKNode(int k){
+
+    //思路:遍历取到单链表的节点个数,用节点个数减去k，得到一个数，然后遍历
+    int a=getLength()-k+1;
+    int n=0;
+    if(k&lt;1||k&gt;getLength()){
+
+        System.out.println(&quot;参数不合法&quot;);
+
+    }
+    if(head.next==null){
+
+        return;
+    }
+
+    HeroNode temp=head.next;
+
+    while (temp!=null){
+
+        n++;
+        if(n==a){
+
+            break;
+
+        }
+        else {
+            temp = temp.next;
+        }
+
+
+
+
+
+    }
+    System.out.println(temp);
+
+
+}</code></pre><hr>
+<p>腾讯面试题,反转一个单链表</p>
+<pre><code>   public void reverseSingleLinked(){
+
+    //思路：
+    /*
+
+    创建一个新的单链表头节点，用来辅助生成反转链表
+    根据原单链表的头节点，先遍历出每一个有效节点。(辅助变量从第一个有效节点开始指)
+    遍历到每一个新的节点，就把让头r指向它。但是单单这样是不行的，因为这样只是永远在换r的next的指向值
+    所以，我们要想一个方法，让新节点进来r.next的同时，也要把以前遍历的节点连在一起
+
+    如 h  1 2 3 4
+       r
+    当前的cur假设是2
+
+    这个时候呢，当我把r.next指向2的时候，我的1呢？1的话可以这样：
+
+    在cur等于1的时候，让cur指向r(cur.next=r.next),再把r-&gt;1(r.next=cur),那么就会形成
+
+    当前cur指向的就是1(第一步循环就是得到r的next域是1)
+
+    然后 再当cur=2时，继续cur.next=r.next,这样2和1就可以连起来了，
+
+    然后再用r.next指向2（r.next=cur）,就会形成 r-&gt;2-&gt;1的结果，
+
+    以此类推，当3进来的时候,把3指向r的next域（变成2了），这个时候就是3-&gt;2-&gt;1连起来了，再r-&gt;3(r.next-cur),以此类推，最终就可以连起来
+
+    cur.next=r.next  //先把当前cur指向r的next域，那么节点1在节点2
+
+
+    */
+
+    //实现
+
+    HeroNode cur=head.next;//辅助变量从第一个有效节点开始指)
+
+    HeroNode next=null;//用来后移cur的指向,达到遍历的效果
+
+    HeroNode reverseHead=new HeroNode(0,&quot;&quot;,&quot;&quot;);
+
+    if(head.next==null||head.next.next==null){
+
+        //空的或者只有一个节点，不用反转
+        return;
+
+    }
+    while (true){
+
+        if(cur==null){
+
+            //说明到最后的节点了
+            break;
+        }
+        //否则
+        next=cur.next; //记录下一个cur的指向值
+
+        cur.next=reverseHead.next;
+
+        reverseHead.next=cur;
+        cur=next; //后移
+
+
+
+    }
+
+    //退出循环后，因为你是新建了一个头，所以你的头结点地址和原来的头是不一样的
+    //所以把旧头指向新头的next即可
+
+    head.next=reverseHead.next;
+
+    //遍历一下验证
+    list();
+
+
+}</code></pre><hr>
+<p>百度面试题：从尾到头打印单链表</p>
+<pre><code>public   void  reversePrint(){
+
+    //不建议采用把链表翻转过来再遍历,因为这样会改变链表结构,可能会出问题
+
+    //采用栈，以此遍历节点，压入栈中，再pop弹栈
+
+    //新建一个栈
+    Stack&lt;HeroNode&gt; stack=new Stack&lt;&gt;();
+
+    HeroNode temp=head.next;
+    if(head.next==null){
+
+        return;
+    }
+    while (true){
+
+        if(temp==null){
+
+            break;
+        }
+        stack.push(temp);
+        temp=temp.next;
+
+
+    }
+
+  while (stack.size()&gt;0){
+
+      System.out.println(stack.pop());
+  }
+
+}</code></pre><hr>
+<p>高频面试题：合并两个有序的单链表，合并之后的链表依然有序</p>
+<pre><code>public class mergeLinkedListDemo {
+
+//用递归来解决问题,精辟！
+/*
+如 1-&gt;2-&gt;4
+   1-&gt;3-&gt;4
+
+   合并后希望是这样 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4
+*/
+public static void main(String[] args) {
+
+
+    ListNode l1=new ListNode(1);
+    ListNode l1Ne=new ListNode(2);
+    ListNode l1NeNe=new ListNode(4);
+    l1.setNext(l1Ne);
+    l1Ne.setNext(l1NeNe);
+
+    ListNode l2=new ListNode(1);
+    ListNode l2Ne=new ListNode(3);
+    ListNode l2NeNe=new ListNode(4);
+    l2.setNext(l2Ne);
+    l2Ne.setNext(l2NeNe);
+
+
+    ListNode newNode=ListNode.mergeLinkedList(l1,l2);
+
+  System.out.println(newNode);
+
+}
+
+
+}
+
+class  ListNode{
+
+int val;
+ListNode next;
+
+public ListNode getNext() {
+    return next;
+}
+
+@Override
+public String toString() {
+    return &quot;ListNode{&quot; +
+            &quot;val=&quot; + val +
+            &quot;, next=&quot; + next +
+            &apos;}&apos;;
+}
+
+public void setNext(ListNode next) {
+    this.next = next;
+}
+
+public ListNode(int val) {
+    this.val = val;
+}
+
+/*
+好比打架，因为原来两个链表都是默认从小到大排序，也就是，每一组都是从弱到强
+动脑想想
+要想获得所有人的排名（从弱到强）
+首先得拿第一组最弱的和第二组最弱的比，谁输了，也就是谁小，就上排行位
+然后把输的那一组的次弱的拿出来，和第二组（上一轮赢的那一组）进行比较，输的上排行榜，以此类推，
+到了某一组的人物是null, 另一组有人，说明没对手，直接上排行版
+*/
+
+public   static ListNode mergeLinkedList(ListNode l1,ListNode l2){
+
+    if(l1==null){
+
+        return l2;
+    }
+    if(l2==null){
+
+        return  l1;
+    }
+
+    ListNode head=null;
+
+    if(l1.val&lt;=l2.val){
+
+        head=l1;
+        head.next=mergeLinkedList(l1.next,l2);
+
+    }
+    else {
+
+        head=l2;
+        head.next=mergeLinkedList(l1,l2.next);
+
+    }
+
+    return  head;
+}
+}</code></pre><hr>
+<hr>
+<h1 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h1><p>管理单向链表的缺点分析: </p>
+<p>1) 单向链表，查找的方向只能是一个方向，而双向链表可以向前或者向后查找。 </p>
+<p>2) 单向链表不能自我删除，需要靠辅助节点 ，而双向链表，则可以自我删除，所以前面我们单链表删除时节点，总是找到 temp,temp 是待删除节点的前一个节点。</p>
+<h2 id="创建双链表节点"><a href="#创建双链表节点" class="headerlink" title="创建双链表节点"></a>创建双链表节点</h2><pre><code>//首先定义节点
+class  HeroNode2 {
+
+//属性
+int no; //英雄编号
+String name;//英雄姓名
+String nickName;//英雄称号
+HeroNode2 next;//节点的next域，指向下一个节点(它就是连接的下一个对象的地址)
+HeroNode2 pre;//节点的pre域，指向前一个节点。
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public String getNickName() {
+    return nickName;
+}
+
+public void setNickName(String nickName) {
+    this.nickName = nickName;
+}
+
+//定义构造函数
+//定义英雄节点属性的时候不需要用到next域和pre域，默认为空，因为后面增删查改会对它进行处理,这样才会连起来
+
+public HeroNode2(int no, String name, String nickName) {
+    this.no = no;
+    this.name = name;
+    this.nickName = nickName;
+}
+
+@Override
+public String toString() {
+    return &quot;HeroNode2{&quot; +
+            &quot;no=&quot; + no +
+            &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; +
+            &quot;, nickName=&apos;&quot; + nickName + &apos;\&apos;&apos; +
+            &apos;}&apos;;
+}
+}</code></pre><h2 id="新建一个双链表"><a href="#新建一个双链表" class="headerlink" title="新建一个双链表"></a>新建一个双链表</h2><pre><code>class DoubleLinkedList{
+
+//固定头
+HeroNode2 head=new HeroNode2(0,&quot;&quot;,&quot;&quot;);
+}</code></pre><h2 id="添加（直接链表后面添加）"><a href="#添加（直接链表后面添加）" class="headerlink" title="添加（直接链表后面添加）"></a>添加（直接链表后面添加）</h2><pre><code>    //添加（直接添加到链表的最后）
+
+public void add(HeroNode2 heroNode2){
+
+    //得遍历链表，找到最后一个节点就退出,在节点的后面添加
+    //需要一个辅助变量来辅助遍历,头结点不能动
+
+    //代表从头结点开始，因为添加节点的话如果原来为空链表，
+    // 就要在头节点后面添加，需要与头节点建立联系，所以temp指向头节点是可取的
+    HeroNode2 temp=head;
+
+    while (true){
+
+        //表示是temp指向的节点是链表最后一个节点,退出
+        if(temp.next==null){
+
+            break;
+
+        }
+        //如果不是最后一个节点，temp就持续指向下一个
+
+       temp=temp.next;
+
+    }
+
+    //循环退出，添加
+    //此时temp指向最后一个节点
+    temp.next=heroNode2;
+    heroNode2.pre=temp;
+
+
+}</code></pre><h2 id="添加（编号排序不重复添加）"><a href="#添加（编号排序不重复添加）" class="headerlink" title="添加（编号排序不重复添加）"></a>添加（编号排序不重复添加）</h2><pre><code>//接下来是编号排序（从一开始）且编号唯一的添加
+
+public  void  addOrder(HeroNode2 heroNode2){
+
+    //条件分析：
+    /*
+    插入：1.节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
+          2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
+    不插入:temp.next.no == 传入节点.no,实现唯一插入
+   三个条件只要满足一个就会退出循环，实现插与不插
+    每次插入节点都要遍历链表，如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
+
+     */
+
+    HeroNode2 temp=head; //添加节点与head要联系起来,况且中间插入需要temp指定在要被插入位置的前一位
+    boolean flag=false; //默认插入的节点不重复
+    while (true){
+
+        if(temp.next==null){
+
+            //节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
+            break;
+        }
+        if (temp.next.no &gt;heroNode2.no){
+            //中间插入需要temp指定在要被插入位置的前一位
+            //2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
+            break;
+        }
+        if (temp.next.no==heroNode2.no){
+
+            //不插入:temp.next.no == 传入节点.no,实现唯一插入
+            flag=true;//重复数据
+            break;
+
+        }
+
+        //如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
+        temp = temp.next;
+
+
+    }
+
+    //三个条件只要满足一个就会退出循环，实现插与不插
+    if(flag){
+
+        //重复数据不插入
+        System.out.println(&quot;插入的节点数据重复，无法添加！&quot;+heroNode2.no);
+
+    }
+    else {
+
+        //进行插入操作
+
+       heroNode2.next=temp.next;
+       heroNode2.pre=temp;
+       temp.next=heroNode2;
+       temp.next.pre=heroNode2;
+
+    }
+
+
+
+
+}</code></pre><h2 id="遍历-1"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h2><pre><code>//遍历
+
+public  void list(){
+
+    //遍历链表
+
+    HeroNode2 temp=head.next; //直接遍历操作不操作头节点，所以辅助变量直接指向第一个节点
+    if (head.next == null) {
+
+        //链表为空，直接返回
+        return;
+
+    }
+
+    while (true){
+
+        //如果到最后一个就退出
+
+        if(temp==null){
+
+            //到最后了
+            break;
+
+        }
+        //每遍历一个节点就输出
+        System.out.println(temp);
+
+        //temp指向下一个节点
+        temp=temp.next;
+
+    }
+
+
+
+
+}</code></pre><h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><pre><code> public void  update(HeroNode2 heroNode2){
+
+    //修改节点就要通过遍历找到要被修改的节点，修改数据即可（编号不修改，修改英雄名字或者昵称）
+    //不与头节点联系，所以
+    HeroNode2 temp=head.next; //直接指向第一个节点
+
+    if(temp==null){
+
+        //说明链表为空，直接返回
+        return;
+    }
+    while (true){
+
+
+        //找到了要被修改的数据
+        if(temp.no==heroNode2.no){
+            //进行修改
+            temp.name=heroNode2.name;
+            temp.nickName=heroNode2.nickName;
+            break;
+        }
+        //遍历到最后了也没找到，退出
+//            if(temp==null){
+//                System.out.println(&quot;节点数据未找到！&quot;);
+//                break;
+//
+//            }
+        if(temp.next!=null) {
+            temp = temp.next;
+        }
+        else {
+            System.out.println(&quot;修改未找到数据&quot;);
+            break;
+        }
+    }
+
+
+}    </code></pre><h2 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h2><pre><code>      public  void del(int no){
+
+    //双链表的删除,可以实现temp指向哪里就删除哪里，所以temp从head.next开始
+
+    HeroNode2 temp=head.next;
+
+    boolean flag=false;//默认找不到要删除的节点
+
+    if(head.next==null){
+
+        return;
+
+    }
+
+    while (true){
+
+        if (temp==null){
+
+            //最后一个节点了，也没找到
+        }
+        if(temp.no==no){
+
+            flag=true;
+            break;
+        }
+        temp=temp.next;
+
+    }
+    if(flag){
+        //说明找到了
+
+            temp.pre.next = temp.next;//这是 被删除节点的前一位指向被删除节点的后一位的next域
+            if(temp.next!=null) {
+            //当你删除的 就是最后一个节点时，这个的temp.next.pre会报null,因为temp.next=null,null.pre??报错了,所以得加条件
+            temp.next.pre = temp.pre;//这是 被删除节点的后一位指向被删除节点的前一位的pre域，
+        }
+
+
+    }
+
+
+
+
+}</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -193,57 +1024,120 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-04-14T13:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构随笔--稀疏数组 数组模拟队列</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/">数据结构随笔--稀疏数组 数组模拟队列</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个节点"><span class="toc-number">1.</span> <span class="toc-text">创建一个节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个单链表"><span class="toc-number">2.</span> <span class="toc-text">创建一个单链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加节点（直接在链表后面添加）"><span class="toc-number">3.</span> <span class="toc-text">添加节点（直接在链表后面添加）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加节点-（排序节点不重复添加）"><span class="toc-number">4.</span> <span class="toc-text">添加节点 （排序节点不重复添加）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历"><span class="toc-number">5.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改单链表节点"><span class="toc-number">6.</span> <span class="toc-text">修改单链表节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">7.</span> <span class="toc-text">删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单链表面试题"><span class="toc-number"></span> <span class="toc-text">单链表面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#双链表"><span class="toc-number"></span> <span class="toc-text">双链表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建双链表节点"><span class="toc-number"></span> <span class="toc-text">创建双链表节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建一个双链表"><span class="toc-number"></span> <span class="toc-text">新建一个双链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加（直接链表后面添加）"><span class="toc-number"></span> <span class="toc-text">添加（直接链表后面添加）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加（编号排序不重复添加）"><span class="toc-number"></span> <span class="toc-text">添加（编号排序不重复添加）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遍历-1"><span class="toc-number"></span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改"><span class="toc-number"></span> <span class="toc-text">修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除-1"><span class="toc-number"></span> <span class="toc-text">删除</span></a>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
+
 
 
           </div>
@@ -269,8 +1163,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
