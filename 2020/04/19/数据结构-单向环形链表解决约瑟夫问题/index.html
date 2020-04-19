@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>数据结构随笔--稀疏数组 数组模拟队列 | Hexo</title>
+  <title>数据结构-单向环形链表解决约瑟夫问题 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="稀疏数组和数组模拟队列:">
+  <meta name="description" content="用单向环形链表解决–约瑟夫问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构随笔--稀疏数组 数组模拟队列">
-<meta property="og:url" content="http://yoursite.com/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/index.html">
+<meta property="og:title" content="数据结构-单向环形链表解决约瑟夫问题">
+<meta property="og:url" content="http://yoursite.com/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="稀疏数组和数组模拟队列:">
+<meta property="og:description" content="用单向环形链表解决–约瑟夫问题">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC41B3539BC24693B2A3772DA190DF4C/15">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E8E109CD1D7F4D299FEAEA267C3172F9/19">
-<meta property="article:published_time" content="2020-04-14T13:28:49.000Z">
-<meta property="article:modified_time" content="2020-04-16T10:10:40.009Z">
+<meta property="article:published_time" content="2020-04-19T04:41:59.000Z">
+<meta property="article:modified_time" content="2020-04-19T06:55:00.830Z">
 <meta property="article:author" content="KamRayn">
-<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC41B3539BC24693B2A3772DA190DF4C/15">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -160,639 +157,252 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-数据结构随笔-稀疏数组-数组模拟队列" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-数据结构-单向环形链表解决约瑟夫问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      数据结构随笔--稀疏数组 数组模拟队列
+      数据结构-单向环形链表解决约瑟夫问题
     </h1>
   
 
         
-        <a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-04-14T13:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-14</time>
+        <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2020-04-19T04:41:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><em>稀疏数组和数组模拟队列:</em></p>
+        <p>用单向环形链表解决–约瑟夫问题</p>
 <a id="more"></a>
-<h1 id="稀疏数组"><a href="#稀疏数组" class="headerlink" title="稀疏数组"></a>稀疏数组</h1><h3 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h3><p>当一个二维数组大部分数据都为0的时候，可以用到稀疏数组来保存该数组。</p>
-<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC41B3539BC24693B2A3772DA190DF4C/15" alt="稀疏数组图示"></p>
-<p>  稀疏数组的第一行分别存放原二维数组的行数，列数，以及非0的值个数</p>
-<p>  从第二行开始就是存放非0数据分别在哪一行哪一列….</p>
-<h2 id="二维数组与稀疏数组的转换"><a href="#二维数组与稀疏数组的转换" class="headerlink" title="二维数组与稀疏数组的转换"></a>二维数组与稀疏数组的转换</h2><p>代码如下：</p>
-<pre><code>package com.yjr.sparseArray;
+<h3 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h3><p>   Josephu 问题为：设编号为 1，2，… n 的 n 个人围坐一圈，约定编号为 k（1&lt;=k&lt;=n）的人从 1 开始报数，数 到 m 的那个人出列，它的下一位又从 1 开始报数，数到 m 的那个人又出列，依次类推，直到所有人出列为止，由 此产生一个出队编号的序列。</p>
+<h3 id="解决思路："><a href="#解决思路：" class="headerlink" title="解决思路："></a>解决思路：</h3><p>用一个不带头结点的循环链表来处理 Josephu 问题：先构成一个有 n 个结点的单循环链表，然后由 k 结 点起从 1 开始计数，计到 m 时，对应结点从链表中删除，然后再从被删除结点的下一个结点又从 1 开始计数，直 到最后一个结点从链表中删除算法结束。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><pre><code>public class JosePuLinked {
 
-import java.io.*;
 
-public class sparseArray {
+//约瑟夫问题
 
- public static void main(String args[]) {
+//    Josephu 问题为：设编号为 1，2，… n 的 n 个人围坐一圈，约定编号为 k（1&lt;=k&lt;=n）的人从 1 开始报数，
+//     数到 m 的那个人出列，它的下一位又从 1 开始报数，
+//     数到 m 的那个人又出列，依次类推，直到所有人出列为止，
+//     由此 产生一个出队编号的序列。
 
-     //原二维数组转稀疏数组
-     //假设定义一个二维数组，11行，11列，非0数据为sum个。
-
-     int [][] chessArr=new  int [11] [11];
-     chessArr[1][3]=8;
-     chessArr[2][4]=7;
-     chessArr[1][6]=11;
-     chessArr[6][3]=5;
-     chessArr[8][9]=15;
-
-
-     //怎么转？思路如下
-     //首先把二维数组进行遍历，得到有效数据个数
-     //定义一个sum来记录原二维数组的非0个数
-     int sum=0;
-     System.out.println(&quot;遍历原二维数组.....&quot;);
-
-     for (int [] rows:chessArr){
-
-         //遍历行数组出来
-         //再遍历行数组里面的每一个数据
-         for (int data:rows){
-
-             if(data!=0){
-
-               sum++;
-
-               //输出一下每一个行数组的数据
-             }
-             System.out.printf(&quot;%d\t&quot;,data);
-
-
-         }
-         System.out.println();
-
-     }
-     System.out.println(&quot;有效数据为:&quot; + sum);
-
-
-     //现在要把该二维数组转成稀疏数组
-     //定义稀疏数组
-     int [] [] sparseArray=new int [sum+1][3];
-
-     sparseArray[0][0]=11;
-     sparseArray[0][1]=11;
-     sparseArray[0][2]=sum;
-
-     //现在要对稀疏数组进行赋值
-
-     //遍历原二维数组
-     //定义一个count来记录是第几个非0数据
-     int count=0;
-     for (int i=0;i&lt;11;i++){
-
-         for (int j=0;j&lt;11;j++){
-
-             if(chessArr[i][j]!=0){
-
-                 count++;
-
-                 sparseArray[count][0]=i;
-                 sparseArray[count][1]=j;
-                 sparseArray[count][2]=chessArr[i][j];
-
-
-
-             }
-
-
-         }
-
-
-     }
-
-     //将稀疏数组写入文件中
-
-     try {
-
-         FileWriter writer=new FileWriter(&quot;map.txt&quot;);
-         BufferedWriter bufferedWriter=new BufferedWriter(writer);
-
-         for (int [] rows:sparseArray){
-
-             for (int data:rows){
-
-                 bufferedWriter.write(String.valueOf(data)+&quot;\t&quot;);
-             }
-             bufferedWriter.newLine();
-
-         }
-         bufferedWriter.flush();
-         bufferedWriter.close();
-         writer.close();
-
-     } catch (IOException e) {
-         e.printStackTrace();
-     }
-
-     System.out.println(&quot;输出稀疏数组!&quot;);
-     //输出该稀疏数组
-     for (int a=0;a&lt;sparseArray.length;a++){
-
-         System.out.printf(&quot;%d\t%d\t%d\t&quot;,sparseArray[a][0],sparseArray[a][1],sparseArray[a][2]);
-         System.out.println();
-     }
-
-     //先把稀疏数组从文件中取出来
-
-     int [] [] spareArr2=new int[sum+1][3];
-     try {
-         FileReader reader=new FileReader(&quot;map.txt&quot;);
-         BufferedReader bufferedReader=new BufferedReader(reader);
-
-
-
-         String[] s1 = null;
-         int[] spa=null;
-         String s ;
-         int account=0;
-         while ((s=bufferedReader.readLine())!=null){
-
-             s1=s.split(&quot;\t&quot;);
-
-          spa=new int[s1.length];
-            for (int i=0;i&lt;s1.length;i++){
-
-               spa[i]=Integer.parseInt(s1[i]);
-           }
-
-            for(int i=0;i&lt;spa.length;i++){
-
-                spareArr2[account][i]=spa[i];
-
-            }
-            account++;
-
-        }
-
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
-     //遍历一下读取出来的稀疏数组
-     System.out.println(&quot;遍历读取出来的稀疏数组&quot;);
-     for (int[] rows:spareArr2){
-
-         for (int data:rows){
-
-             System.out.printf(&quot;%d\t&quot;,data);
-         }
-         System.out.println();
-     }
-
-     //接下来是讲稀疏数组恢复成原始的二维数组
-
-     //首先明确恢复成的二维数组是多少行，多少列
-     int chessArr2[][]=new int[sparseArray[0][0]][sparseArray[0][1]];
-
-     //接下来对该数组进行赋值
-     //遍历稀疏数组
-   for(int i=1;i&lt;sparseArray.length;i++){
-
-       chessArr2[sparseArray[i][0]][sparseArray[i][1]]=sparseArray[i][2];
-
-   }
-
-   //输出该二维数组
-     System.out.println(&quot;输出从稀疏数组恢复的二维数组&quot;);
-     for (int [] rows:chessArr2){
-
-         for (int data:rows){
-             System.out.printf(&quot;%d\t&quot;,data);
-         }
-         System.out.println();
-     }
-
-
- }
-
-
-
-
- }</code></pre><hr>
-<hr>
-<hr>
-<h1 id="数组模拟队列"><a href="#数组模拟队列" class="headerlink" title="数组模拟队列"></a>数组模拟队列</h1><h3 id="非环形队列"><a href="#非环形队列" class="headerlink" title="非环形队列"></a>非环形队列</h3><p>front:初始值为-1，头元素的前一个位置</p>
-<p>rear:初始值为-1,指向尾元素</p>
-<p>maxSize:数组容量</p>
-<p>队空：front==rear</p>
-<p>队满: rear=maxSize-1</p>
-<h2 id="实现的代码"><a href="#实现的代码" class="headerlink" title="实现的代码"></a>实现的代码</h2><pre><code>package com.yjr.queue;
-
-
-
-import java.util.Scanner;
-
-public class ArrayQueueDemo {
-
-
-//利用数组模拟队列
-
+//解决：用环形单链表来解决问题。n个节点。
 
 public static void main(String[] args) {
 
-    //创建一个队列
 
-    ArrayQueue arrayQueue = new ArrayQueue(5);
+ CircleLinkedList circleLinkedList=new CircleLinkedList();
+ circleLinkedList.createCircleLinked(5);
+circleLinkedList.list();
 
-    Scanner scanner = new Scanner(System.in);
-
-    //菜单
-    boolean top=true;
-    while (top) {
-
-        System.out.println(&quot;s(show): 显示队列&quot;);
-        System.out.println(&quot;e(exit): 退出程序&quot;);
-        System.out.println(&quot;a(add): 添加数据到队列&quot;);
-        System.out.println(&quot;g(get): 从队列取出数据&quot;);
-        System.out.println(&quot;h(head): 查看队列头的数据&quot;);
-
-        //接收一个字符
-        char key = scanner.next().charAt(0);
+circleLinkedList.countNode(1,2,5);
 
 
-        switch (key) {
-
-            case &apos;s&apos;:
-
-                try {
-                    arrayQueue.showQueue();
-                    System.out.println();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // System.out.println(e.getMessage());
-                }
-                break;
-
-            case &apos;e&apos;:
-                scanner.close();
-                System.out.println(&quot;程序已退出!&quot;);
-                top=false;
-                break;
-
-            case &apos;a&apos;:
+}
 
 
-                System.out.println(&quot;请输入要添加的数据&quot;);
-                int n = scanner.nextInt();
-                try {
-                    arrayQueue.addQueue(n);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
-            case &apos;g&apos;:
-                try {
-                   int a= arrayQueue.getQueue();
-                    System.out.printf(&quot;取出的数据为%d\n&quot;,a);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
-            case &apos;h&apos;:
+}
 
-                try {
-                    arrayQueue.headQueue();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
-            default:
+class CircleLinkedList{
 
-                System.out.println(&quot;命令输入错误！&quot;);
-                break;
 
-        }
+//指定一个first指针，指向创建的第一个节点
 
+Node first=null;
+
+
+
+//创建一个环形单链表
+
+public  void  createCircleLinked(int nums){
+
+    Node cur=null;
+    //nums表示要创建的节点的个数
+    if(nums&lt;=1){
+
+        //设置一个两个孩子及以上才玩
+        return;
 
     }
 
 
-}
+
+   //循环创建节点
+
+    for (int i=1;i&lt;=nums;i++){
+
+         Node node=new Node(i);
+        if(i==1){
+
+            //说明是第一个节点(编号为1)
+
+
+            first=node;
+
+            //first节点不动，需要一个cur辅助变量来连接新创建的节点
+            //首先指向第一个节点
+            cur=first;
+
+            first.setNext(first);
+            //第一个节点自己形成环
+
+
+        }
+        else{
+
+            //否则是其他节点
+            //这个时候就要把新创建的节点连接起来
+
+            cur.setNext(node); //第一个节点指向新建节点
+            node.setNext(first);//新节点再指向第一个节点
+            cur=node;//cur后移到新节点
+
+        }
+
+    }
+
+
+
+
 
 
 }
 
 
-class  ArrayQueue{
+//遍历环形单链表
 
-//这是数组队列类
+public  void list(){
 
-private int MaxSize; //数组的最大容量
-private int front; //指向队头元素的前一个，默认为-1
-private int rear;  //指向队尾元素，默认为-1
-private int [] arr; //数组
+    //辅助变量cur,从第一个开始
 
-public ArrayQueue(int maxSize) {
-    MaxSize=maxSize;
-    arr=new int[MaxSize];
-    front=-1;
-    rear=-1;
-
-    //这样通过构造函数就可以创建指定大小的数组
-}
-
-
-//写方法
-
-//判断是否为空
-
-public boolean isEmpty(){
-
-    return  front==rear;//两者相等的话就说明为空
-}
-
-//判断是否为满
-
-public  boolean isFull(){
-
-    return  rear==MaxSize-1;
-}
-
-//添加队列
-public  void  addQueue(int n){
-
-    //判断是否为满
-    if(isFull()){
-
-        System.out.println(&quot;队列已满，添加失败！&quot;);
+    if(first==null){
         return;
     }
+   Node cur=first;
 
-    //否则添加队列
-    //rear向后移
-    rear++;
-    arr[rear]=n;
-    System.out.println(&quot;添加成功了！&quot;);
-}
+    while (true){
 
-//取队列的数据(从头取)
-public  int getQueue(){
+        System.out.println(cur.getNo());
+        if(cur.getNext()==first){
 
-    //判断是否空
-    if(isEmpty()){
+            break;
+        }
+        //System.out.println(cur.getNo());  注意，输出写在这里就造成输出倒数第二个节点时，
+        // 下面cur变成最后一个节点，再到上面就break了
+        //所以就打印不了最后一个
+        cur=cur.getNext();
 
-        throw new RuntimeException(&quot;队列空，不能取数据&quot;);
-
-    }
-    //否则
-    //front后移
-    front++;
-    //返回数据
-    return  arr[front];
-
-}
-
-//显示队列的所有数据
-public void showQueue(){
-
-    //判断是否空
-    if (isEmpty()){
-
-        System.out.println(&quot;队列为空，无法取出&quot;);
 
     }
 
-    for(int i=0;i&lt;arr.length;i++){
-
-        System.out.printf(&quot;arr[%d]=%d\t&quot;,i,arr[i]);
-
-    }
-
-}
-
-//查看队列的头元素
-public  void headQueue(){
-    if (isEmpty()) {
-        System.out.println(&quot;队列为空，查看头信息失败！&quot;);
-    }
-    front++;
-    System.out.println(arr[front]);
 
 }
 
 
-}</code></pre><hr>
-<hr>
-<h2 id="环形队列"><a href="#环形队列" class="headerlink" title="环形队列"></a>环形队列</h2><p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E8E109CD1D7F4D299FEAEA267C3172F9/19" alt="环形队列图示"></p>
-<p>front:初始值 0，指向头元素</p>
-<p>rear:初始值 0，指向尾元素的后一位</p>
-<p>队空: front==rear</p>
-<p>队满：(rear+1)%maxSize==front</p>
-<p>有效数据个数: (rear + maxSize - front)% maxSize</p>
-<p>添加队列完后:rear =(rear+1)%maxSize</p>
-<p>取出队列元素后: front=(front+1)%maxSize</p>
-<p>取余是为了防止越界</p>
-<hr>
-<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><pre><code>package com.yjr.queue;
+//进行游戏，报数出队
+//k是开始报数的节点编号，m是数几下，nums是节点个数
+public  void countNode(int k,int m, int nums){
 
+    //首先刚开始需要一个辅助变量指向环形链表的最后一个节点。
+    // 这样做是为了当first指向要被删除的节点时，
+    // 可以让first后面的辅助变量helper指针把要被删除的节点的后一个节点连起来,继续形成环
+    //所以说这个方法里面first指针会变化，从谁开始报数就指向谁，从k编号开始报数的话first和helper就要移动k-1位。
+    // 然后报完之后first和helper要后移m-1(m是数几下),这个时候first指向的节点就是要被删除的节点，
+    //然后first再指向下一个节点，这个节点就是要开始报数的节点了。
 
-import java.util.Scanner;
+    if(k&lt;1||k&gt;nums||first==null){
+        System.out.println(&quot;参数不合法!&quot;);
+        return;
+    }
+    Node helper=first;
 
-public class CricleArrayQueueDemo {
+    //遍历，让helper指向最后一个节点
+    while (true){
 
-public static void main(String args[]) {
+        if(helper.getNext()==first){
 
-    //创建一个队列
-
-    CricleArrayQueue cricleArrayQueue = new CricleArrayQueue(5);
-
-    Scanner scanner = new Scanner(System.in);
-
-    //菜单
-    boolean top = true;
-    while (top) {
-
-        System.out.println(&quot;s(show): 显示队列&quot;);
-        System.out.println(&quot;e(exit): 退出程序&quot;);
-        System.out.println(&quot;a(add): 添加数据到队列&quot;);
-        System.out.println(&quot;g(get): 从队列取出数据&quot;);
-        System.out.println(&quot;h(head): 查看队列头的数据&quot;);
-
-        //接收一个字符
-        char key = scanner.next().charAt(0);
-
-
-        switch (key) {
-
-            case &apos;s&apos;:
-
-                try {
-                    cricleArrayQueue.showQueue();
-                    System.out.println();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // System.out.println(e.getMessage());
-                }
-                break;
-
-            case &apos;e&apos;:
-                scanner.close();
-                System.out.println(&quot;程序已退出!&quot;);
-                top = false;
-                break;
-
-            case &apos;a&apos;:
-
-
-                System.out.println(&quot;请输入要添加的数据&quot;);
-                int n = scanner.nextInt();
-                try {
-                    cricleArrayQueue.addQueue(n);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case &apos;g&apos;:
-                try {
-                    int a = cricleArrayQueue.getQueue();
-                    System.out.printf(&quot;取出的数据为%d\n&quot;, a);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case &apos;h&apos;:
-
-                try {
-                    cricleArrayQueue.headQueue();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            default:
-
-                System.out.println(&quot;命令输入错误！&quot;);
-                break;
+            break;
 
         }
-
+        helper=helper.getNext(); //后移
 
     }
 
+ //这个时候helper已经指向最后一个节点了。
+
+  //从k编号开始报数的话first和helper就要移动k-1位。
+
+
+        for (int i = 0; i &lt; k - 1; i++) {
+
+            first = first.getNext();
+            helper = helper.getNext();
+
+        }
+
+        // 报完之后first和helper要后移m-1(m是数几下),这个时候first指向的节点就是要被删除的节点
+
+    while (true) {
+        if(helper==first){
+            break;
+        }
+        for (int i = 0; i &lt; m - 1; i++) {
+
+            first = first.getNext();
+            helper = helper.getNext();
+
+        }
+
+        //这个时候first指向的节点就是要被删除的节点
+
+        System.out.println(first.getNo() + &quot;出圈了&quot;);
+        //删掉这个节点,并连起来
+        first = first.getNext();
+        helper.setNext(first);
+
+
+    }
+    System.out.println(first.getNo()+&quot;出圈了&quot;);
 }
 
 }
-  class   CricleArrayQueue{
 
-    //这是数组队列类
+class Node{
 
-    private int MaxSize; //数组的最大容量
-    private int front; //指向队头元素的前一个，默认为-1
-    private int rear;  //指向队尾元素，默认为-1
-    private int [] arr; //数组
+//环形单链表节点
+private  int no;//编号
+private  Node next;//next域
 
-    public  CricleArrayQueue(int maxSize) {
-        MaxSize=maxSize;
-        arr=new int[MaxSize];
-        front=0;
-        rear=0;
+public int getNo() {
+    return no;
+}
 
-        //这样通过构造函数就可以创建指定大小的数组
-    }
+public void setNo(int no) {
+    this.no = no;
+}
 
+public Node getNext() {
+    return next;
+}
 
-    //写方法
+public void setNext(Node next) {
+    this.next = next;
+}
 
-    //判断是否为空
-
-    public boolean isEmpty(){
-
-        return  front==rear;//两者相等的话就说明为空
-    }
-
-    //判断是否为满
-
-    public  boolean isFull(){
-
-        return  (rear+1)%MaxSize==front; //环形对列的满条件
-    }
-
-    //添加队列
-    public  void  addQueue(int n){
-
-        //判断是否为满
-        if(isFull()){
-
-            System.out.println(&quot;队列已满，添加失败！&quot;);
-            return;
-        }
-
-        //否则添加队列
-        //rear向后移
-        arr[rear]=n;
-
-        rear=(rear+1)%MaxSize;
-        System.out.println(&quot;添加成功了！&quot;);
-    }
-
-    //取队列的数据(从头取)
-    public  int getQueue(){
-
-        //判断是否空
-        if(isEmpty()){
-
-            throw new RuntimeException(&quot;队列空，不能取数据&quot;);
-
-        }
-        //否则
-        //front后移
-        int a=arr[front];
-
-        front=(front+1)%MaxSize;
-        //返回数据
-        return  a;
-
-    }
-
-    //显示队列的所有数据
-    public void showQueue(){
-
-        //判断是否空
-        if (isEmpty()){
-
-            System.out.println(&quot;队列为空，无法取出&quot;);
-
-        }
-
-        for(int i=front;i&lt;front+size();i++){
-
-            System.out.printf(&quot;arr[%d]=%d\t&quot;,i%MaxSize,arr[i%MaxSize]);
-
-        }
-
-    }
-
-    //查看队列的头元素
-    public  void headQueue(){
-        if (isEmpty()) {
-            System.out.println(&quot;队列为空，查看头信息失败！&quot;);
-        }
-
-        System.out.println(arr[front]);
-
-    }
-
-    public  int size(){
-
-        //对列有效数据个数
-        return  (rear-front+MaxSize)%MaxSize;
-    }
+public Node(int no) {
+    this.no = no;
+}
 
 
-}</code></pre><h1 id="哎哟不错哦！"><a href="#哎哟不错哦！" class="headerlink" title="哎哟不错哦！"></a>哎哟不错哦！</h1>
+}</code></pre>
       
 
       
@@ -836,7 +446,7 @@ public static void main(String args[]) {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
         		</li>
       		
 		</ul>
@@ -892,7 +502,7 @@ public static void main(String args[]) {
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -906,15 +516,20 @@ public static void main(String args[]) {
   
 <nav id="article-nav">
   
-    <a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          数据结构--单链表和双链表的操作
+          数据结构-栈的基本实现与应用
         
       </div>
     </a>
   
+  
+    <a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-单链表和双链表的操作</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -939,7 +554,7 @@ public static void main(String args[]) {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#稀疏数组"><span class="toc-number">1.</span> <span class="toc-text">稀疏数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概述"><span class="toc-number">1.0.1.</span> <span class="toc-text">基本概述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二维数组与稀疏数组的转换"><span class="toc-number">1.1.</span> <span class="toc-text">二维数组与稀疏数组的转换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数组模拟队列"><span class="toc-number">2.</span> <span class="toc-text">数组模拟队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#非环形队列"><span class="toc-number">2.0.1.</span> <span class="toc-text">非环形队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现的代码"><span class="toc-number">2.1.</span> <span class="toc-text">实现的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环形队列"><span class="toc-number">2.2.</span> <span class="toc-text">环形队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现代码"><span class="toc-number">2.2.1.</span> <span class="toc-text">实现代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#哎哟不错哦！"><span class="toc-number">3.</span> <span class="toc-text">哎哟不错哦！</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述："><span class="toc-number">1.</span> <span class="toc-text">问题描述：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决思路："><span class="toc-number">2.</span> <span class="toc-text">解决思路：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码实现"><span class="toc-number">3.</span> <span class="toc-text">代码实现</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -1055,11 +670,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">代码集</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">学习笔记</a>
               </li>
             
             <div class="clearfix"></div>

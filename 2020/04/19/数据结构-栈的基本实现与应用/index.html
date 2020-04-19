@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 随笔 | Hexo</title>
+  <title>数据结构-栈的基本实现与应用 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/index.html">
+  <meta name="description" content="栈的基本实现(先进后出)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-栈的基本实现与应用">
+<meta property="og:url" content="http://yoursite.com/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="栈的基本实现(先进后出)">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/FDFAE139A5734A168A77701B34E8F102/21">
+<meta property="article:published_time" content="2020-04-19T04:52:10.000Z">
+<meta property="article:modified_time" content="2020-04-19T06:55:42.468Z">
 <meta property="article:author" content="KamRayn">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/FDFAE139A5734A168A77701B34E8F102/21">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -152,60 +159,1047 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-数据结构-栈的基本实现与应用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-04-14T13:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-14</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%9A%8F%E7%AC%94-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/">数据结构随笔--稀疏数组 数组模拟队列</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构-栈的基本实现与应用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2020-04-19T04:52:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>栈的基本实现(先进后出)</p>
+<a id="more"></a>
+<h3 id="数组模拟栈"><a href="#数组模拟栈" class="headerlink" title="数组模拟栈"></a>数组模拟栈</h3><p>代码如下（思路分析再里面）：</p>
+<pre><code>class ArrayStack{
+
+int [] stack;//定义一个int数组
+int top=-1; //定义一个栈顶指针，默认-1
+int maxSize; //栈的大小
+
+public ArrayStack(int maxSize) {
+
+    this.maxSize = maxSize;
+    stack=new int[maxSize];
+}
+
+//栈满
+public  boolean isFull(){
+
+    return top==maxSize-1;
+
+}
+//栈空
+public  boolean isEmpty(){
+
+    return top==-1;
+
+}
+
+//进栈
+
+public  void push(int value){
+
+    if (isFull()){
+
+        System.out.println(&quot;栈满无法进入!&quot;);
+        return;
+    }
+    top++;
+    stack[top]=value;
+    System.out.println(&quot;进栈成功了&quot;);
+
+
+
+
+}
+//出栈
+
+public  int pop(){
+
+    if(isEmpty()){
+        System.out.println(&quot;栈空无法出栈！&quot;);
+
+    }
+    int value=stack[top];
+    top--;
+    return value;
+
+}
+
+//遍历栈
+
+public  void list(){
+
+
+    if(isEmpty()){
+
+        System.out.println(&quot;栈空无法遍历!&quot;);
+
+    }
+
+    //数组从末端往前开始遍历
+    int a=0;
+    for(int i=top;i&gt;=0;i--){
+
+        a++;
+        System.out.println(&quot;第&quot;+a+&quot;个遍历出的数据是:&quot;+stack[i]);
+
+    }
+
+
+}
+
+
+}</code></pre><h3 id="单链表模拟栈"><a href="#单链表模拟栈" class="headerlink" title="单链表模拟栈"></a>单链表模拟栈</h3><p>代码如下：</p>
+<pre><code>class  SingleLinkedListStack{
+
+
+//固定头
+Node head=new Node(0);
+
+
+//单链表栈
+
+//判断栈空
+public  boolean isEmpty(){
+
+    return  head.getNext()==null;
+
+
+}
+
+//进栈
+
+public  void push(Node node){
+
+    //因为进栈的话新进来的数据要总是插在h头节点的最前面。
+    // 如果原来有值得话就得进行连接，如果链表为空的话直接插入即可
+
+    if(isEmpty()){
+
+        head.setNext(node);
+
+    }
+    else {
+        //先连接原来头节点的下一个节点
+        node.setNext(head.getNext());
+        //再用头节点连接新节点
+        head.setNext(node);
+    }
+}
+
+//出栈
+
+public  int pop(){
+
+    if(isEmpty()){
+
+        System.out.println(&quot;栈空无法出栈！&quot;);
+
+    }
+    else{
+
+        //后进来的总是先出去
+
+        int value=head.getNext().getVal();
+        //头节点指向头节点的下一个的下一个
+        head.setNext(head.getNext().getNext());
+        return value;
+
+    }
+    return  -1;
+
+}
+
+//遍历栈
+public  void list(){
+
+    //直接从头到尾进行遍历就行了，因为你添加的时候就是新添加的放最前面了
+
+    if(isEmpty()){
+
+        System.out.println(&quot;栈空无法遍历!&quot;);
+    }
+    Node temp=head.getNext();
+    int a=0;
+    while (true){
+
+        if(temp==null){
+
+            break;
+        }
+        a++;
+        System.out.println(&quot;第&quot;+a+&quot;个出来的数据是&quot;+temp.getVal());
+        temp=temp.getNext();
+
+    }
+
+}
+
+
+
+
+}
+
+class  Node{
+
+private  int val;
+private Node next;
+
+public Node(int val) {
+    this.val = val;
+}
+
+public int getVal() {
+    return val;
+}
+
+public void setVal(int val) {
+    this.val = val;
+}
+
+public Node getNext() {
+    return next;
+}
+
+public void setNext(Node next) {
+    this.next = next;
+}
+
+@Override
+public String toString() {
+    return &quot;Node{&quot; +
+            &quot;val=&quot; + val +
+            &apos;}&apos;;
+}
+}</code></pre><hr>
+<hr>
+<h3 id="栈的应用–实现综合计算器（中缀表达式）"><a href="#栈的应用–实现综合计算器（中缀表达式）" class="headerlink" title="栈的应用–实现综合计算器（中缀表达式）"></a>栈的应用–实现综合计算器（中缀表达式）</h3><p>比如说：7<em>6+2-1</em>9直接输入表达式，计算结果。</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/FDFAE139A5734A168A77701B34E8F102/21" alt="思路图解"></p>
+<p>代码如下：</p>
+<pre><code>public class Calculator {
+
+//实现中缀表达式的计算
+
+
+ public static void main(String args[]) {
+
+     String expression=&quot;7*2*2-5+1-5+3-5&quot;;
+
+     //需要创建两个栈，一个用来存放数字，一个用来存放运算符号
+
+     //数字栈
+     ArrayCalculatorStack stackNum=new ArrayCalculatorStack(10);
+
+     //符号栈
+     ArrayCalculatorStack  stackOper=new ArrayCalculatorStack(10);
+
+     //定义一些变量
+
+     int index=0;//索引，帮助遍历这个表达式字符串
+     int num1=0;//数字栈弹出的栈顶元素
+     int num2=0;//数字栈弹出的次栈顶元素
+     char c=&apos; &apos;;//从表达式解析的
+     char oper=&apos; &apos;;
+     int res=0;//计算的值
+
+     //现在开始解析表达式字符串
+
+     //有可能是多位数，如果每解析到一个字符就把它操作栈中的话会造成计算结果错误
+
+     String keepNum=&quot;&quot;; //多位数字拼接用的。因为字符串拼接字符就自动转成字符串，可以再把字符串转成int
+
+     //循环操作
+     while (true) {
+
+
+         c = expression.substring(index, index + 1).charAt(0);
+
+         //首先判断字符是否是运算符
+
+         if (stackOper.isOperator(c)) {
+
+             //是运算符
+
+             //接着判断符号栈中是否为空
+             if (stackOper.isEmpty()) {
+
+                 //是空
+                 //直接进栈
+                 stackOper.push(c);
+             } else {
+
+                 //不为空
+                 //不为空。判断当前运算符的优先级，大于原来符号栈中的优先级就直接放进去,小于或者等于就要
+                 //在数字栈中弹出两个元素，从符号栈中弹出栈顶符号,进行计算。再把该运算符放进栈中。
+                 if(stackOper.priorityOperator(c)&gt;stackOper.priorityOperator(stackOper.showTopOperator())){
+
+                     //当前运算符的优先级，大于原来符号栈中的优先级就直接放进去
+                     stackOper.push(c);
+
+
+                 }
+                 else {
+                     //当前运算符的优先级，
+                     //小于或者等于就要在数字栈中弹出两个元素，从符号栈中弹出栈顶符号,进行计算。再把该运算符放进栈中。以及把计算的值压入数字栈
+
+                      num1=stackNum.pop();
+                      num2=stackNum.pop();
+                      oper=(char) stackOper.pop();
+                      res = stackOper.calculator(num1, num2, oper);
+                      stackNum.push(res);
+                      stackOper.push(c);
+
+                 }
+
+
+             }
+
+         } else {
+
+             //是数字
+             //判断是否是最后一位，如果是的话直接入栈
+
+             keepNum += c;
+
+             if(index==expression.length()-1){
+
+                 //直接压数字栈
+                 stackNum.push(Integer.parseInt(keepNum));
+
+             }
+             else {
+
+                 //判断这个数字的下一位是不是运算符，如果是的话直接入栈，并清空keepNum
+
+                 if (stackOper.isOperator(expression.substring(index + 1, index + 2).charAt(0))) {
+
+                     //说明是不是多位数
+                     //直接压数字栈
+                     stackNum.push(Integer.parseInt(keepNum));
+                     keepNum = &quot;&quot;;
+
+                 }
+             }
+
+         }
+
+         //循环结束条件
+         index++;
+
+         if(index &gt;=expression.length()){
+
+             //说明到表达式的末尾了
+             break;
+         }
+
+     }
+
+     //当循环结束的时候，符号栈和数字栈可能还存在数字和运算符，就要进行弹栈计算，这个时候的数值是可以直接弹出来算的
+
+
+
+         //我们以符号栈来做参照
+         //符号栈空了就说明数字栈中的值一定是最后的计算值了
+         //否则就要进行弹栈计算
+         while (true) {
+             if(stackOper.isEmpty()){
+
+                 res=stackNum.pop();
+                 break;
+             }
+             num1 = stackNum.pop();
+             num2 = stackNum.pop();
+              oper = (char) stackOper.pop();
+             res = stackOper.calculator(num1, num2, oper);
+             stackNum.push(res);
+
+         }
+
+     System.out.println(&quot;最终的计算值是&quot;+res);
+
+ }
+
+
+
+
+}
+
+//创建一个数组栈，出了出栈入栈等方法，还要扩展判断是否是运算符，判断运算符的优先级，查看栈的栈顶元素值,中间计算方法
+
+class ArrayCalculatorStack{
+
+int [] stack;//定义一个int数组
+int top=-1; //定义一个栈顶指针，默认-1
+int maxSize; //栈的大小
+
+public ArrayCalculatorStack(int maxSize) {
+
+    this.maxSize = maxSize;
+    stack=new int[maxSize];
+}
+
+//栈满
+public  boolean isFull(){
+
+    return top==maxSize-1;
+
+}
+//栈空
+public  boolean isEmpty(){
+
+    return top==-1;
+
+}
+
+//进栈
+
+public  void push(int value){
+
+    if (isFull()){
+
+        System.out.println(&quot;栈满无法进入!&quot;);
+        return;
+    }
+    top++;
+    stack[top]=value;
+    System.out.println(&quot;进栈成功了&quot;);
+
+
+
+
+}
+//出栈
+
+public  int pop(){
+
+    if(isEmpty()){
+        System.out.println(&quot;栈空无法出栈！&quot;);
+
+    }
+    int value=stack[top];
+    top--;
+    return value;
+
+}
+
+//遍历栈
+
+public  void list(){
+
+
+    if(isEmpty()){
+
+        System.out.println(&quot;栈空无法遍历!&quot;);
+
+    }
+
+    //数组从末端往前开始遍历
+    int a=0;
+    for(int i=top;i&gt;=0;i--){
+
+        a++;
+        System.out.println(&quot;第&quot;+a+&quot;个遍历出的数据是:&quot;+stack[i]);
+
+    }
+
+
+}
+
+
+//判断入栈的数据是否是运算符
+public boolean isOperator(char val){
+
+    //这里限定运算符是加减乘除
+    return val==&apos;+&apos;||val==&apos;-&apos;||val==&apos;*&apos;||val==&apos;/&apos;;
+
+
+}
+
+//判断运算符的优先级
+
+public  int priorityOperator(char val){
+
+    if(val==&apos;*&apos;||val==&apos;/&apos;){
+
+        return  1;
+
+    }
+    else if (val==&apos;+&apos;||val==&apos;-&apos;){
+        return  0;
+
+    }
+    else{
+
+        return -1;
+    }
+
+
+}
+
+//查看栈顶的元素值(这是给符号栈用的，数字栈不用)
+public char showTopOperator(){
+
+    return  (char) stack[top];
+
+}
+
+public  int calculator(int num1,int num2,char oper){
+
+    //注意：中间计算的时候使用次数字栈栈顶元素在前去（+ - * /）数字栈顶元素
+
+    //判断输入的运算符类型
+    int res=0;
+    if(oper==&apos;*&apos;){
+
+         res=num2*num1;
+
+    }
+    else  if(oper==&apos;/&apos;){
+
+         res=num2/num1;
+    }
+    else if(oper==&apos;+&apos;){
+
+         res=num2+num1;
+
+    }
+    else  if(oper==&apos;-&apos;){
+         res=num2-num1;
+
+    }
+    else{
+        System.out.println(&quot;参数不合法&quot;);
+
+
+    }
+
+
+return res;
+
+}
+
+
+
+}</code></pre><h3 id="逆波兰计算器"><a href="#逆波兰计算器" class="headerlink" title="逆波兰计算器"></a>逆波兰计算器</h3><p>输入一个后缀表达式，计算其结果</p>
+<p>例如: (3+4)×5-6 对应的后缀表达式就是 3 4 + 5 × 6 - , 针对后缀表达式求值步骤如下:<br>1．从左至右扫描，将 3 和 4 压入堆栈； </p>
+<p>2．遇到+运算符，因此弹出 4 和 3（4 为栈顶元素，3 为次顶元素），计算出 3+4 的值，得 7，再将 7 入栈； </p>
+<p>3．将 5 入栈；</p>
+<p>4．接下来是×运算符，因此弹出 5 和 7，计算出 7×5=35，将 35 入栈； </p>
+<p>5．将 6 入栈； </p>
+<p>6．最后是-运算符，计算出 35-6 的值，即 29，由此得出最终结果</p>
+<h3 id="中缀表达式转后缀表达式"><a href="#中缀表达式转后缀表达式" class="headerlink" title="中缀表达式转后缀表达式"></a>中缀表达式转后缀表达式</h3><p>后缀表达式适合计算式进行运算，但是人却不太容易写出来，尤其是表达式很长的情况下，因此在开发 中，我们需要将 中缀表达式转成后缀表达式。</p>
+<p>代码说话（步骤与思路）：</p>
+<pre><code>public class PolandNotation {
+
+//实现逆波兰表达式计算器
+
+
+ public static void main(String args[]) {
+
+     String suffixExpression=&quot;4 5 * 8 - 60 + 8 2 / +&quot;; //后缀表达式
+
+     PolandNotation polandNotation=new PolandNotation();
+
+   // polandNotation.calculator(suffixExpression);
+     String expression = &quot;12+((20+3)*4)-5&quot;;//注意表达式
+     List&lt;String&gt; infixExpressionList = polandNotation.infixExpressionToArraylist(expression);
+     //System.out.println(infixExpressionList);
+
+     //根据中缀表达式集合转换成后缀表达式集合
+
+    List&lt;String&gt; suffixExpressionList = polandNotation.suffixExpressionToArraylist(infixExpressionList);
+
+      System.out.println(suffixExpressionList);
+
+     polandNotation.calculator(suffixExpressionList);
+
+
+ }
+
+ //根据中缀表达式集合转换成后缀表达式集合
+public  List&lt;String&gt; suffixExpressionToArraylist(List&lt;String&gt; infixExpressionList) {
+
+     //思路
+
+    //基本步骤
+    /*
+    1) 初始化两个栈：运算符栈 s1 和储存中间结果的栈 s2；
+    2) 从左至右扫描中缀表达式；
+    3) 遇到操作数时，将其压 s2；
+    4) 遇到运算符时，比较其与 s1 栈顶运算符的优先级：
+     1.如果 s1 为空，或栈顶运算符为左括号“(”，则直接将此运算符入栈；
+     2.否则，若优先级比栈顶运算符的高，也将运算符压入 s1；
+      3.否则，将 s1 栈顶的运算符弹出并压入到 s2 中，再次转到(4-1)与 s1 中新的栈顶运算符相比较；
+      5) 遇到括号时： (1) 如果是左括号“(”，则直接压入 s1 (2) 如果是右括号“)”，则依次弹出 s1 栈顶的运算符，并压入 s2，直到遇到左括号为止，此时将这一对括号丢弃
+      6) 重复步骤 2 至 5，直到表达式的最右边
+      7) 将 s1 中剩余的运算符依次弹出并压入 s2
+      8) 依次弹出 s2 中的元素并输出，结果的逆序即为中缀表达式对应的后缀表达式
+     */
+
+
+    //转换成代码思路如下:
+
+    /*
+    这里就用一个栈，即栈s1,因为中间结果栈在过程中不会pop，只会添加，所以用数组代替，
+    当把元素加入数组中的时候到时候直接输出就是最后结果了
+    1.中缀表达式集合中的元素分为数字，括号，运算符三种元素
+    2.用 if else if else来处理这三种元素
+    3.数字直接入集合，括号的话分为左括号和右括号，左括号直接入，右括号的话弹出符号栈的元素放进后缀表达式ArrayList中直到遇到右括号。此时就把右括号弹出
+    4.然后是运算符。编写一个判断运算符优先级的方法.如果传进来的运算符的优先级小于等于栈顶的运算符的话,将栈顶的运算符弹出，
+    放进ArrayList集合中，再与新栈顶的元素比较，直到表达式最右边，（这里就是循环了）
+    5.栈中的元素弹出来放进集合
+
+
+     */
+
+    List&lt;String&gt; list=new ArrayList&lt;&gt;();
+
+    Stack&lt;String&gt; stack=new Stack&lt;&gt;(); //符号栈
+
+
+    //遍历传进来的中缀表达式集合
+
+       for(String s:infixExpressionList){
+
+           if(/* s.charAt(0)&gt;=48 &amp;&amp; s.charAt(0)&lt;=57*/s.matches(&quot;\\d+&quot;)){
+
+               //说明是数字
+
+               list.add(s);
+
+
+           }
+           else if(s.equals(&quot;(&quot;)){
+
+               stack.push(s);
+
+
+           }
+           else if(s.equals(&quot;)&quot;)){
+
+              // 右括号的话,弹出符号栈顶的元素放进后缀表达式ArrayList中直到遇到左括号。此时就把左括号弹出
+ //
+               while (true) {
+
+
+                   if(stack.peek().equals(&quot;(&quot;)){
+
+                       break;
+
+                   }
+                   list.add(stack.pop());
+
+
+               }
+               stack.pop();//弹出左括号
+
+     //                   while (!stack.peek().equals(&quot;(&quot;)){
+  //
+    //                       list.add(stack.pop());
+   //
+   //                   }
+ //                   stack.pop();//弹出左括号
+
+
+           }
+           else{
+
+               while (true) {
+                   //运算符了
+                   if (stack.size()==0||operatorPriority(s)&gt; operatorPriority(stack.peek())) {
+
+                       stack.push(s);
+                       break;
+                   }
+                   // 如果传进来的运算符的优先级小于等于栈顶的运算符的话,将栈顶的运算符弹出，
+                   //放进ArrayList集合中，再与新栈顶的元素比较，直到表达式最右边，（这里就是循环了）
+                   list.add(stack.pop());
+
+               }
+
+    //                   while (stack.size()!=0 &amp;&amp; operatorPriority(s)&lt;=operatorPriority(stack.  peek())){
+//
+//                       list.add(stack.pop());
+//
+//                   }
+//                   stack.push(s);
+
+           }
+
+
+
+       }
+
+       while (true){
+           if (stack.size()==0){
+               break;
+           }
+           list.add(stack.pop());
+       }
+       //遍历list就是最后的结果
+
+      System.out.println(list);
+
+
+return  list;
+
+
+
+}
+
+
+//实现中缀表达式转逆波兰表达式(后缀表达式)
+
+//首先要将中缀表达式字符串转为一个ArrayList集合，这样会方便遍历操作
+
+public  List&lt;String&gt; infixExpressionToArraylist(String infixExpression){
+
+     //中缀表达式字符串转为一个ArrayList集合
+    //因为是扫描字符加入集合中，如果是数字的话就要考虑多位数,否则就直接加入集合中
+
+    List&lt;String&gt; list=new ArrayList&lt;&gt;();
+    int index=0;
+    String keepNum=&quot;&quot;;//用于拼接字符串的
+
+
+
+    while (true) {
+
+        if(index==infixExpression.length()){
+
+            break;
+
+        }
+        String s = infixExpression.substring(index, index + 1);
+        //判断字符是否是一个数字
+        if (isOperator(s)) {
+
+            //说明是运算符,直接加入集合
+
+            list.add(s);
+
+        } else {
+
+            //否则就是数字
+              //拼接
+
+
+
+            if(index==infixExpression.length()-1){
+
+                //数组最后一个
+                //直接加入集合
+                list.add(s);
+
+            }
+            else{
+
+
+                if(isOperator(infixExpression.substring(index+1,index+2))){
+
+                    keepNum += s;
+                    list.add(keepNum);
+                    keepNum=&quot;&quot;;
+
+
+                }
+                else{
+
+                    keepNum += s;
+                }
+
+
+
+            }
+
+
+
+
+        }
+        index++;
+
+    }
+
+      return  list;
+
+
+
+
+
+}
+//定义一个判断是否是运算符的方法
+
+public   boolean isOperator(String c){
+
+  return c.equals(&quot;+&quot;)||c.equals(&quot;-&quot;)||c.equals(&quot;*&quot;)||c.equals(&quot;/&quot;)||c.equals(&quot;(&quot;)||c.equals(&quot;)&quot;);
+
+
+
+}
+
+
+//提取一个方法，后缀表达式的计算
+
+public  void calculator(List&lt;String&gt; list){
+
+    //只需要一个栈
+    ArrayCalculatorStack stack =new ArrayCalculatorStack(10);
+    //从左到右进行扫描，遇到数字直接进数字栈,遇到运算符就弹出栈中的顶和次顶元素与运算符进行运算，再把运算结果进栈。
+    //以此循环，直到表达式的最右边。
+
+    //把字符串进行分割（以空格进行分割），存到ArrayList数组中。遍历数组，遇到数字就压栈，遇到符号就弹两个
+
+
+
+
+
+
+    int num1=0;
+    int num2=0;
+    char c=&apos; &apos;; //ArrayList中遍历出每一个字符串转成的字符
+    int res=0;
+
+
+    for (int i=0;i&lt;list.size();i++){
+        //说明是运算符
+        c=list.get(i).charAt(0);
+
+        if(stack.isOperator(c)){
+
+            //弹栈
+            num1=stack.pop();
+            num2=stack.pop();
+            res = stack.calculator(num1, num2, c);
+            //把结果再压入栈中
+            stack.push(res);
+
+
+        }
+        else{
+
+            //不是运算符
+            //直接入栈
+            stack.push(Integer.parseInt(list.get(i)));
+
+
+        }
+
+
+    }
+
+
+    System.out.println(&quot;最终结果是&quot;+res);
+
+
+}
+
+//判断运算符的优先级
+public  int operatorPriority(String ss){
+
+     if(ss.equals(&quot;+&quot;)||ss.equals(&quot;-&quot;)){
+
+         return 0;
+
+     }
+     else if(ss.equals(&quot;*&quot;)||ss.equals(&quot;/&quot;)){
+
+         return  1;
+     }
+     else {
+
+         return -1;
+
+     }
+
+
+}
+
+}</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          数据结构-递归的学习以及解决小球迷宫问题
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-单向环形链表解决约瑟夫问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组模拟栈"><span class="toc-number">1.</span> <span class="toc-text">数组模拟栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表模拟栈"><span class="toc-number">2.</span> <span class="toc-text">单链表模拟栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈的应用–实现综合计算器（中缀表达式）"><span class="toc-number">3.</span> <span class="toc-text">栈的应用–实现综合计算器（中缀表达式）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逆波兰计算器"><span class="toc-number">4.</span> <span class="toc-text">逆波兰计算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中缀表达式转后缀表达式"><span class="toc-number">5.</span> <span class="toc-text">中缀表达式转后缀表达式</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+
 
 
           </div>
@@ -231,9 +1225,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
@@ -301,11 +1295,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">代码集</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color5">学习笔记</a>
               </li>
             
             <div class="clearfix"></div>
