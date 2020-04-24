@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 学习笔记 | Hexo</title>
+  <title>数据结构-排序算法第三辑 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  <meta name="description" content="归并排序与基数排序：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-排序算法第三辑">
+<meta property="og:url" content="http://yoursite.com/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="归并排序与基数排序：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/3CD9BAC588A64D3C8CCFC1F75B863C4F/71">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/859771A71D1C42CB902147AB122FE493/73">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/084D7A02753D41A2BEFA749E81DFB77D/75">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E0159661F5724F4E90600B74F8708563/77">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AC9A56C2FFC440DDBB2CBF6B437E7E49/79">
+<meta property="article:published_time" content="2020-04-24T17:48:49.000Z">
+<meta property="article:modified_time" content="2020-04-24T18:06:35.775Z">
 <meta property="article:author" content="KamRayn">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/3CD9BAC588A64D3C8CCFC1F75B863C4F/71">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -152,36 +163,417 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-数据结构-排序算法第三辑" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      数据结构-排序算法第三辑
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/" class="archive-article-date">
+
+        
+        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/" class="archive-article-date">
   	<time datetime="2020-04-24T17:48:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/">数据结构-排序算法第三辑</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>归并排序与基数排序：</p>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>归并排序（MERGE-SORT）是利用归并的思想实现的排序方法，该算法采用经典的分治（divide-and-conquer） 策略（分治法将问题分(divide)成一些小的问题然后递归求解，而治(conquer)的阶段则将分的阶段得到的各答案”修 补”在一起，即分而治之)。</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/3CD9BAC588A64D3C8CCFC1F75B863C4F/71" alt=""></p>
+<p>再来看看治阶段，我们需要将两个已经有序的子序列合并成一个有序序列，比如上图中的最后一次合并，要将 [4,5,7,8]和[1,2,3,6]两个已经有序的子序列，合并为最终序列[1,2,3,4,5,6,7,8]，来看下实现步骤</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/859771A71D1C42CB902147AB122FE493/73" alt=""></p>
+<p>代码如下：（思路分析）</p>
+<pre><code>public class MergeSortDemo {
+
+//归并排序
+
+ public static void main(String args[]) {
+
+
+
+     /*
+     基本思想和思路分析：
+
+
+     分：归并排序就是把一个数组的元素先分成两个部分，假设mid1= （0+arr.length-1）/2左边是从 0 到mid，右边是从mid+1到数组末尾，按照
+
+     该种方法，再将分为两个部分的数组元素，左边：（左边： mid2=(0+mid1)/2,0到mid2,右边mid2+1到mid1 ）,右边：同样道理...依此类推来分直到每一个部分的元素被分为单个元素。
+
+      比如 ： 84571362
+
+      8457  1362
+
+   84  57   13  62
+
+ 8 4   5 7   1 3   6 2
+
+ 治：先从最细分的开始合并，
+
+
+ 分应该是一个递归的过程，就是细分到最细了就从栈的上往下合并，也就是从最细的到完整的。
+
+ 单个元素的合并，哪几个单元素是之前被一个部分拆下来的，就把它们按照有序的方式合并成原来的部分。逐步合并成完整的，每一次合并都要把合并后的
+ 序列放到一个新的数组中，最后合并完了再把这个中间数组拷贝到原数组。
+
+ 比如：  48   57   13   26
+
+          4578   1236
+
+           12345678
+
+
+     */
+
+
+     int [] arr={ 8,4,5,7,1,3,6,2};
+     int [] temp=new int[arr.length];
+
+     System.out.println(&quot;前&quot;+ Arrays.toString(arr));
+     breakArr(arr,0,arr.length-1,temp);
+     System.out.println(&quot;后&quot;+Arrays.toString(arr));
+
+
+
+
+
+ }
+
+ //分解数组
+ public  static void breakArr(int [] arr,int left,int right,int [] temp){
+
+
+
+     //什么时候不再分解了
+     if(left&lt;right){
+
+         int mid=(left+right)/2;
+         //向左递归分解
+         breakArr(arr,left,mid,temp);
+
+         //向右递归分解
+
+         breakArr(arr,mid+1,right,temp);
+
+         //栈顶进行合并，就是左递归一直到最后不能递归了，就执行分解操作，同样道理
+
+         merge(arr,temp,left,right);
+
+
+
+         //程序是这样执行的，首先从开始进来分解完左边，再去分解左边，再去分解左边，直到左边不能再被分解了就回退到上一级别（3）
+         // 的部分向右分解进入下一级别，右边分解完（分一次）就不能分解了，然后回退上一级别(也就是3)，3这个级别再执行合并。然后3这个级别
+         //都执行完了就回退到上一级别（2），2呢，就继续执行它的向右分解的代码，直到。。。。。执行回退到该级别，就进行合并..
+
+     }
+
+
+
+
+ }
+
+
+ //合并的方法
+ public  static void merge(int arr[],int [] temp,int left,int right){
+
+
+     //arr是原数组，temp是临时数组，left是左指针，就是最左边的索引，right是右指针，就是最右边的索引
+
+
+     int i=left;//i是会移动的，是左边的可移动指针，初始值为左边的索引
+     int mid=(left+right)/2;  //中间
+     int j=mid+1;//j是可移动的右边的指针，初始值为右边的索引
+     int t=0;//t是临时数组的索引
+
+
+     //合并的时候，比如拿最后一次合并来说，有两个有序的部分， 先拿左边的部分的第一个元素与右边的第一个元素相比，如果左边第一个元素比右边
+     //第一个元素小，那么就把左边第一个元素移到临时数组中，然后左边的元素移到下一个，继续和右边第一个元素比较，反之则把右边第一个元素移到临时数组,右边的
+     //元素右移，和左边第一个元素比较。。。就这样比下去，直到有一个部分的元素都比完了，就把另外一个部分的剩余的元素按照索引填进临时数组里。
+
+     while (i&lt;=mid &amp;&amp; j&lt;=right){
+
+         if(arr[i]&lt;=arr[j]){
+             //左边的元素小于右边的
+             temp[t]=arr[i];
+             i++;
+             t++;
+
+         }
+         else{
+
+             //左边的元素大于右边的
+
+             temp[t]=arr[j];
+             j++;
+             t++;
+
+         }
+
+     }
+
+     //循环结束，如果还有某个部分的元素剩余
+
+     //左边的元素有剩余
+     while (i&lt;=mid){
+
+         temp[t]=arr[i];
+         i++;
+         t++;
+
+     }
+
+     //右边有元素剩余
+     while (j&lt;=right){
+
+         temp[t]=arr[j];
+         j++;
+         t++;
+     }
+
+
+     //现在是把临时数组的元素拷贝到原数组
+
+     //每一次合并完就要拷贝进原数组。每一次的临时数组都会从0开始覆盖原数组，直到最后合并成有序的了，
+     // 就从0开始覆盖原数组，就完事了
+
+     int tempLeft=left; //从left开始。这样一个部分的左右两个部分合并才不会造成合并了左后进去原数组了，但是合并了右部分后进入原数组把左的覆盖掉。
+     t=0;
+     while (tempLeft&lt;=right){
+
+         arr[tempLeft]=temp[t];
+
+         t++;
+         tempLeft++;
+
+     }
+
+
+
+
+
+
+ }
+
+
+
+}</code></pre><hr>
+<hr>
+<h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><p>直接上图：</p>
+<p>将数组 {53, 3, 542, 748, 14, 214} 使用基数排序, 进行升序排序</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/084D7A02753D41A2BEFA749E81DFB77D/75" alt=""><br><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E0159661F5724F4E90600B74F8708563/77" alt=""><br><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AC9A56C2FFC440DDBB2CBF6B437E7E49/79" alt=""></p>
+<p>代码实现（思路分析）:</p>
+<pre><code> public class RadixSort {
+
+//基数排序
+
+//基本思想与思路：
+
+
+/*
+定义10个桶，每一个桶是一个一维数组，
+数组元素的最大位数是n（若n=3）
+第一次把数组中的元素的个位数一一拿出来，是多少就放在相应下标的桶里。
+放完后，就把桶中的数据取出按顺序取出来放在原数组里面。
+清空桶的数据
+第二次就把数组中的元素的10位数一一拿出来，是多少就放在相应下标的桶里
+再把桶中的数据按顺序拿出来放在原数组。
+清空桶的数据
+第三次就把百位数拿出来。。。还是这样操作
+ */
+
+
+ public static void main(String args[]) {
+
+
+     int [] arr={53, 3, 542, 748, 14, 214};
+     //一步一步来。
+
+     //定义一个二维数组，bucket[10][?],为了防止栈溢出，?设为arr.length。
+
+     int [] [] bucket=new int [10][arr.length];
+     //从桶中拿数据的时候，你得知道每一个桶中有多少数据，这样才能把数据取出来放在数组里
+
+     //所以定义个一维数组来记录每一个桶中的数据  bucketElementCount[0],代表下标为0的桶的个数
+
+      int [] bucketElementCount=new int[10];
+      System.out.println(&quot;排序前&quot;+Arrays.toString(arr));
+      radixSort(arr,bucket,bucketElementCount);
+      System.out.println(&quot;排序后&quot;+Arrays.toString(arr));
+
+
+
+
+
+      /*
+     //第一步，取个位数。
+
+        System.out.println(&quot;前&quot;+ Arrays.toString(arr));
+
+
+     //遍历数组
+     for (int i=0;i&lt;arr.length;i++){
+
+          int digits=arr[i]%10;  //取模10就可以得到其个位数
+         bucket[digits][bucketElementCount[digits]]=arr[i];
+         bucketElementCount[digits]++;
+     }
+
+      //遍历桶，放进原数组
+     int index=0;
+     for(int k=0;k&lt;bucketElementCount.length;k++){
+
+         //可能存在有的桶没有值，所以要做判断
+         if(bucketElementCount[k]!=0){
+
+             //说明下标为k的桶是有数据的
+
+             for(int l=0;l&lt;bucketElementCount[k];l++){
+
+                 //把桶的值放进数组里面
+                 arr[index]=bucket[k][l];
+                 index++;
+
+             }
+
+         }
+
+
+
+
+     }
+
+
+
+  System.out.println(&quot;后&quot;+Arrays.toString(arr));
+
+*/
+
+ }
+
+ public static  void radixSort(int [] arr,int [][]bucket,int [] bucketElementCount ){
+
+     //整合一下
+
+     //判断数组中的最大位数的长度是多少，这样才可以知道需要进行多少次才到达有序。数组中最大数的位数为多少，就要进行多少次的排序操作
+
+     //定义一个最大值,假设是数组的第一个数组
+
+     int max= arr[0];
+     for(int i=0;i&lt;arr.length;i++){
+
+         if(arr[i]&gt;max){
+
+             max=arr[i];
+         }
+
+     }
+
+     //求最大值的长度
+     int maxLength=(max+&quot;&quot;).length();
+
+     int count=0;
+     //那就循环maxLength次
+
+     for(int i=0,n=1;i&lt;maxLength;i++,n*=10){
+
+       count++;
+
+         //遍历数组
+         for (int j=0;j&lt;arr.length;j++){
+
+             int digits=arr[j]/n%10;  //分别取模10的倍数
+             bucket[digits][bucketElementCount[digits]]=arr[j]; //bucket[每一轮的各个个/十/百...位数][记录每一轮中的各个个/十/百..位数的个数]
+             bucketElementCount[digits]++;
+         }
+
+         //遍历桶，放进原数组
+         int index=0;
+         for(int k=0;k&lt;bucketElementCount.length;k++){
+
+
+             //bucketElementCount[?] ?表示某一轮的个/百/..位数，总体表示有多少个
+             //可能存在有的桶没有值，所以要做判断,因为没有值的桶，bucketElementCount这个数组不会记录进去
+             if(bucketElementCount[k]!=0){
+
+                 //说明下标为k的桶是有数据的,只要bucketElementCount[k]有数据。说明bucket[k][？]是有数据的 ，？就是bucketElementCount[k]
+
+                 for(int l=0;l&lt;bucketElementCount[k];l++){
+
+                     //把桶的值放进数组里面
+                     arr[index]=bucket[k][l];
+                     index++;
+
+                 }
+
+             }
+             //清空桶的数据个数,防止对下一次造成影响
+
+            bucketElementCount[k]=0;  //!!!不然的话就会把原来的数据放进数组里面.
+
+
+
+         }
+System.out.println(&quot;第&quot;+count+Arrays.toString(arr));
+
+     }
+
+
+
+
+ }
+
+
+}</code></pre><p>基数排序的说明: </p>
+<p>1) 基数排序是对传统桶排序的扩展，速度很快。</p>
+<p>2) 基数排序是经典的空间换时间的方式，占用内存很大, 当对海量数据排序时，容易造成 OutOfMemoryError 。 </p>
+<p>3) 基数排序时稳定的。[注:假定在待排序的记录序列中，存在多个具有相同的关键字的记录，若经过排序，这些 记录的相对次序保持不变，即在原序列中，r[i]=r[j]，且 r[i]在 r[j]之前，而在排序后的序列中，r[i]仍在 r[j]之前， 则称这种排序算法是稳定的；否则称为不稳定的] </p>
+<p>4) 有负数的数组，我们一般不用基数排序来进行排序</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -193,323 +585,129 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-w">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T13:37:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-24</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          数据结构-排序算法小结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java快速排序-图文并茂的解释</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">数据结构-排序算法第二辑</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#归并排序"><span class="toc-number">1.</span> <span class="toc-text">归并排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基数排序"><span class="toc-number">2.</span> <span class="toc-text">基数排序</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-20T05:25:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-20</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">数据结构-排序算法第一辑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:59:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/">数据结构-回溯法解决八皇后问题</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:40:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/">数据结构-递归的学习以及解决小球迷宫问题</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T04:52:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/">数据结构-栈的基本实现与应用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T04:41:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/">数据结构-单向环形链表解决约瑟夫问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  	<time datetime="2020-04-16T09:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">数据结构-单链表和双链表的操作</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-04-14T13:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/">数据结构-稀疏数组及数组模拟队列</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -535,9 +733,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
