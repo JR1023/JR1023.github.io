@@ -6,23 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>数据结构-稀疏数组及数组模拟队列 | Hexo</title>
+  <title>数据结构-排序算法第二辑 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="稀疏数组和数组模拟队列:">
+  <meta name="description" content="希尔排序： 解决简单插入排序存在的问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构-稀疏数组及数组模拟队列">
-<meta property="og:url" content="http://yoursite.com/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/index.html">
+<meta property="og:title" content="数据结构-排序算法第二辑">
+<meta property="og:url" content="http://yoursite.com/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="稀疏数组和数组模拟队列:">
+<meta property="og:description" content="希尔排序： 解决简单插入排序存在的问题">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC41B3539BC24693B2A3772DA190DF4C/15">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E8E109CD1D7F4D299FEAEA267C3172F9/19">
-<meta property="article:published_time" content="2020-04-14T13:28:49.000Z">
-<meta property="article:modified_time" content="2020-04-19T06:56:57.571Z">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/B7C864B49285479AA918030C2568D610/47">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/6E63137715E94633B5DE60C47744A6E6/49">
+<meta property="article:published_time" content="2020-04-24T13:37:37.000Z">
+<meta property="article:modified_time" content="2020-04-24T14:09:39.547Z">
 <meta property="article:author" content="KamRayn">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC41B3539BC24693B2A3772DA190DF4C/15">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/B7C864B49285479AA918030C2568D610/47">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -160,639 +160,476 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-数据结构-稀疏数组-数组模拟队列" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="w-数据结构-排序算法第二辑" class="article article-type-w " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      数据结构-稀疏数组及数组模拟队列
+      数据结构-排序算法第二辑
     </h1>
   
 
         
-        <a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-04-14T13:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-14</time>
+        <a href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" class="archive-article-date">
+  	<time datetime="2020-04-24T13:37:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><em>稀疏数组和数组模拟队列:</em></p>
+        <p>希尔排序： 解决简单插入排序存在的问题</p>
 <a id="more"></a>
-<h1 id="稀疏数组"><a href="#稀疏数组" class="headerlink" title="稀疏数组"></a>稀疏数组</h1><h3 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h3><p>当一个二维数组大部分数据都为0的时候，可以用到稀疏数组来保存该数组。</p>
-<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC41B3539BC24693B2A3772DA190DF4C/15" alt="稀疏数组图示"></p>
-<p>  稀疏数组的第一行分别存放原二维数组的行数，列数，以及非0的值个数</p>
-<p>  从第二行开始就是存放非0数据分别在哪一行哪一列….</p>
-<h2 id="二维数组与稀疏数组的转换"><a href="#二维数组与稀疏数组的转换" class="headerlink" title="二维数组与稀疏数组的转换"></a>二维数组与稀疏数组的转换</h2><p>代码如下：</p>
-<pre><code>package com.yjr.sparseArray;
+<p>比如说当插入排序进行到一个待插入数比前面所有的数都小的时候，那么这个数就要比较移动很多次才能找到第一个位置进行插入，效率很低。</p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/B7C864B49285479AA918030C2568D610/47" alt="示意图"></p>
+<p>代码如下（基本思路与思想）：</p>
+<pre><code>public class ShellSortDemo {
 
-import java.io.*;
+//希尔排序
+/*
+基本思路思想：就是对一个数组的长度一直除以2，每次相除后忽略掉余数后得到一个值，直到这个值是小于0，那么就结束。
 
-public class sparseArray {
+每得到一个值，就说明在该值的情况下，增量为这个值,就可以把数组的元素分为这么多组（该值）。那么，分组后的数组的数据元素在每一个组中的
 
- public static void main(String args[]) {
+数据的间隔就是该值。那么就对每一个组中的元素进行排序，第一种方法是交换法，就是从每一个组的第一个元素开始（指针先指向第一元素），
 
-     //原二维数组转稀疏数组
-     //假设定义一个二维数组，11行，11列，非0数据为sum个。
+ 如果第一个元素的下一个值比它小的话
 
-     int [][] chessArr=new  int [11] [11];
-     chessArr[1][3]=8;
-     chessArr[2][4]=7;
-     chessArr[1][6]=11;
-     chessArr[6][3]=5;
-     chessArr[8][9]=15;
+就把这个小的值和第一个元素的值交换（假设从小到大排序），以此类推，比如说到了第二个值（指针指向第二值），那么就让它和它的下一个元素比较，比较
 
+完后（交换或者不交换），注意，这个时候后，指针要往前一位，让第一个元素和第二个元素进行比较，因为，可能存在第二个元素和它的下一个元素比较完后，
 
-     //怎么转？思路如下
-     //首先把二维数组进行遍历，得到有效数据个数
-     //定义一个sum来记录原二维数组的非0个数
-     int sum=0;
-     System.out.println(&quot;遍历原二维数组.....&quot;);
+换位了，然后换位的后第二个元素可能比第一个元素的值小（比如 5. 8 ,2）,8和2换位后，还要拿5和2比较并换位。
 
-     for (int [] rows:chessArr){
-
-         //遍历行数组出来
-         //再遍历行数组里面的每一个数据
-         for (int data:rows){
-
-             if(data!=0){
-
-               sum++;
-
-               //输出一下每一个行数组的数据
-             }
-             System.out.printf(&quot;%d\t&quot;,data);
-
-
-         }
-         System.out.println();
-
-     }
-     System.out.println(&quot;有效数据为:&quot; + sum);
-
-
-     //现在要把该二维数组转成稀疏数组
-     //定义稀疏数组
-     int [] [] sparseArray=new int [sum+1][3];
-
-     sparseArray[0][0]=11;
-     sparseArray[0][1]=11;
-     sparseArray[0][2]=sum;
-
-     //现在要对稀疏数组进行赋值
-
-     //遍历原二维数组
-     //定义一个count来记录是第几个非0数据
-     int count=0;
-     for (int i=0;i&lt;11;i++){
-
-         for (int j=0;j&lt;11;j++){
-
-             if(chessArr[i][j]!=0){
-
-                 count++;
-
-                 sparseArray[count][0]=i;
-                 sparseArray[count][1]=j;
-                 sparseArray[count][2]=chessArr[i][j];
-
-
-
-             }
-
-
-         }
-
-
-     }
-
-     //将稀疏数组写入文件中
-
-     try {
-
-         FileWriter writer=new FileWriter(&quot;map.txt&quot;);
-         BufferedWriter bufferedWriter=new BufferedWriter(writer);
-
-         for (int [] rows:sparseArray){
-
-             for (int data:rows){
-
-                 bufferedWriter.write(String.valueOf(data)+&quot;\t&quot;);
-             }
-             bufferedWriter.newLine();
-
-         }
-         bufferedWriter.flush();
-         bufferedWriter.close();
-         writer.close();
-
-     } catch (IOException e) {
-         e.printStackTrace();
-     }
-
-     System.out.println(&quot;输出稀疏数组!&quot;);
-     //输出该稀疏数组
-     for (int a=0;a&lt;sparseArray.length;a++){
-
-         System.out.printf(&quot;%d\t%d\t%d\t&quot;,sparseArray[a][0],sparseArray[a][1],sparseArray[a][2]);
-         System.out.println();
-     }
-
-     //先把稀疏数组从文件中取出来
-
-     int [] [] spareArr2=new int[sum+1][3];
-     try {
-         FileReader reader=new FileReader(&quot;map.txt&quot;);
-         BufferedReader bufferedReader=new BufferedReader(reader);
-
-
-
-         String[] s1 = null;
-         int[] spa=null;
-         String s ;
-         int account=0;
-         while ((s=bufferedReader.readLine())!=null){
-
-             s1=s.split(&quot;\t&quot;);
-
-          spa=new int[s1.length];
-            for (int i=0;i&lt;s1.length;i++){
-
-               spa[i]=Integer.parseInt(s1[i]);
-           }
-
-            for(int i=0;i&lt;spa.length;i++){
-
-                spareArr2[account][i]=spa[i];
-
-            }
-            account++;
-
-        }
-
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
-     //遍历一下读取出来的稀疏数组
-     System.out.println(&quot;遍历读取出来的稀疏数组&quot;);
-     for (int[] rows:spareArr2){
-
-         for (int data:rows){
-
-             System.out.printf(&quot;%d\t&quot;,data);
-         }
-         System.out.println();
-     }
-
-     //接下来是讲稀疏数组恢复成原始的二维数组
-
-     //首先明确恢复成的二维数组是多少行，多少列
-     int chessArr2[][]=new int[sparseArray[0][0]][sparseArray[0][1]];
-
-     //接下来对该数组进行赋值
-     //遍历稀疏数组
-   for(int i=1;i&lt;sparseArray.length;i++){
-
-       chessArr2[sparseArray[i][0]][sparseArray[i][1]]=sparseArray[i][2];
-
-   }
-
-   //输出该二维数组
-     System.out.println(&quot;输出从稀疏数组恢复的二维数组&quot;);
-     for (int [] rows:chessArr2){
-
-         for (int data:rows){
-             System.out.printf(&quot;%d\t&quot;,data);
-         }
-         System.out.println();
-     }
-
-
- }
-
-
-
-
- }</code></pre><hr>
-<hr>
-<hr>
-<h1 id="数组模拟队列"><a href="#数组模拟队列" class="headerlink" title="数组模拟队列"></a>数组模拟队列</h1><h3 id="非环形队列"><a href="#非环形队列" class="headerlink" title="非环形队列"></a>非环形队列</h3><p>front:初始值为-1，头元素的前一个位置</p>
-<p>rear:初始值为-1,指向尾元素</p>
-<p>maxSize:数组容量</p>
-<p>队空：front==rear</p>
-<p>队满: rear=maxSize-1</p>
-<h2 id="实现的代码"><a href="#实现的代码" class="headerlink" title="实现的代码"></a>实现的代码</h2><pre><code>package com.yjr.queue;
-
-
-
-import java.util.Scanner;
-
-public class ArrayQueueDemo {
-
-
-//利用数组模拟队列
+就这样，依次分组，分完组后的每一组都要进行这个操作,直到不能再分组为止
+*/
 
 
 public static void main(String[] args) {
 
-    //创建一个队列
+    int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0,112,78,64,13,114};
+    int temp = 0;//交换的中间变量
 
-    ArrayQueue arrayQueue = new ArrayQueue(5);
+    //一步一步来，先把分到组后在组中的排序的逻辑给写出来。
 
-    Scanner scanner = new Scanner(System.in);
+    //首先得话呢，我需要知道当前是分了多少组，因为我知道这个数据后，就知道了排序的时候该组数据的增量是多少，那么我就可以
+    //定位到两个相互比较的数据了
 
-    //菜单
-    boolean top=true;
-    while (top) {
+    //以数组元素个数为例，首先是分成5组10/2=5
 
-        System.out.println(&quot;s(show): 显示队列&quot;);
-        System.out.println(&quot;e(exit): 退出程序&quot;);
-        System.out.println(&quot;a(add): 添加数据到队列&quot;);
-        System.out.println(&quot;g(get): 从队列取出数据&quot;);
-        System.out.println(&quot;h(head): 查看队列头的数据&quot;);
+    //为什么i要从5开始（也就是当前的分组数)呢?  因为我下一个for循环是要定位从每一个组中的第一个数据开始，
 
-        //接收一个字符
-        char key = scanner.next().charAt(0);
+    // 比如说分成了5组那么第一组是（0,5），最后一组是（4,9）
+
+    //找规律，是不是i开始是5，i最后是9，第一组的时候i-5=0,这样就是第一组中的一个数据的索引，
+    // 最后呢，i-5=4,也就是最后一个组中的第一个数据的索引
+
+    //再比如说分成了2组，那么第一组是（0,2,4,6,8），第二组（1,3,5,7,9），
+
+    // 那么这个时候，i从2开始，到9，第一组的第一个数据的索引是不是i-2等于0，i=3的时候i-2=1就
+    //定位到了第二组的第一个数据的索引。
+
+    // 那么，第一组的倒数第二个数据的索引（不用最后一个，因为知道倒数第二个也就知道了最后一个）的索引就是i=8的时候，
+
+    // i-2=6,第二组的倒数第二个数据的索引就是i=9的时候，i-2=7
+    /*
+    for(int i=5;i&lt;arr.length;i++){
 
 
-        switch (key) {
+        for(int j=i-5;j&gt;=0;j-=5){
 
-            case &apos;s&apos;:
+            //指针要往前一位。也就是减少一个增量
 
-                try {
-                    arrayQueue.showQueue();
-                    System.out.println();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // System.out.println(e.getMessage());
+            //接下来就是交换数据
+
+            if(arr[j]&gt;arr[j+5]){
+
+                temp =arr[j];
+                arr[j]=arr[j+5];
+                arr[j+5]=temp;
+
+            }
+
+
+        }
+
+*/
+
+
+    //测试一下分成5组的时候
+
+    //  System.out.println(Arrays.toString(arr));
+
+    System.out.println(&quot;前&quot; + Arrays.toString(arr));
+    //shellSort(arr);
+
+    shellSortInsert(arr);
+    System.out.println(Arrays.toString(arr));
+
+}
+
+
+//分组内的排序，交换法
+public static void shellSort(int[] arr) {
+
+    int temp = 0;
+    int count=0;
+
+    //整合一下，在最外层添加分组的变化的for循环
+
+    for (int grap = arr.length / 2; grap &gt; 0; grap /= 2) {
+
+               count++;
+        for (int i = grap; i &lt; arr.length; i++) {
+
+
+            for (int j = i - grap; j &gt;= 0; j -= grap) {
+
+                //指针要往前一位。也就是减少一个增量
+
+                //接下来就是交换数据
+
+                if (arr[j] &gt; arr[j + grap]) {
+
+                    temp = arr[j];
+                    arr[j] = arr[j + grap];
+                    arr[j + grap] = temp;
+
                 }
-                break;
-
-            case &apos;e&apos;:
-                scanner.close();
-                System.out.println(&quot;程序已退出!&quot;);
-                top=false;
-                break;
-
-            case &apos;a&apos;:
 
 
-                System.out.println(&quot;请输入要添加的数据&quot;);
-                int n = scanner.nextInt();
-                try {
-                    arrayQueue.addQueue(n);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            }
+
+
+        }
+System.out.println(&quot;第&quot;+count+&quot;轮的&quot;+Arrays.toString(arr));
+
+    }
+
+
+}
+
+
+
+//分组内插入法排序(效率更高)
+public  static  void shellSortInsert(int [] arr){
+
+    //外层逐步分组的逻辑是不变的
+    for(int grap=arr.length/2; grap&gt;0; grap/=2){
+
+
+        //既然你要使用插入法，那么就就要有插入点，和待插入值。
+
+        //当我来到分成了某个组的一个组的时候，那么我就要从该组的第二个数开始，作为待插入值，并且这个待插入值是要逐步变化的。所以我要
+        //在逐步分组的基础上用一个for循环来实现待出入值的变化，找一下规律，当你分成了5组的时候，
+        // 待插入值是不是从5这个索引开始。然后逐步递增直到9（9是最后一个值了嘛）
+        //假如分成2组的时候，那就是从2开始，待插入值直到9，所以，这个for循环就是从当前分成的组数开始，到arr.length。
+
+
+        for(int i=grap;i&lt;arr.length;i++){
+
+
+            //这里就需要定义一下待插入值和插入点了吧
+
+            int j=i;//这是待插入值所在的索引。
+            int insertVal=arr[j];//记录一下当前的待插入值
+            int insertIndex=j-grap;//这是插入点。（比如说（0,5）这一组，那么0就是插入点。）
+
+            if(insertVal&lt;arr[insertIndex]){
+
+                //说明当前位置不合适，就要找插入位置。那么就要来个循环来找插入位置了。因为比较了插入点的值后，插入点还要前移。
+
+                while (insertIndex&gt;=0 &amp;&amp; insertVal&lt;arr[insertIndex]){
+
+                    //那么就要进行找位置插入。
+
+                    arr[insertIndex+grap]=arr[insertIndex]; //就是把这个插入点的值赋给待插入点的位置。
+
+                    insertIndex =insertIndex-grap; //比较前面的插入点。
                 }
-                break;
 
-            case &apos;g&apos;:
-                try {
-                   int a= arrayQueue.getQueue();
-                    System.out.printf(&quot;取出的数据为%d\n&quot;,a);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+                //说明找到位置了，就把之前的待插入的值赋到插入点的位置上
+                // (比如  101 119 34 ),34是待插入值，比较完119后就变成了 101 119 119，然后呢，插入点移到了101这个位置，34再跟101比，满足条件
+                //就变成了 101 101 119
+                //最后呢就把34这个值到当前插入点+grap上，因为它循环出来出来的时候是inserIndex已经 -grap 了，那你要在当前的insertIndex上插入的话就要加回来
 
-            case &apos;h&apos;:
+                arr[insertIndex+grap]=insertVal;
 
-                try {
-                    arrayQueue.headQueue();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
-            default:
 
-                System.out.println(&quot;命令输入错误！&quot;);
-                break;
+            }
 
         }
 
 
-    }
 
 
-}
 
 
-}
-
-
-class  ArrayQueue{
-
-//这是数组队列类
-
-private int MaxSize; //数组的最大容量
-private int front; //指向队头元素的前一个，默认为-1
-private int rear;  //指向队尾元素，默认为-1
-private int [] arr; //数组
-
-public ArrayQueue(int maxSize) {
-    MaxSize=maxSize;
-    arr=new int[MaxSize];
-    front=-1;
-    rear=-1;
-
-    //这样通过构造函数就可以创建指定大小的数组
-}
-
-
-//写方法
-
-//判断是否为空
-
-public boolean isEmpty(){
-
-    return  front==rear;//两者相等的话就说明为空
-}
-
-//判断是否为满
-
-public  boolean isFull(){
-
-    return  rear==MaxSize-1;
-}
-
-//添加队列
-public  void  addQueue(int n){
-
-    //判断是否为满
-    if(isFull()){
-
-        System.out.println(&quot;队列已满，添加失败！&quot;);
-        return;
-    }
-
-    //否则添加队列
-    //rear向后移
-    rear++;
-    arr[rear]=n;
-    System.out.println(&quot;添加成功了！&quot;);
-}
-
-//取队列的数据(从头取)
-public  int getQueue(){
-
-    //判断是否空
-    if(isEmpty()){
-
-        throw new RuntimeException(&quot;队列空，不能取数据&quot;);
-
-    }
-    //否则
-    //front后移
-    front++;
-    //返回数据
-    return  arr[front];
-
-}
-
-//显示队列的所有数据
-public void showQueue(){
-
-    //判断是否空
-    if (isEmpty()){
-
-        System.out.println(&quot;队列为空，无法取出&quot;);
 
     }
 
-    for(int i=0;i&lt;arr.length;i++){
 
-        System.out.printf(&quot;arr[%d]=%d\t&quot;,i,arr[i]);
-
-    }
-
-}
-
-//查看队列的头元素
-public  void headQueue(){
-    if (isEmpty()) {
-        System.out.println(&quot;队列为空，查看头信息失败！&quot;);
-    }
-    front++;
-    System.out.println(arr[front]);
 
 }
 
 
 }</code></pre><hr>
 <hr>
-<h2 id="环形队列"><a href="#环形队列" class="headerlink" title="环形队列"></a>环形队列</h2><p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E8E109CD1D7F4D299FEAEA267C3172F9/19" alt="环形队列图示"></p>
-<p>front:初始值 0，指向头元素</p>
-<p>rear:初始值 0，指向尾元素的后一位</p>
-<p>队空: front==rear</p>
-<p>队满：(rear+1)%maxSize==front</p>
-<p>有效数据个数: (rear + maxSize - front)% maxSize</p>
-<p>添加队列完后:rear =(rear+1)%maxSize</p>
-<p>取出队列元素后: front=(front+1)%maxSize</p>
-<p>取余是为了防止越界</p>
-<hr>
-<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><pre><code>package com.yjr.queue;
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>快速排序（Quicksort）是对冒泡排序的一种改进。基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排 序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/6E63137715E94633B5DE60C47744A6E6/49" alt=""></p>
+<p>代码如下（思想与思路）：</p>
+<pre><code>public class QuickSortDemo {
+
+//快速排序法
+
+/*
+基本思想与思路。先从一个数组中的数据中选择一个基准值（随便哪个地方）然后定义一个左右指针，以基准值（这里选择中间的索引的值）
+
+为界限，让左边的数据全都比基准值小，右边的数据比基准值大。所以需要在左边和右边来选择需要的数据。
+
+左边：左边的指针从0开始,遇到比基准值大的数据或者相等就停下来，右边从数组末尾开始，遇到比基准值小的数据或相等就停下来。然后在两个都停下来后交换值，
+
+交换完后，继续判断交换后的值，继续向前。直到左指针与右指针相等，这个时候它们指向的值就是基准值，这时候就不需要再继续。
+
+然后就会形成以基准值为界，左边都是小于或等于基准值的数据，右边都是大于或者等于基准值的数据，
+
+然后再左边执行一样的方法（递归）  右边同样直到整个序列都是有序的。
+
+*/
 
 
-import java.util.Scanner;
+ public static void main(String args[]) {
 
-public class CricleArrayQueueDemo {
+  int arr []={-9,78, 0, 23, -567, 70, -1,  90, 450,1,4,7,5};
 
-public static void main(String args[]) {
+System.out.println(&quot;前&quot;+ Arrays.toString(arr));
+  //quickSort(arr,0,arr.length-1);
+     quickSort2(arr,0,arr.length-1);
+     System.out.println(&quot;后&quot;+ Arrays.toString(arr));
 
-    //创建一个队列
-
-    CricleArrayQueue cricleArrayQueue = new CricleArrayQueue(5);
-
-    Scanner scanner = new Scanner(System.in);
-
-    //菜单
-    boolean top = true;
-    while (top) {
-
-        System.out.println(&quot;s(show): 显示队列&quot;);
-        System.out.println(&quot;e(exit): 退出程序&quot;);
-        System.out.println(&quot;a(add): 添加数据到队列&quot;);
-        System.out.println(&quot;g(get): 从队列取出数据&quot;);
-        System.out.println(&quot;h(head): 查看队列头的数据&quot;);
-
-        //接收一个字符
-        char key = scanner.next().charAt(0);
+ }
 
 
-        switch (key) {
 
-            case &apos;s&apos;:
+ public   static  void quickSort(int [] arr,int left,int right){
 
-                try {
-                    cricleArrayQueue.showQueue();
-                    System.out.println();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // System.out.println(e.getMessage());
-                }
-                break;
+     //首先定义指针变量
 
-            case &apos;e&apos;:
-                scanner.close();
-                System.out.println(&quot;程序已退出!&quot;);
-                top = false;
-                break;
+ //         int left=0;  //左界限
+   //         int right=arr.length-1; //右界限
 
-            case &apos;a&apos;:
+     int l=left;  //左指针
+     int r=right; //右指针
+     int pivot=arr[(left+right)/2];  //基准值
+     int temp=0; //交换的中间变量
 
 
-                System.out.println(&quot;请输入要添加的数据&quot;);
-                int n = scanner.nextInt();
-                try {
-                    cricleArrayQueue.addQueue(n);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+     while (l&lt;r){
 
-            case &apos;g&apos;:
-                try {
-                    int a = cricleArrayQueue.getQueue();
-                    System.out.printf(&quot;取出的数据为%d\n&quot;, a);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+         //因为l&gt;=r的话就已经说明完成任务了。
 
-            case &apos;h&apos;:
+         //左边指针开始移动
 
-                try {
-                    cricleArrayQueue.headQueue();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+         while (arr[l]&lt;pivot){
 
-            default:
+             //左边的数据大于等于基准值就不会满足条件，进不来循环,指针的值就不会变化，也就是停下来了
+             //否则就要移动
+             l+=1;
 
-                System.out.println(&quot;命令输入错误！&quot;);
-                break;
+         }
 
-        }
 
+         while (arr[r]&gt;pivot){
+
+             //同道理。右边有数据小于等于基准值就停下来
+             r -=1;
+
+         }
+
+         //现在到这里就说明已经两边都停下来了
+         //准备交换，但是有过左右指针停下来是到了基准值这里的话就不需要交换了,这个时候l=r
+
+         //所以就退出
+         if(l&gt;=r){
+
+             break;
+         }
+
+         //不退出就要交换
+
+         temp=arr[l];  //左边的值
+         arr[l]=arr[r];  //右边的给左
+         arr[r]=temp;  //左的给右
+
+
+         //交换完了后可能会出现一种情况就是
+
+         //比如说， 这样一串数据  -567 78 0 23 -567 70 -1  90 450
+
+         //这里的第一次排序的基准值是-567，左边指针刚开始就停下来了，右边指针到基准值的位置才停下来。这个时候，把
+         //它们交换后，指针再次判断，还是停在这里，再继续交换。。。会形成死循环,所以如果交换完后左边的值等于基准值，就要
+         //r指针前移（--），如果交换完后右边的值等于基准值，就要左指针后移(++),这样就会避免死循环
+
+
+         //如果交换完只有一边的值等于基准值，其实指针右（左）移不移都没事，循环会帮你移，不过这样写的话可以省点判断，又可以
+         //在交换完两边的数据都等于基准值的时候避免死循环
+         if (arr[l]==pivot){
+
+             r--;
+
+         }
+         if(arr[r]==pivot){
+
+             l++;
+         }
+
+
+     }
+
+     //现在出来之后呢就是说明已经在基准值两边
+     //形成以基准值为界，左边都是小于或等于基准值的数据，右边都是大于或者等于基准值的数据，
+
+     //就要递归了
+
+     //但是循环出来后会存在l==r这样的情况，如果你直接递归的话，那么你把指针传进去的话就会照成还是跟之前的一样的
+     // （只不过是换了个基准值，你原来的老基准值还在里面，）所以你要把他们错开
+
+     if(l==r){
+
+         l++;
+         r--;
+
+     }
+
+     //开始递归
+
+     //如果你的左边界是大于等于右边界了就没必要左递归了
+
+     if(left&lt;r){
+
+         quickSort(arr,left,r);
+     }
+
+     //右递归
+
+     //如果你的右边界是小于等于左边界了就没必要右递归了
+
+     if(right&gt;l){
+
+         quickSort(arr,l,right);
+
+     }
+
+
+
+
+
+
+
+
+ }
+
+
+    //现在再写一个总是以左边的第一个数据为基准值的
+
+public  static  void quickSort2(int [] arr,int left,int right){
+
+     //思路分析，
+  /*
+     总是以左边第一个数据为基准，左指针从0开始出发，（也就是从基准值所在位置）,右边从最后一个数据开始。
+
+     先从右边开始走，如果右指针找到比基准值小的就停下来。左边同样，如果遇到比基准值大的就停下来。都停下来了就交换数据
+
+     直到左右指针相等，这个时候呢，它们所指向的数据还不是当前基准值，需要把当前指向的值与数组第一个数据（基准值）交换，
+
+     这样的话基准值就回归到该在的位置了。
+
+     然后再从左边第一个数据选取为基准值，截取左边第一个到原来基准值的前一位（！！）进行同样的 操作。
+
+     右边也一样，截取原来的基准值的后一位作为基准值，直到数组末尾,进行同样的操作。
+
+
+
+ */
+
+   int temp=0;
+
+   int l=left;
+   int r=right;
+
+  int pivot=arr[left]; //左边第一个
+
+
+   while (l&lt;r){
+
+
+   //必须从右边开始走，因为从左边开始走的话有可假如它停在了一个大于基准值的地方，这个右再走，假如它一直畅通无阻，直接来到这个值的地方，那么
+   //l=r了，就退出交换基准值，直接把大于基准值的这个值交换过去了。那么归位后，你的基准值左边就有一个比它大的值，这样就错啦！
+   //相反，如果你从右开始走，它就不会把指针指在比基准值大的地方，这样l=r的时候就不会有这种情况了
+   while (arr[r]&gt;=pivot &amp;&amp; l&lt;r){
+
+       //这里要加判断条件l&lt;r，因为我是当l=r的时候就要退出去交换基准值了，如果当
+       //如  -9,78, 0, 23, -567, 70, -1,  90, 450，当开始r走到-567时就停下来，l在78停下来，交换完后
+       //变成-9,-567, 0, 23, 78, 70, -1,  90, 450,这个时候循环继续，r先走，r来到了-567,l本来就是在-567
+       //这样当l判断条件arr[l]&lt;=pivot（没加l&lt;r）的时候是向前进的，这样他们就不能合在一起了！就会出错！
+       //所以为了防止l或者r越界，需要加上条件。
+
+       r--;
+
+   }
+
+   while (arr[l]&lt;=pivot &amp;&amp; l&lt;r){
+
+       l++;
+
+   }
+
+   if(l&gt;=r){
+
+       break;
+   }
+
+
+   temp=arr[l];
+   arr[l]=arr[r];
+   arr[r]=temp;
+
+
+
+
+   }
+
+   //循环退出的时候，l==r了，需要把当前指针指向的值与基准值交换，让基准值归位
+
+    int temp2=arr[l];
+
+      arr[l]=arr[left] ;
+
+      arr[left]=temp2;
+
+
+      //然后进行左右递归
+
+    if(left&lt;r){
+
+        quickSort2(arr,left,r-1);
+    }
+
+    if(right&gt;l){
+
+        quickSort2(arr,l+1,right);
 
     }
+
+
+
 
 }
 
-}
-  class   CricleArrayQueue{
-
-    //这是数组队列类
-
-    private int MaxSize; //数组的最大容量
-    private int front; //指向队头元素的前一个，默认为-1
-    private int rear;  //指向队尾元素，默认为-1
-    private int [] arr; //数组
-
-    public  CricleArrayQueue(int maxSize) {
-        MaxSize=maxSize;
-        arr=new int[MaxSize];
-        front=0;
-        rear=0;
-
-        //这样通过构造函数就可以创建指定大小的数组
-    }
-
-
-    //写方法
-
-    //判断是否为空
-
-    public boolean isEmpty(){
-
-        return  front==rear;//两者相等的话就说明为空
-    }
-
-    //判断是否为满
-
-    public  boolean isFull(){
-
-        return  (rear+1)%MaxSize==front; //环形对列的满条件
-    }
-
-    //添加队列
-    public  void  addQueue(int n){
-
-        //判断是否为满
-        if(isFull()){
-
-            System.out.println(&quot;队列已满，添加失败！&quot;);
-            return;
-        }
-
-        //否则添加队列
-        //rear向后移
-        arr[rear]=n;
-
-        rear=(rear+1)%MaxSize;
-        System.out.println(&quot;添加成功了！&quot;);
-    }
-
-    //取队列的数据(从头取)
-    public  int getQueue(){
-
-        //判断是否空
-        if(isEmpty()){
-
-            throw new RuntimeException(&quot;队列空，不能取数据&quot;);
-
-        }
-        //否则
-        //front后移
-        int a=arr[front];
-
-        front=(front+1)%MaxSize;
-        //返回数据
-        return  a;
-
-    }
-
-    //显示队列的所有数据
-    public void showQueue(){
-
-        //判断是否空
-        if (isEmpty()){
-
-            System.out.println(&quot;队列为空，无法取出&quot;);
-
-        }
-
-        for(int i=front;i&lt;front+size();i++){
-
-            System.out.printf(&quot;arr[%d]=%d\t&quot;,i%MaxSize,arr[i%MaxSize]);
-
-        }
-
-    }
-
-    //查看队列的头元素
-    public  void headQueue(){
-        if (isEmpty()) {
-            System.out.println(&quot;队列为空，查看头信息失败！&quot;);
-        }
-
-        System.out.println(arr[front]);
-
-    }
-
-    public  int size(){
-
-        //对列有效数据个数
-        return  (rear-front+MaxSize)%MaxSize;
-    }
-
-
-}</code></pre><h1 id="哎哟不错哦！"><a href="#哎哟不错哦！" class="headerlink" title="哎哟不错哦！"></a>哎哟不错哦！</h1>
+}</code></pre>
       
 
       
@@ -892,7 +729,7 @@ public static void main(String args[]) {
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -906,15 +743,20 @@ public static void main(String args[]) {
   
 <nav id="article-nav">
   
-    <a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          数据结构-单链表和双链表的操作
+          Java快速排序--图文并茂的解释
         
       </div>
     </a>
   
+  
+    <a href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-排序算法第一辑</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -939,7 +781,7 @@ public static void main(String args[]) {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#稀疏数组"><span class="toc-number">1.</span> <span class="toc-text">稀疏数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概述"><span class="toc-number">1.0.1.</span> <span class="toc-text">基本概述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二维数组与稀疏数组的转换"><span class="toc-number">1.1.</span> <span class="toc-text">二维数组与稀疏数组的转换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数组模拟队列"><span class="toc-number">2.</span> <span class="toc-text">数组模拟队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#非环形队列"><span class="toc-number">2.0.1.</span> <span class="toc-text">非环形队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现的代码"><span class="toc-number">2.1.</span> <span class="toc-text">实现的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环形队列"><span class="toc-number">2.2.</span> <span class="toc-text">环形队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现代码"><span class="toc-number">2.2.1.</span> <span class="toc-text">实现代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#哎哟不错哦！"><span class="toc-number">3.</span> <span class="toc-text">哎哟不错哦！</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#希尔排序"><span class="toc-number">1.</span> <span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速排序"><span class="toc-number">2.</span> <span class="toc-text">快速排序</span></a></li></ol>
                     </div>
                 </span>
             </div>
