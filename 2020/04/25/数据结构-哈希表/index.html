@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 学习笔记 | Hexo</title>
+  <title>数据结构-哈希表 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+  <meta name="description" content="哈希表(散列)..">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-哈希表">
+<meta property="og:url" content="http://yoursite.com/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="哈希表(散列)..">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/1DCC20A8E9964D9DA05CF24D25E24585/89">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/73A4253EDE0545EEB03BFF5183E56FDE/91">
+<meta property="article:published_time" content="2020-04-24T18:35:06.000Z">
+<meta property="article:modified_time" content="2020-04-24T18:41:54.808Z">
 <meta property="article:author" content="KamRayn">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/1DCC20A8E9964D9DA05CF24D25E24585/89">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -152,36 +160,515 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-数据结构-哈希表" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      数据结构-哈希表
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/" class="archive-article-date">
+
+        
+        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/" class="archive-article-date">
   	<time datetime="2020-04-24T18:35:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/">数据结构-哈希表</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>哈希表(散列)..</p>
+<a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<h3 id="哈希表-散列-Google-上机题"><a href="#哈希表-散列-Google-上机题" class="headerlink" title="哈希表(散列)-Google 上机题"></a>哈希表(散列)-Google 上机题</h3><p>  1) 看一个实际需求，google 公司的一个上机题: </p>
+<p>  2) 有一个公司,当有新的员工来报道时,要求将该员工的信息加入(id,性别,年龄,住址..),当输入该员工的 id 时,要求查 找到该员工的 所有信息. </p>
+<p>  3) 要求: 不使用数据库,尽量节省内存,速度越快越好=&gt;哈希表(散列)</p>
+<h3 id="哈希表的基本介绍"><a href="#哈希表的基本介绍" class="headerlink" title="哈希表的基本介绍"></a>哈希表的基本介绍</h3><p>  散列表（Hash table，也叫哈希表），是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通 过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做散列函数，存放记录的数组 叫做散列表。</p>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/1DCC20A8E9964D9DA05CF24D25E24585/89" alt=""></p>
+<p>  google 公司的一个上机题:</p>
+<p>  有一个公司,当有新的员工来报道时,要求将该员工的信息加入(id,性别,年龄,名字,住址..),当输入该员工的 id 时, 要求查找到该员工的 所有信息. 要求: </p>
+<p>  1) 不使用数据库,,速度越快越好=&gt;哈希表(散列) </p>
+<p>  2) 添加时，保证按照 id 从低到高插入 [课后思考：如果 id 不是从低到高插入，但要求各条链表仍是从低到 高，怎么解决?] </p>
+<p>  3) 使用链表来实现哈希表, 该链表不带表头[即: 链表的第一个结点就存放雇员信息] </p>
+<p>  4) 思路分析并画出示意图</p>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/73A4253EDE0545EEB03BFF5183E56FDE/91" alt=""></p>
+<hr>
+<hr>
+<p>  代码如下：</p>
+<pre><code>    public class HashTabDemo {
+
+//哈希表
+
+//哈希表的底层是一个数组，数组的每一个索引中存放着一张链表。
+//通过散列函数找到添加数据在哪个索引，从而可以在该索引的链表中添加数据。
+
+/*
+题目：
+有一个公司,当有新的员工来报道时,要求将该员工的信息加入(id,性别,年龄,名字,住址..),
+当输入该员工的 id 时, 要求查找到该员工的 所有信息. 要求: 1) 不使用数据库,,速度越快越好=&gt;哈希表(散列)
+2) 添加时，保证按照 id 从低到高插入 [课后思考：如果 id 不是从低到高插入，但要求各条链表仍是从低到 高,怎么解决?]
+3) 使用链表来实现哈希表, 该链表不带表头[即: 链表的第一个结点就存放雇员信息]
+*/
+
+
+ public static void main(String args[]) {
+
+     HashTab hashTab=new HashTab(7);
+
+     //写一个菜单
+     Scanner  scanner=new Scanner(System.in);
+
+     String key=&quot;&quot;;
+
+     while (true){
+
+
+         System.out.println(&quot;add 添加雇员&quot;);
+         System.out.println(&quot;list 遍历雇员&quot;);
+         System.out.println(&quot;getEmp 查看某个雇员&quot;);
+         System.out.println(&quot;exit 退出程序&quot;);
+         key=scanner.next();
+
+         switch (key){
+
+             case &quot;add&quot;:
+                 System.out.println(&quot;请输入雇员的id&quot;);
+                 int empId=scanner.nextInt();
+                 System.out.println(&quot;请输入雇员的名字&quot;);
+                 String empName=scanner.next();
+                 Emp emp=new Emp(empId,empName);
+                 hashTab.add(emp);
+                 break;
+
+
+             case &quot;list&quot;:
+                 hashTab.list();
+                 break;
+
+             case &quot;getEmp&quot;:
+
+                 System.out.println(&quot;请输入要查找雇员的id&quot;);
+                 int empId2=scanner.nextInt();
+                 hashTab.getEmpById(empId2);
+                 break;
+
+             case &quot;exit&quot;:
+
+                 System.exit(0);
+         }
+
+     }
+
+
+ }
+
+}
+
+class  Emp{
+
+//这是雇员类。因为链表的每一个节点存放的就是雇员
+
+int id;  //雇员id
+String name; //雇员姓名
+Emp next; //next域，指向下一个雇员节点
+
+public Emp(int id, String name) {
+    this.id = id;
+    this.name = name;
+}
+
+ }
+
+
+class EmpLinkedList{
+
+//链表类
+
+private  Emp head; //雇员链表的头指针，这个链表没有头节点，头指针直接指向第一个节点，默认null
+
+Emp empHead=new Emp(0,&quot;&quot;); //顺序添加插入的时候用到的头节点，适应有头节点的情况
+//首先呢，要编写一些方法，因为真正操作哈希表是在哈希表类中进行的，所以先在链表类中定义这些方法，方便哈希表的调用
+
+
+//遍历链表
+
+public  void list(){
+
+
+    if(head==null){
+
+        //说明没有数据。
+        System.out.println(&quot;该链表没有数据&quot;);
+        return;
+
+    }
+
+    //否则就需要一个辅助指针帮助遍历
+
+    Emp cur=head;//初始指向头指针
+
+    while (true){
+
+     System.out.println(&quot;雇员的id为&quot;+cur.id);
+
+
+        if(cur.next==null){
+
+            //说明到达最后了
+            break;
+
+        }
+
+        cur=cur.next;
+
+    }
+
+
+/*
+    if(empHead.next==null){
+
+        //说明没有数据。
+        System.out.println(&quot;该链表没有数据&quot;);
+        return;
+
+    }
+
+    //否则就需要一个辅助指针帮助遍历
+
+    Emp cur=empHead.next;//初始指向头指针
+
+    while (true){
+
+        System.out.println(&quot;雇员的id为&quot;+cur.id);
+
+
+        if(cur.next==null){
+
+            //说明到达最后了
+            break;
+
+        }
+
+        cur=cur.next;
+
+    }
+*/
+}
+
+
+
+
+public void  add (Emp emp){
+
+
+    //添加雇员
+
+    if(head==null){
+
+        //头指针指向为空,直接赋值给头指针
+
+        head=emp;
+        return;
+
+    }
+    //否则说明是有元素的
+
+    //那么就要用一个辅助指针来找到链表的最后一个元素,在最后插入(这里假设添加的顺序是id不重复从小到大按顺序添加)
+
+    Emp cur=head;
+    while (true){
+
+        //找到最后一个节点
+
+        if(cur.next==null){
+
+            cur.next=emp;
+            break;
+        }
+        cur=cur.next;
+
+    }
+
+    //循环结束后就已经添加进去了。
+    System.out.println(&quot;添加成功&quot;);
+
+}
+
+
+//id不重复的按照顺序添加(这种情况是有头节点的)
+public  void add2(Emp emp){
+
+ Emp temp=empHead;
+ boolean flag=false;
+ while (true){
+
+     if(temp.next==null){
+
+         //说明是初始就位空数据或者是遍历到最后了还是不满足中间插入的条件，那就只能在最后面插入了
+
+         break;
+     }
+     if(temp.next.id==emp.id){
+
+         //说明有重复元素
+         flag=true;
+         break;
+
+     }
+     if(temp.next.id&gt;emp.id){
+
+         //当前的这个temp的下一个节点都比你传进来的元素的id大了，那么呢你这个元素就应该插在这里当前的temp和temp.next的中间
+         //当前这个temp肯定是比你这个元素的id值小了，不然它在上一次循环中就会被确定下来并退出了。
+         break;
+
+     }
+
+     temp=temp.next;
+
+ }
+
+ if(flag){
+
+     System.out.println(&quot;链表中已有重复元素，无法添加&quot;);
+ }
+ else{
+
+     emp.next=temp.next;
+     temp.next=emp;
+System.out.println(&quot;添加成功！&quot;);
+ }
+
+
+}
+
+//没有头节点的按顺序添加
+public  void add3(Emp emp){
+
+
+//这是没有头节点的情况的,也是可以运行的
+
+ Emp cur=head;
+
+ if(head==null){
+
+     head=emp;
+
+ }
+ else {
+
+     boolean flag = false;
+     while (true) {
+
+         if (cur.next == null) {
+
+             //说明是初始就位空数据或者是遍历到最后了还是不满足中间插入的条件，那就只能在最后面插入了
+
+             break;
+         }
+         if (cur.next.id == emp.id) {
+
+             //说明有重复元素
+             flag = true;
+             break;
+
+         }
+         if (cur.next.id &gt; emp.id) {
+
+             //当前的这个temp的下一个节点都比你传进来的元素的id大了，那么呢你这个元素就应该插在这里当前的temp和temp.next的中间
+             //当前这个temp肯定是比你这个元素的id值小了，不然它在上一次循环中就会被确定下来并退出了。要是没有头节点的话，你的指针直接指向第一个元素
+             //那么当你这个元素比传进来的元素小的话，你会
+             break;
+
+         }
+
+         cur = cur.next;
+
+     }
+
+     if (flag) {
+
+         System.out.println(&quot;链表中已有重复元素，无法添加&quot;);
+     } else {
+
+         emp.next = cur.next;
+         cur.next = emp;
+         System.out.println(&quot;添加成功！&quot;);
+     }
+ }
+
+}
+
+
+
+
+
+//根据雇员id查询雇员信息
+
+public  Emp getEmpById(int id){
+
+    //遍历链表，找到相应的id退出
+
+
+    if (head==null){
+
+
+        return null;
+    }
+
+
+    Emp cur=head;
+    while (true){
+        if(cur.id==id){
+
+            break;
+
+        }
+
+         if(cur.next==null){
+
+             cur=cur.next;
+             break;
+         }
+        cur=cur.next;
+
+
+    }
+
+    return  cur;
+
+
+
+
+}
+
+
+}
+
+
+class  HashTab{
+
+//哈希表类
+private  EmpLinkedList[] empLinkedLists;  //链表数组
+
+private  int size;// 链表数组的大小
+
+
+public HashTab(int size) {
+
+    empLinkedLists=new EmpLinkedList[size]; //初始化链表数组，但是链表数组里面的每一个链表实体还没有初始化,
+
+                                             // 链表数组里面的每一个索引的数据都是链表实体
+    for (int i=0;i&lt;empLinkedLists.length;i++){
+
+        empLinkedLists[i]=new EmpLinkedList();
+
+    }
+    this.size = size;
+}
+
+
+public void  add(Emp emp){
+
+    //添加雇员。
+    //需要一个散列函数来指定应该在链表数组的哪一个位置
+
+    int hashNo= hashFunction(emp.id);
+
+    //添加
+    System.out.println(&quot;雇员即将被添加到第&quot;+(hashNo+1)+&quot;条链表&quot;);
+    empLinkedLists[hashNo].add3(emp);
+
+
+
+}
+
+
+//散列
+public  int hashFunction(int id){
+
+    return  id % size;
+
+}
+
+
+//遍历
+
+public  void list(){
+
+    for(int i=0;i&lt;empLinkedLists.length;i++){
+
+        System.out.println(&quot;当前链表为第&quot;+(i+1)+&quot;个&quot;);
+        empLinkedLists[i].list();
+        System.out.println();
+
+    }
+
+}
+
+
+//根据id查询雇员
+
+public  void getEmpById(int id){
+
+
+    int hashNo=hashFunction(id);
+
+
+    Emp empById = empLinkedLists[hashNo].getEmpById(id);
+
+    if(empById!=null){
+        System.out.println(&quot;已经找到了，当前雇员在&quot;+(hashNo+1)+&quot;条链表，id为&quot;+id);
+
+    }
+    else{
+
+        System.out.println(&quot;没有找到喔！&quot;);
+    }
+
+
+}
+}    </code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -193,365 +680,120 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:21:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-查找算法第二辑</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">数据结构-查找算法第二辑</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希表-散列-Google-上机题"><span class="toc-number">1.</span> <span class="toc-text">哈希表(散列)-Google 上机题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希表的基本介绍"><span class="toc-number">2.</span> <span class="toc-text">哈希表的基本介绍</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:13:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">数据结构-查找算法第一辑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T17:48:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/">数据结构-排序算法第三辑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-w">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T13:37:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">数据结构-排序算法第二辑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-20T05:25:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">数据结构-排序算法第一辑</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:59:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/">数据结构-回溯法解决八皇后问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:40:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/">数据结构-递归的学习以及解决小球迷宫问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T04:52:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/">数据结构-栈的基本实现与应用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T04:41:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/">数据结构-单向环形链表解决约瑟夫问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/page/2/">2</a><a class="extend next" rel="next" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/page/2/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
           </div>
@@ -577,9 +819,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
