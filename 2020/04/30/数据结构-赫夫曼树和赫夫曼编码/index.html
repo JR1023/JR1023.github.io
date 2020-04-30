@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>数据结构-赫夫曼树和赫夫曼编码 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="树结构的应用-赫夫曼树和编码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-赫夫曼树和赫夫曼编码">
+<meta property="og:url" content="http://yoursite.com/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="树结构的应用-赫夫曼树和编码">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/F1FD1E2938364AB88A22EADAF4F083A8/144">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20914A1479374FEAA42D4BCD9FB50A38/146">
+<meta property="article:published_time" content="2020-04-30T07:20:16.000Z">
+<meta property="article:modified_time" content="2020-04-30T07:46:33.337Z">
 <meta property="article:author" content="KamRayn">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/F1FD1E2938364AB88A22EADAF4F083A8/144">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -152,110 +160,914 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-数据结构-排序算法小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-数据结构-赫夫曼树和赫夫曼编码" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/">数据结构-排序算法小结</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构-赫夫曼树和赫夫曼编码
     </h1>
   
 
         
-        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:05:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
+        <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/" class="archive-article-date">
+  	<time datetime="2020-04-30T07:20:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>常用排序算法总结和对比</p>
-        
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/#more">more >></a>
-        
+        <p>树结构的应用-赫夫曼树和编码</p>
+<a id="more"></a>
+<h3 id="赫夫曼树"><a href="#赫夫曼树" class="headerlink" title="赫夫曼树"></a>赫夫曼树</h3><p>1) 给定 n 个权值作为 n 个叶子结点，构造一棵二叉树，若该树的带权路径长度(wpl)达到最小，称这样的二叉树为 最优二叉树，也称为哈夫曼树(Huffman Tree), 还有的书翻译为霍夫曼树。 </p>
+<p>2) 赫夫曼树是带权路径长度最短的树，权值较大的结点离根较近</p>
+<h3 id="赫夫曼树几个重要概念和举例说明"><a href="#赫夫曼树几个重要概念和举例说明" class="headerlink" title="赫夫曼树几个重要概念和举例说明"></a>赫夫曼树几个重要概念和举例说明</h3><p> 1) 路径和路径长度：在一棵树中，从一个结点往下可以达到的孩子或孙子结点之间的通路，称为路径。通路<br>  中分支的数目称为路径长度。若规定根结点的层数为 1，则从根结点到第 L 层结点的路径长度为 L-1</p>
+<p>2)  结点的权及带权路径长度：若将树中结点赋给一个有着某种含义的数值，则这个数值称为该结点的权。结 点的带权路径长度为：从根结点到该结点之间的路径长度与该结点的权的乘积</p>
+<p>3) 树的带权路径长度：树的带权路径长度规定为所有叶子结点的带权路径长度之和，记为 WPL(weighted path length) ,权值越大的结点离根结点越近的二叉树才是最优二叉树。</p>
+<p>4) WPL 最小的就是赫夫曼树</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/F1FD1E2938364AB88A22EADAF4F083A8/144" alt=""></p>
+<hr>
+<h3 id="赫夫曼树创建思路图解"><a href="#赫夫曼树创建思路图解" class="headerlink" title="赫夫曼树创建思路图解"></a>赫夫曼树创建思路图解</h3><p>1) 从小到大进行排序, 将每一个数据，每个数据都是一个节点 ， 每个节点可以看成是一颗最简单的二叉树 </p>
+<p>2) 取出根节点权值最小的两颗二叉树 </p>
+<p>3) 组成一颗新的二叉树, 该新的二叉树的根节点的权值是前面两颗二叉树根节点权值的和</p>
+<p>4) 再将这颗新的二叉树，以根节点的权值大小 再次排序， 不断重复 1-2-3-4 的步骤，直到数列中，所有的数 据都被处理，就得到一颗赫夫曼树</p>
+<hr>
+<p>代码如下:</p>
+<pre><code> public class HuffmanTree {
+
+//哈夫曼树
+
+//要求：给你一个数列，比如说：{13, 7, 8, 3, 29, 6, 1}，把它转成哈夫曼树
+
+
+
+ public static void main(String args[]) {
+
+     //测试生成哈夫曼树
+     int arr[] = { 13, 7, 8, 3, 29, 6, 1 };
+     Node hafumanRoot = toHuffmanTree(arr);
+
+     preOrder(hafumanRoot);
+
+ }
+
+
+ public  static  void preOrder(Node root){
+
+     if(root!=null){
+
+         root.preOrder(root);
+     }
+     else{
+
+         System.out.println(&quot;二叉树为空！&quot;);
+     }
+
+
+ }
+
+   public static  Node toHuffmanTree(int [] arr){
+
+     //对于传进来的数组，先把它进行遍历，把用每一个数据生成节点放进List集合中，方便操作
+
+   List&lt;Node&gt; nodes=new ArrayList&lt;&gt;();
+   for(int value:arr){
+
+       nodes.add(new Node(value));
+
+   }
+
+
+   //接着就是生成哈夫曼树的操作
+
+   //基本思路就是，先用排序后的两个节点组成一个二叉树，根节点是两个节点的值的和，
+   // 再拿这个新的二叉树的根节点值与剩下的排序，再拿前两个的数据组成新的二叉树，依此循环下去，
+   // 直到数组中就剩最后一个哈夫曼树的根节点
+
+
+   while (nodes.size()&gt;1){
+
+       //因为就剩最后一个哈夫曼树的根节点的话就表示完成
+
+
+       //对集合中的Node排序
+       Collections.sort(nodes);
+
+       //取集合中第一个当左节点
+
+       Node nodeLeft = nodes.get(0);
+       Node nodeRight = nodes.get(1);
+
+       //组成新的二叉树
+
+       Node parent=new Node(nodeLeft.getData()+nodeRight.getData());
+
+       parent.setLeft(nodeLeft);
+       parent.setRight(nodeRight);
+
+       //然后删除被取出的两个节点
+
+       nodes.remove(nodeLeft);
+       nodes.remove(nodeRight);
+
+       //把组成的二叉树的节点放进集合中
+
+       nodes.add(parent);
+   }
+
+   //循环结束，返回哈夫曼树的根节点
+   return nodes.get(0);
+
+
+
+   } 
+
+
+
+}
+
+
+//节点类，每一个数据都是一个二叉树的节点  实现 Comparable可以对Node进行排序
+class  Node  implements  Comparable&lt;Node&gt;{
+
+private  int data; //数据
+private  Node left;//指向左边节点
+private  Node right;//指向右节点
+
+public Node(int data) {
+    this.data = data;
+}
+
+public int getData() {
+    return data;
+}
+
+public void setData(int data) {
+    this.data = data;
+}
+
+public Node getLeft() {
+    return left;
+}
+
+public void setLeft(Node left) {
+    this.left = left;
+}
+
+public Node getRight() {
+    return right;
+}
+
+public void setRight(Node right) {
+    this.right = right;
+}
+
+@Override
+public String toString() {
+    return &quot;Node{&quot; +
+            &quot;data=&quot; + data +
+            &apos;}&apos;;
+}
+
+@Override
+public int compareTo(Node o) {
+
+
+    //这里是从小到大排序
+
+    return this.data-o.data;
+}
+
+
+//前序遍历
+
+public  void preOrder(Node node){
+
+    System.out.println(node);
+
+    if(node.getLeft()!=null){
+
+        preOrder(node.getLeft());
+
+    }
+    if(node.getRight()!=null){
+
+        preOrder(node.getRight());
+    }
+
+}
+}</code></pre><hr>
+<hr>
+<h3 id="赫夫曼编码"><a href="#赫夫曼编码" class="headerlink" title="赫夫曼编码"></a>赫夫曼编码</h3><p>1) 赫夫曼编码也翻译为 哈夫曼编码(Huffman Coding)，又称霍夫曼编码，是一种编码方式, 属于一种程序算法 </p>
+<p>2) 赫夫曼编码是赫哈夫曼树在电讯通信中的经典的应用之一。 </p>
+<p>3) 赫夫曼编码广泛地用于数据文件压缩。其压缩率通常在 20%～90%之间 </p>
+<p>4) 赫夫曼码是可变字长编码(VLC)的一种。Huffman 于 1952 年提出一种编码方法，称之为最佳编码</p>
+<p>传输的 字符串 </p>
+<p>1) i like like like java do you like a java </p>
+<p>2) d:1 y:1 u:1 j:2 v:2 o:2 l:4 k:4 e:4 i:5 a:5 :9 // 各个字符对应的个数 </p>
+<hr>
+<p> 按照上面字符出现的次数构建一颗赫夫曼树, 次数作为权值 步骤： 构成赫夫曼树的步骤：</p>
+<p> 1) 从小到大进行排序, 将每一个数据，每个数据都是一个节点 ， 每个节点可以看成是一颗最简单的二叉树 </p>
+<p> 2) 取出根节点权值最小的两颗二叉树 </p>
+<p> 3) 组成一颗新的二叉树, 该新的二叉树的根节点的权值是前面两颗二叉树根节点权值的和 </p>
+<p> 4) 再将这颗新的二叉树，以根节点的权值大小 再次排序， 不断重复 1-2-3-4 的步骤，直到数列中，所有的数据都被处理， 就得到一颗赫夫曼树</p>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20914A1479374FEAA42D4BCD9FB50A38/146" alt=""></p>
+<p> 根据赫夫曼树，给各个字符,规定编码 (前缀编码)， 向左的路径为 0 向右的路径为 1 ， 编码 如下:</p>
+<p>  o: 1000 u: 10010 d: 100110 y: 100111 i: 101 a : 110 k: 1110 e: 1111 j: 0000 v: 0001 l: 001 </p>
+<p>   : 01 </p>
+<p>  按照上面的赫夫曼编码，我们的”i like like like java do you like a java” 字符串对应的编码为 (注 意这里我们使用的无损压缩) 10101001101111011110100110111101111010011011110111101000011000011100110011110000110 01111000100100100110111101111011100100001100001110</p>
+<p>  注意, 这个赫夫曼树根据排序方法不同，也可能不太一样，这样对应的赫夫曼编码也不完全一样，但是 wpl 是 一样的，都是最小的, 最后生成的赫夫曼编码的长度是一样</p>
+<p>  全部代码（压缩，解压，文件压缩，文件解压）</p>
+<pre><code>   public class HafumanCode {
+
+
+static  Map&lt;Byte,String&gt; hfumaCodeTa=new HashMap&lt;&gt;();
+
+ public static void main(String args[]) {
+
+     //测试生成哈夫曼树
+
+     String str=&quot;i like like like java do you like a java&quot;;
+
+     byte[] strBytes = str.getBytes();
+
+//         List&lt;Node2&gt; node2s = auxiliarycreatehafuManTree(strBytes);
+//
+//         Node2 hafumanRoot = createhafuManTree(node2s);
+//
+////         System.out.println(hafumanRoot);
+////
+////         System.out.println(&quot;看看前序遍历&quot;);
+//        preOrder(hafumanRoot);
+
+
+//         //测试生成的哈夫曼码表Map&lt;Byte,String&gt;
+//       StringBuilder builder=new StringBuilder();
+//         createHafumanTab(hafumanRoot,&quot;&quot;,builder);
+//
+//         Map&lt;Byte, String&gt; hafumanTabb = createHafumanTab(strBytes);
+//         for (Map.Entry&lt;Byte,String&gt; map: hafumanTabb.entrySet()){
+//
+//             System.out.println(map.getKey()+&quot;:&quot;+map.getValue());
+//
+//         }
+
+
+     //测试压缩
+
+//         byte[] hafumanCompression = hafumanCompression(strBytes);
+
+//             for (byte b:hafumanCompression){
+//
+//             System.out.println(b);
+//         }
+
+     //测试解压
+
+//         byte[] decode = decode(hafumanCompression, createHafumanTab(strBytes));
+
+
+//         for(byte a:decode){
+//             System.out.println(a);
+//         }
+
+//         System.out.println(new String(decode));
+
+     //测试压缩文件
+
+//         String sourceFilePath=&quot;D://测试压缩.txt&quot;;
+//         String comPreFilePath=&quot;D://测试压缩.zip&quot;;
+//
+//         Filecompression(sourceFilePath,comPreFilePath);
+//         System.out.println(&quot;压缩成功&quot;);
+
+
+     //测试解压
+     String sourceComPreFilePath=&quot;D://测试压缩.zip&quot;;
+   String unzipFilePath=&quot;D://测试压缩2.txt&quot;;
+   Unzipfile(sourceComPreFilePath,unzipFilePath);
+   System.out.println(&quot;解压完成&quot;);
+
+ }
+
+
+
+
+
+
+
+
+
+/*
+ 首先呢，先进行压缩操作，就是把一个字符串中的所有的字符出现的次数作为权值（对应每一个字符），
+ 构建成哈夫曼树，左边的节点路径为0，右边的节点路径为1。
+形成类似的
+比如字符串：i like like like java do you like a java
+形成类似的东西o: 1000 u: 10010 d: 100110 y: 100111 i: 101 a : 110 k: 1110 e: 1111 j: 0000 v: 0001 l: 001 : 01
+这种哈夫曼表的结构可以用 Map&lt;byte,String&gt; 来存储
+
+
+
+*/
+
+
+//实现文件的压缩（给你一张图片，无损压缩）
+
+public static  void  Filecompression(String sourceFilePath,String comPreFilePath){
+
+    //sourceFilePath原文件的路径，comPreFilePath解压后的文件的路径
+
+    //创建文件输入流
+
+    FileInputStream fileInputStream=null;  //文件输入流，读取源文件
+    ObjectOutputStream  objectOutputStream=null;//对象输出流，将压缩后的字节数组和哈夫曼编码对照表写入
+    OutputStream outputStream=null; //文件输出流，写入压缩文件
+
+
+    try {
+
+        fileInputStream=new FileInputStream(sourceFilePath);
+
+        byte [] bytes=new byte[fileInputStream.available()];
+        fileInputStream.read(bytes);
+
+        byte[] bytes1 = hafumanCompression(bytes);//压缩完后得到的字节数组
+
+        Map&lt;Byte, String&gt; hafumanTab = createHafumanTab(bytes);//哈夫曼编码表
+
+        outputStream=new FileOutputStream(comPreFilePath);
+        objectOutputStream=new ObjectOutputStream(outputStream);
+
+        objectOutputStream.writeObject(bytes1); //对象输出流将压缩后的字节数组写入压缩文件
+        objectOutputStream.writeObject(hafumanTab);//对象输出流将哈夫曼码表写入压缩文件
+
+
+
+
+
+
+    }
+    catch (Exception e){
+
+        System.out.println(e.getMessage());
+    }
+
+    finally {
+
+
+        try {
+            fileInputStream.close();
+            outputStream.close();
+            objectOutputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+}
+
+
+//文件解压
+
+public  static  void Unzipfile(String sourceComPreFilePath,String unzipFilePath){
+
+    FileInputStream fileInputStream=null;//读取原压缩文件
+
+    FileOutputStream fileOutputStream=null;//写入解压文件
+
+    ObjectInputStream objectInputStream=null;//读取压缩文件的哈夫曼编码表和字节数组
+
+
+    try {
+        fileInputStream=new FileInputStream(sourceComPreFilePath);
+
+        objectInputStream=new ObjectInputStream(fileInputStream);
+
+        byte [] bytes= (byte [])objectInputStream.readObject(); //读取压缩后的字节数组
+        Map&lt;Byte,String&gt; map  =(Map&lt;Byte,String&gt;)objectInputStream.readObject();//读取编码表
+
+        //解压
+        byte[] decode = decode(bytes, map);
+
+        fileOutputStream=new FileOutputStream(unzipFilePath);
+        fileOutputStream.write(decode);
+
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    finally {
+
+        try {
+            fileInputStream.close();
+            objectInputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+}
+
+
+//解压数据
+//思路分析：首先呢，是需要把压缩后形成的字节数组遍历出来，每遍历到一个值，就把该值转成int,然后利用Integer的包装类
+//转成二进制（需要注意的是，原来生成哈夫曼编码表的map集合中的每一个叶子节点对应的编码在压缩成字节的时候，
+// 其实那个编码（比如说10101000）就看成是补码,转成byte类型的数据的时候是先把补码转成原码后的十进制值才是压缩后形成yte数组中的值。）
+//，然后，当你用包装类把byte数组中的值转成功二进制的时候，会是32位（int是4个字节），那么就要截取后8位，形成的值就是原来的编码。
+//假如byte数组中的值是正数的话，它转成二进制后，位数后不够8位，比如77，转成后变成了1001101，那么就要补高位，就是与256（100000000）相与就可以了
+//然后要是最后一个字节的话，就不用补高位了，它转成后是啥就是啥，但是它要是负数的话就要截取后8位了。
+
+
+//flag是判断是否是最后一个字节，如果是的话，就不用补高位,temp是遍历压缩后的字节数组的每一个元素
+public static String toBitStr(boolean flag,byte b){
+
+    String s=null;
+    int a=b;
+    if(flag){
+
+       // 不是最后一个字节
+        a|=256;  //按位或，如果是负数的话保持不变，如果是正数的话就会补齐位数。（如1001101会变成101001101,后面再截取8位就可以了）
+         s = Integer.toBinaryString(a);
+
+        s = s.substring(s.length() - 8);//截取后8位
+
+    }
+
+    else{
+        s=Integer.toBinaryString(a);
+
+        if(a&lt;0){
+
+            s=s.substring(s.length()-8);
+
+        }
+
+    }
+ return  s;
+
+}
+
+
+//解压的方法，需要一个压缩后生成的字节数组，还有哈夫曼编码对照表
+public  static  byte[]  decode(byte[] byteHafumanCode,Map&lt;Byte,String&gt; hfumaCodeTa ){
+
+    StringBuilder builder=new StringBuilder();
+    for(int i=0;i&lt;byteHafumanCode.length;i++){
+
+        boolean flag=(i==byteHafumanCode.length-1);
+
+        String s = toBitStr(!flag, byteHafumanCode[i]);
+
+        builder.append(s);
+    }
+
+    Map&lt;String,Byte&gt; map=new HashMap&lt;String,Byte&gt;();//用一个map来存放，比如key:100010 value:97，方便还原
+    //接下来要把哈夫曼编码对照表的数据调过来
+
+    for (Map.Entry&lt;Byte,String&gt; m:hfumaCodeTa.entrySet()){
+
+        map.put(m.getValue(),m.getKey());
+
+    }
+
+
+    //接下来就是比对了
+
+    List&lt;Byte&gt; list=new ArrayList&lt;&gt;(); //定义这个集合来存放匹配到的数据
+
+    //遍历字符串
+
+    for(int i=0;i&lt;builder.length();){
+
+        //定义一个计数器，从i开始的位置，匹配到了就退出
+
+        int count=1;
+        boolean f=true;
+        while (f){
+
+            String substring = builder.substring(i, i+count);
+
+            if(map.get(substring)==null){
+
+                //如果对照表中没有这个串对应的值，count++
+                count++;
+
+            }
+            else{
+
+                //说明匹配到了
+
+                list.add(map.get(substring));
+                f=false;
+
+            }
+
+
+        }
+
+        i=i+count;
+
+
+    }
+
+
+    //循环结束，list集合中就存在着对应的匹配值，现在把list转成byte[]
+
+    byte [] decodeHafuman=new byte[list.size()];
+    for (int i=0;i&lt;list.size();i++){
+
+        decodeHafuman[i]=list.get(i);
+
+    }
+
+    return  decodeHafuman;
+
+}
+
+
+//数据压缩，把类似100000100...每8位一个字节，转化成十进制数(byte类型),得到一个Byte[]数组，这就是哈夫曼的压缩
+
+//参数是原来的字符串字节数组
+public static byte[]  hafumanCompression(byte[] strByte){
+
+    Map&lt;Byte, String&gt; hafumanTab = createHafumanTab(strByte);
+    //需要按照字符串顺序，把它们的对应的编码这些东西存到StringBulider中，然后进行截取。。
+    StringBuilder builder=new StringBuilder();
+    for(byte b:strByte){
+
+        builder.append(hfumaCodeTa.get(b));
+
+    }
+//System.out.println(builder.toString());
+    //然后进行每8位截取求值
+    //定义一个接收字节数组
+    int len=0;
+    if(builder.length()%8==0){
+
+        len=builder.length()/8;
+
+    }
+    else{
+
+        len=builder.length()/8+1;
+    }
+    byte[] byteHafumanCode=new byte[len];
+    int index=0;
+    Byte a=null;
+    for(int i=0;i&lt;builder.length();i+=8){
+
+        // i 0 8 16 24
+        //首先判断截取的8位是否是在字符串的长度之内
+
+        if(i+8&gt;builder.length()){
+
+             a=(byte)Integer.parseInt(builder.substring(i),2);//直接截取从该位置到最后的字符,
+                                                         // 输出该字符串的二进制转成10进制再强转byte的数据
+
+        }
+        else{
+
+            //满足8位
+             a=(byte)Integer.parseInt(builder.substring(i,i+8),2);//从i 开始，到i+8前一位截取，不包括i+8
+                                                            // 输出该字符串的二进制转成10进制再强转byte的数据
+
+            //byte转int后，byte是1字节，int是4字节，所以取int的该十进制的值的后8位，第一位当符号位。符号位如果是1的话，
+            // 记住，负数用补码来存储，转成原码是符号位除外，其他为取反，再加1
+        }
+
+        byteHafumanCode[index]=a;
+        index++;
+
+
+    }
+
+
+
+    return  byteHafumanCode;
+
+
+
+
+
+}
+
+
+
+//重载生成哈夫曼编码Map&lt;Byte,String&gt;的方法，方便调用
+
+//参数是原字符串的字节数组
+public  static Map&lt;Byte,String&gt;createHafumanTab(byte [] strByte) {
+
+    //生成哈夫曼树得到哈夫曼的根节点
+    Node2 root = createhafuManTree(auxiliarycreatehafuManTree(strByte));
+  StringBuilder builder=new StringBuilder();
+    if(root!=null){
+
+        createHafumanTab(root,&quot;&quot;,builder);
+
+        return hfumaCodeTa;
+    }
+
+    else{
+
+        return  null;
+    }
+
+
+}
+//现在需要得到哈夫曼表，像这样o: 1000 u: 10010 d: 100110 y: 100111 i: 101 a : 110 k: 1110 e: 1111 j: 0000 v: 0001 l: 001 : 01
+
+//参数：hafumanRoot哈夫曼树的根节点，code(左边为0,右边为1，stringBuilder拼接路径code)
+
+
+public  static void createHafumanTab(Node2 hafumanRoot,String code,StringBuilder stringBuilder){
+
+    //分别从根节点的左边和右边进行递归直到找到叶子节点
+
+    StringBuilder builder=new StringBuilder(stringBuilder);
+        builder.append(code);
+    if(hafumanRoot.getData()==null){
+
+           //说明不是叶子节点
+
+        //向左递归寻找
+        if(hafumanRoot.getLeft()!=null) {
+            createHafumanTab(hafumanRoot.getLeft(), &quot;0&quot;, builder);
+        }
+        if(hafumanRoot.getRight()!=null) {
+            createHafumanTab(hafumanRoot.getRight(), &quot;1&quot;, builder);
+        }
+    }
+    else{
+
+
+
+
+        hfumaCodeTa.put(hafumanRoot.getData(),builder.toString());
+    }
+
+//        StringBuilder stringBuilder2 = new StringBuilder(stringBuilder);
+//        //将code 加入到 stringBuilder2
+//        stringBuilder2.append(code);
+//        if(hafumanRoot != null) { //如果node == null不处理
+//            //判断当前node 是叶子结点还是非叶子结点
+//            if(hafumanRoot.getData() == null) { //非叶子结点
+//                //递归处理
+//                //向左递归
+//                createHafumanTab(hafumanRoot.getLeft(), &quot;0&quot;, stringBuilder2);
+//                //向右递归
+//                createHafumanTab(hafumanRoot.getRight(), &quot;1&quot;, stringBuilder2);
+//            } else { //说明是一个叶子结点
+//                //就表示找到某个叶子结点的最后
+//                hfumaCodeTa.put(hafumanRoot.getData(), stringBuilder2.toString());
+//            }
+//        }
+
+    }
+
+//辅助生成哈夫曼树
+//参数是原字符串的byte数组
+public static List&lt;Node2&gt; auxiliarycreatehafuManTree(byte [] strByte){
+
+//封装一个List&lt;Node2&gt;集合
+List&lt;Node2&gt; node2=new ArrayList&lt;&gt;();
+
+Map&lt;Byte,Integer&gt;  counts=new HashMap&lt;&gt;(); //用来记录字节以及出现的次数
+for(byte b:strByte){
+
+    Integer count = counts.get(b);
+
+    if(count==null){
+        //说明没有该字节
+
+        counts.put(b,1);
+
+    }
+    else {
+
+        counts.put(b,count+1);//已经存在的字节的个数
+
+    }
+
+}
+
+//遍历counts
+
+for(Map.Entry&lt;Byte,Integer&gt; m:counts.entrySet()){
+
+    node2.add(new Node2(m.getKey(),m.getValue()));
+
+}
+
+
+return  node2;
+
+}
+
+//生成哈夫曼树
+public  static  Node2 createhafuManTree(List&lt;Node2&gt; node2){
+
+//生成哈夫曼树
+
+while (node2.size()&gt;1) {
+    Collections.sort(node2);
+
+    //取前两个
+    Node2 leftNode = node2.get(0);
+    Node2 rightNode = node2.get(1);
+
+    //生成新二叉树
+    Node2 parent=new Node2(null,leftNode.getWeight() + rightNode.getWeight());
+    parent.setLeft(leftNode);
+    parent.setRight(rightNode);
+
+    node2.remove(leftNode);
+    node2.remove(rightNode);
+
+    node2.add(parent);
+
+
+}
+
+   return  node2.get(0);
+}
+
+public static void preOrder(Node2 root){
+
+
+if(root!=null){
+
+    root.preOrder(root);
+
+}
+
+
+}
+
+
+}
+
+class  Node2  implements  Comparable&lt;Node2&gt;{
+
+private  Byte data; //数据
+private  int weight; //权重
+private  Node2 left;//左节点
+private  Node2 right;//右节点
+
+
+public Node2(Byte data, int weight) {
+    this.data = data;
+    this.weight = weight;
+}
+
+
+@Override
+public String toString() {
+    return &quot;Node2{&quot; +
+            &quot;data=&quot; + data +
+            &quot;, weight=&quot; + weight +
+            &apos;}&apos;;
+}
+
+public Byte getData() {
+    return data;
+}
+
+public void setData(  Byte data) {
+    this.data = data;
+}
+
+public int getWeight() {
+    return weight;
+}
+
+public void setWeight(int weight) {
+    this.weight = weight;
+}
+
+public Node2 getLeft() {
+    return left;
+}
+
+public void setLeft(Node2 left) {
+    this.left = left;
+}
+
+public Node2 getRight() {
+    return right;
+}
+
+public void setRight(Node2 right) {
+    this.right = right;
+}
+
+@Override
+public int compareTo(Node2 o) {
+
+
+    //这个方法啊（this.age相当于参数o1,o.age相当于参数o2,但是在原码中o1,o2是调过来的
+    //比如说 1,2,6,5,4,3
+
+    //当你设置if(this.age&gt;o.age){
+    //
+    //            return 1;
+    //        }
+    //        else if(this.age&lt;o.age){
+    //
+    //            return -1;
+    //        }
+    //        else {
+    //
+    //            return 0;
+    //        }
+    // 你设置this.age的时候是当前age嘛，(比如1和2比较)所以就是1（o1），那么o.age就是2(o2)，
+    // 但是在源码中 2其实是o1,1其实是o2,那么你在源码中是o1&gt;o2的，所以就返回的是1,既然返回1了，源码的执行就会去到升序的方法
+    // 循环找，一直找到返回-1的，就是o1&lt;o2,然后就记录o1的位置，然后进行二分插入升序排序
+
+    //当你设置 if(this.age&gt;o.age){
+    //
+    //            return -1;
+    //        }
+    //        else if(this.age&lt;o.age){
+    //
+    //            return 1;
+    //        }
+    //        else {
+    //
+    //            return 0;
+    //        }
+    //
+    // ）
+    // 比如1,2比较，源码中1是o2,2是o1,这个时候o1&gt;o2返回的是-1，那么就会进入降序的方法，直到找到返回1的，就是o1&lt;o2,然后
+    //就反转o2前面的数据，即从o2位置到开始位置反转过来，然后再进行二分降序排序。
+
+
+    //这个就是升序的，也可以写成  return this.age-o.age;
+    // 降序的话可以写成o.age-this.age(举个例子:o.age-this.age&gt;0的时候其实就是this.age-o.age&lt;0的时候，也就是说你o.age-this.age&gt;0返回的值就是
+    //this.age-o.age &lt;0的时候返回的值，比如说o.age-this.age=1 &gt;0（返回1），那么this.age-o.age&lt;0返回的也是1，这样就去到了降序)
+    return this.weight-o.weight;
+}
+
+
+//前序遍历
+
+public  void preOrder(Node2 node2){
+
+    System.out.println(node2);
+
+    if(node2.getLeft()!=null){
+
+        preOrder(node2.getLeft());
+    }
+    if(node2.getRight()!=null){
+
+        preOrder(node2.getRight());
+    }
+
+
+}
+}</code></pre>
       
 
       
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-排序算法第三辑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/">数据结构-排序算法第三辑</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T17:48:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>归并排序与基数排序：</p>
-        
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/#more">more >></a>
-        
-      
-
       
     </div>
     <div class="article-info article-info-index">
@@ -275,16 +1087,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/04/30/Comparable%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Comparable接口的理解与使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-堆排序</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -299,626 +1179,34 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java快速排序-图文并茂的解释" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/">Java快速排序-图文并茂的解释</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/" class="archive-article-date">
-  	<time datetime="2020-04-24T14:12:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>快速排序图文并茂的详细解析：</p>
-        
-          <a class="article-more-a" href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#赫夫曼树"><span class="toc-number">1.</span> <span class="toc-text">赫夫曼树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#赫夫曼树几个重要概念和举例说明"><span class="toc-number">2.</span> <span class="toc-text">赫夫曼树几个重要概念和举例说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#赫夫曼树创建思路图解"><span class="toc-number">3.</span> <span class="toc-text">赫夫曼树创建思路图解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#赫夫曼编码"><span class="toc-number">4.</span> <span class="toc-text">赫夫曼编码</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="w-数据结构-排序算法第二辑" class="article article-type-w  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">数据结构-排序算法第二辑</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T13:37:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>希尔排序： 解决简单插入排序存在的问题</p>
-        
-          <a class="article-more-a" href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-排序算法第一辑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">数据结构-排序算法第一辑</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-20T05:25:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>算法的时间复杂度：</p>
-        
-          <a class="article-more-a" href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/20/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-回溯法解决八皇后问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/">数据结构-回溯法解决八皇后问题</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:59:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>回溯法：</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%9E%E6%BA%AF%E6%B3%95%E8%A7%A3%E5%86%B3%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-递归的学习以及解决小球迷宫问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/">数据结构-递归的学习以及解决小球迷宫问题</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T06:40:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>递归的重要原则</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%80%92%E5%BD%92%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%B0%8F%E7%90%83%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-栈的基本实现与应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/">数据结构-栈的基本实现与应用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2020-04-19T04:52:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>栈的基本实现(先进后出)</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%BA%94%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-单向环形链表解决约瑟夫问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/">数据结构-单向环形链表解决约瑟夫问题</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-04-19T04:41:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用单向环形链表解决–约瑟夫问题</p>
-        
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-单链表和双链表的操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">数据结构-单链表和双链表的操作</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  	<time datetime="2020-04-16T09:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p> 单链表的增删查改</p>
-        
-          <a class="article-more-a" href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
-    </nav>
   
+
+  
+
+  
+
+  
+
 
 
           </div>
@@ -943,8 +1231,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
