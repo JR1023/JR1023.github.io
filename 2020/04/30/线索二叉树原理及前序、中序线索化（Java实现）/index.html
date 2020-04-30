@@ -6,20 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>数据结构-单链表和双链表的操作 | Hexo</title>
+  <title>线索二叉树原理及前序、中序线索化（Java实现） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="单链表的增删查改">
+  <meta name="description" content="一、线索二叉树原理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构-单链表和双链表的操作">
-<meta property="og:url" content="http://yoursite.com/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="线索二叉树原理及前序、中序线索化（Java实现）">
+<meta property="og:url" content="http://yoursite.com/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="单链表的增删查改">
+<meta property="og:description" content="一、线索二叉树原理">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-16T09:41:17.000Z">
-<meta property="article:modified_time" content="2020-04-19T06:57:11.180Z">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/2F43C5B3BF0441C296DA055899BE3BC0/109">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/7A35F67A379A4F2BBDF590100205EB17/112">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/4AD276D6043E499982467AA1DC46377A/114">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/BBF81C1055444B3AA676BCC78F053241/116">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/8500A95BEB8C43C19F5F246E630E9E36/118">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/06855AF985A746A3ACD5CC0860FF7845/120">
+<meta property="article:published_time" content="2020-04-30T05:05:07.000Z">
+<meta property="article:modified_time" content="2020-04-30T06:29:52.885Z">
 <meta property="article:author" content="KamRayn">
-<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="转载随笔">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/2F43C5B3BF0441C296DA055899BE3BC0/109">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -157,824 +164,225 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-数据结构-单链表和双链表的操作" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-线索二叉树原理及前序、中序线索化（Java实现）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      数据结构-单链表和双链表的操作
+      线索二叉树原理及前序、中序线索化（Java实现）
     </h1>
   
 
         
-        <a href="/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  	<time datetime="2020-04-16T09:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
+        <a href="/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2020-04-30T05:05:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p> 单链表的增删查改</p>
-<a id="more"></a>
-<hr>
-<h3 id="创建一个节点"><a href="#创建一个节点" class="headerlink" title="创建一个节点"></a>创建一个节点</h3><pre><code>//首先定义节点
-class  HeroNode {
+        <h3 id="一、线索二叉树原理"><a href="#一、线索二叉树原理" class="headerlink" title="一、线索二叉树原理"></a>一、线索二叉树原理</h3><a id="more"></a>
 
-//属性
-  int no; //英雄编号
-  String name;//英雄姓名
-  String nickName;//英雄称号
-  HeroNode next;//节点的next域，指向下一个节点(它就是连接的下一个对象的地址)
+<p>前面介绍二叉树原理及特殊二叉树文章中提到，二叉树可以使用两种存储结构：顺序存储和二叉链表。在使用二叉链表的<br>存储结构的过程中，会存在大量的空指针域，为了充分利用这些空指针域，引申出了“线索二叉树”。回顾一下二叉链表存储结构，如下图： </p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/2F43C5B3BF0441C296DA055899BE3BC0/109" alt=""></p>
+<p>通过观察上面的二叉链表，存在着若干个没有指向的空指针域。对于一个有n个节点的二叉链表，每个节点有指向左右节点的2个指针域，整个二叉链表存在2n个指针域。而n个节点的二叉链表有n-1条分支线，那么空指针域的个数=2n-(n-1) = n+1个空指针域，从存储空间的角度来看，这n+1个空指针域浪费了内存资源。 </p>
+<p>从另外一个角度来分析，如果我们想知道按中序方式遍历二叉链表时B节点的前驱节点或者后继节点时，必须要按中序方式遍历二叉链表才能够知道结果，每次需要结果时都需要进行一次遍历，是否可以考虑提前存储这种前驱和后继的关系来提高时间效率呢？ </p>
+<p>综合以上两方面的分析，可以通过充分利用二叉链表中的空指针域，存放节点在某种遍历方式下的前驱和后继节点的指针。</p>
+<p>我们把这种指向前驱和后继的指针成为线索，加上线索的二叉链表成为线索链表，对应的二叉树就成为“线索二叉树(Threaded Binary Tree)” 。</p>
+<h3 id="二、构建线索二叉树过程"><a href="#二、构建线索二叉树过程" class="headerlink" title="二、构建线索二叉树过程"></a>二、构建线索二叉树过程</h3><p>1、我们对二叉树进行中序遍历，将所有的节点右子节点为空的指针域指向它的后继节点。如下图： </p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/7A35F67A379A4F2BBDF590100205EB17/112" alt=""></p>
+<p>通过中序遍历我们知道H的right指针为空，并且H的后继节点为D（如上图第1步），I的right指针为空，并且I的后继节点为B（如上图第2步），以此类推，知道G的后继节点为null，则G的right指针指向null。</p>
+<p>2、接下来将这颗二叉树的所有节点左指针域为空的指针域指向它的前驱节点。如下图：</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/4AD276D6043E499982467AA1DC46377A/114" alt=""></p>
+<p>如上图，H的left指针域指向Null（如第1步），I的前驱节点是D，则I的left指针指向D，以此类推。 通过上面两步完成了整个二叉树的线索化，最后结果如下图： </p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/BBF81C1055444B3AA676BCC78F053241/116" alt=""></p>
+<p>通过观察上图（蓝色虚线代表后继、绿色虚线代表前驱），可以看出，线索二叉树，等于是把一棵二叉树转变成了一个“特殊的双向链表“(后面会解释为什么叫特殊的双向链表），这样对于我们的新增、删除、查找节点带来了方便。所以我们对二叉树以某种次序遍历使其变为线索二叉树的过程称做是线索化。如下图： </p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/8500A95BEB8C43C19F5F246E630E9E36/118" alt=""></p>
+<p>仔细分析上面的双向链表，与线索化之后的二叉树相比，比如节点D与后继节点I，在完成线索化之后，并没有直接线索指针，而是存在父子节点的指针；节点A与节点F，在线索化完成之后，节点A并没有直接指向后继节点F的线索指针，而是通过父子节点遍历可以找到最终的节点F，前驱节点也存在同样的问题，正因为很多节点之间不存在直接的线索，所以我将此双向链表称做“特殊的双向链表”，再使用过程中根据指针是线索指针还是子节点指针来分别处理，所以在每个节点需要标明当前的左右指针是线索指针还是子节点指针，这就需要修改节点的数据结构。修改后的数据结构如下：</p>
+<pre><code>    class Node {
+    String data;    //数据域
+    Node left;      //左指针域
+    Node right;     //右指针域
+    byte leftType;  //左指针域类型 0：指向子节点、1：前驱或后继线索
+    byte rightType; //右指针域类型 0：指向子节点、1：前驱或后继线索
+}</code></pre><p>最终的二叉链表修改为如下图的样子： </p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/06855AF985A746A3ACD5CC0860FF7845/120" alt=""></p>
+<h3 id="三、线索二叉树的代码（Java实现）"><a href="#三、线索二叉树的代码（Java实现）" class="headerlink" title="三、线索二叉树的代码（Java实现）"></a>三、线索二叉树的代码（Java实现）</h3><p>代码如下：</p>
+<pre><code>  public class ThreadBinaryTree {
 
-public String getName() {
-    return name;
-}
+    private Node preNode;   //线索化时记录前一个节点
 
-public void setName(String name) {
-    this.name = name;
-}
+    //节点存储结构
+    static class Node {
+    String data;        //数据域
+    Node left;          //左指针域
+    Node right;         //右指针域
+    boolean isLeftThread = false;   //左指针域类型  false：指向子节点、true：前驱或后继线索
+    boolean isRightThread = false;  //右指针域类型  false：指向子节点、true：前驱或后继线索
 
-public String getNickName() {
-    return nickName;
-}
-
-public void setNickName(String nickName) {
-    this.nickName = nickName;
-}
-
-//定义构造函数
-//定义英雄节点属性的时候不需要用到next域，默认为空，因为后面增删查改会对它进行处理,这样才会连起来
-
-public HeroNode(int no, String name, String nickName) {
-    this.no = no;
-    this.name = name;
-    this.nickName = nickName;
-}
-
-@Override
-public String toString() {
-    return &quot;HeroNode{&quot; +
-            &quot;no=&quot; + no +
-            &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; +
-            &quot;, nickName=&apos;&quot; + nickName + &apos;\&apos;&apos; +
-            &apos;}&apos;;
-}
- }</code></pre><h3 id="创建一个单链表"><a href="#创建一个单链表" class="headerlink" title="创建一个单链表"></a>创建一个单链表</h3><pre><code>//创建一个单链表
-
-class  SingleLinkedList{
-
-//单链表是由节点组成的，先给它一个固定的头结点。以后的几点增删改查
-
-//编号为0，其他为空,头结点不存放数据
-HeroNode head=new HeroNode(0,&quot;&quot;,&quot;&quot;);
-
-//类中可写增删查改方法
-
-
-}</code></pre><h3 id="添加节点（直接在链表后面添加）"><a href="#添加节点（直接在链表后面添加）" class="headerlink" title="添加节点（直接在链表后面添加）"></a>添加节点（直接在链表后面添加）</h3><pre><code>    //添加
-//不管编号顺序，直接在链表最后添加
-public void add(HeroNode heroNode){
-
-    //得遍历链表，找到最后一个节点就退出,在节点的后面添加
-    //需要一个辅助变量来辅助遍历,头结点不能动
-
-    //代表从头结点开始，因为添加节点的话如果原来为空链表，
-    // 就要在头节点后面添加，需要与头节点建立联系，所以temp指向头节点是可取的
-    HeroNode temp=head;
-
-    while (true){
-
-        //表示是temp指向的节点是链表最后一个节点,退出
-        if(temp.next==null){
-
-            break;
-
-        }
-        //如果不是最后一个节点，temp就持续指向下一个
-
-        temp=temp.next;
-
+    Node(String data) {
+        this.data = data;
+    }
     }
 
-    //循环退出，添加
-    //此时temp指向最后一个节点
-    temp.next=heroNode;
+    static Node createBinaryTree(String[] array, int index) {
+    Node node = null;
 
-
-}</code></pre><h3 id="添加节点-（排序节点不重复添加）"><a href="#添加节点-（排序节点不重复添加）" class="headerlink" title="添加节点 （排序节点不重复添加）"></a>添加节点 （排序节点不重复添加）</h3><pre><code> //接下来是编号排序（从一开始）且编号唯一的添加
-
-public  void  addOrder(HeroNode heroNode){
-
-    //条件分析：
-    /*
-    插入：1.节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
-          2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
-    不插入:temp.next.no == 传入节点.no,实现唯一插入
-   三个条件只要满足一个就会退出循环，实现插与不插
-    每次插入节点都要遍历链表，如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
-
-     */
-
-    HeroNode temp=head; //添加节点与head要联系起来,况且中间插入需要temp指定在要被插入位置的前一位
-    boolean flag=false; //默认插入的节点不重复
-    while (true){
-
-        if(temp.next==null){
-
-            //节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
-            break;
-        }
-        if (temp.next.no &gt;heroNode.no){
-            //中间插入需要temp指定在要被插入位置的前一位
-            //2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
-            break;
-        }
-        if (temp.next.no==heroNode.no){
-
-            //不插入:temp.next.no == 传入节点.no,实现唯一插入
-            flag=true;//重复数据
-            break;
-
-        }
-
-        //如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
-        temp = temp.next;
-
-
+       //递归创建二叉树
+    if(index &lt; array.length) {
+        node = new Node(array[index]);
+        node.left = createBinaryTree(array, index * 2 + 1);
+        node.right = createBinaryTree(array, index * 2 + 2);
     }
 
-    //三个条件只要满足一个就会退出循环，实现插与不插
-    if(flag){
+    return node;
+   }
 
-        //重复数据不插入
-        System.out.println(&quot;插入的节点数据重复，无法添加！&quot;+heroNode.no);
 
-    }
-    else {
-
-        //进行插入操作
-
-        //这里一定要注意，顺序不能颠倒。如果颠倒了那么链表就连不起来了。
-        heroNode.next=temp.next;
-        temp.next=heroNode;
-
+     //中序线索化
+    void inThreadOrder(Node node) {
+    if(node == null) {
+        return;
     }
 
+    //处理左子树
+    inThreadOrder(node.left);
 
+    //左指针为空,将左指针指向前驱节点
+    if(node.left == null) {
+        node.left = preNode;
+        node.isLeftThread = true;
+    }
 
+    //前一个节点的后继节点指向当前节点
+    if(preNode != null &amp;&amp; preNode.right == null) {
+        preNode.right = node;
+        preNode.isRightThread = true;
+    }
+    preNode = node;
 
-}</code></pre><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><pre><code>   //遍历
+    //处理右子树
+    inThreadOrder(node.right);
+}
 
-public  void list(){
+      //中序线索化遍历(找后继节点，从左往右)
+    void inThreadList(Node node) {
+    //1、找中序遍历方式开始的节点
+    while(node != null &amp;&amp; !node.isLeftThread) {
+        node = node.left;
+    }
 
-    //遍历链表
+    while(node != null) {
+        System.out.print(node.data + &quot;, &quot;);
 
-    HeroNode temp=head.next; //直接遍历操作不操作头节点，所以辅助变量直接指向第一个节点
-        if (head.next == null) {
+        //如果右指针是线索
+        if(node.isRightThread) {
+            node = node.right;
 
-            //链表为空，直接返回
-            return;
-
-        }
-
-        while (true){
-
-            //如果到最后一个就退出
-
-            if(temp==null){
-
-                //到最后了
-                break;
-
+        } else {    //如果右指针不是线索，找到右子树开始的节点
+            node = node.right;
+            while(node != null &amp;&amp; !node.isLeftThread) {
+                node = node.left;
             }
-            //每遍历一个节点就输出
-            System.out.println(temp);
-
-            //temp指向下一个节点
-            temp=temp.next;
-
-        }
-
-
-
-
-    }</code></pre><h3 id="修改单链表节点"><a href="#修改单链表节点" class="headerlink" title="修改单链表节点"></a>修改单链表节点</h3><pre><code>//修改节点数据
-public void  update(HeroNode heroNode){
-
-    //修改节点就要通过遍历找到要被修改的节点，修改数据即可（编号不修改，修改英雄名字或者昵称）
-    //不与头节点联系，所以
-    HeroNode temp=head.next; //直接指向第一个节点
-
-    if(temp==null){
-
-        //说明链表为空，直接返回
-        return;
-    }
-    while (true){
-
-
-        //找到了要被修改的数据
-        if(temp.no==heroNode.no){
-            //进行修改
-            temp.name=heroNode.name;
-            temp.nickName=heroNode.nickName;
-            break;
-        }
-        //遍历到最后了也没找到，退出
-//            if(temp==null){
-//                System.out.println(&quot;节点数据未找到！&quot;);
-//                break;
-//
-//            }
-        if(temp.next!=null) {
-            temp = temp.next;
-        }
-        else {
-            System.out.println(&quot;修改未找到数据&quot;);
-            break;
         }
     }
+}
 
-
-}</code></pre><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><pre><code> //删除节点
-
-public  void  delete(HeroNode heroNode){
-
-    //遍历找到要被删除节点的前一个节点，这样能把被删除数据前一个与被删除数据后一个的连接连起来
-    //所以temp从head开始
-    HeroNode temp=head;
-
-    //判断链表是否为空
-    if(head.next==null){
-        return;
+        //中序线索化遍历（从右往左，找前驱节点）
+    void inPreThreadList(Node node) {
+    //1、找最后一个节点
+    while(node.right != null &amp;&amp; !node.isRightThread) {
+        node = node.right;
     }
-    while (true){
 
-        if(temp.next.no==heroNode.no){
+    while(node != null) {
+        System.out.print(node.data + &quot;, &quot;);
 
-            //说明该temp是被删除节点的前一个节点
+        //如果左指针是线索
+        if(node.isLeftThread) {
+            node = node.left;
 
-            //这是删除的节点不是最后一个节点的时候
-
-                temp.next = temp.next.next;
-
-
-            break;
-
+        } else {    //如果左指针不是线索，找到左子树开始的节点
+            node = node.left;
+            while(node.right != null &amp;&amp; !node.isRightThread) {
+                node = node.right;
+            }
         }
-
-        if(temp.next!=null){
-
-            temp=temp.next;
-        }
-       else {
-            System.out.println(&quot;未找到要被删除的数据！&quot;);
-            break;
-        }
-
-
     }
+}
 
 
-}</code></pre><h2 id="单链表面试题"><a href="#单链表面试题" class="headerlink" title="单链表面试题"></a>单链表面试题</h2><p>求单链表中有效数据的个数</p>
-<pre><code>public  int getLength(){
-
-
-HeroNode temp=head.next; //直接遍历有效节点，不与head联系
-//说白就是了遍历节点，求出遍历次数
-    int length=0;
-
-    if(head.next==null){
-
-        return  0;
-
-    }
-    while (true){
-
-        if(temp==null){
-
-            //到最后了
-            break;
-
-        }
-        length++;
-        temp=temp.next;
-
-
-    }
-
-
-return length;
-}</code></pre><hr>
-<p>新浪面试题，查找单链表中的倒数第k个节点</p>
-<pre><code>   public void getBackKNode(int k){
-
-    //思路:遍历取到单链表的节点个数,用节点个数减去k，得到一个数，然后遍历
-    int a=getLength()-k+1;
-    int n=0;
-    if(k&lt;1||k&gt;getLength()){
-
-        System.out.println(&quot;参数不合法&quot;);
-
-    }
-    if(head.next==null){
-
+            //前序线索化
+    void preThreadOrder(Node node) {
+    if(node == null) {
         return;
     }
 
-    HeroNode temp=head.next;
+    //左指针为空,将左指针指向前驱节点
+    if(node.left == null) {
+        node.left = preNode;
+        node.isLeftThread = true;
+    }
 
-    while (temp!=null){
+    //前一个节点的后继节点指向当前节点
+    if(preNode != null &amp;&amp; preNode.right == null) {
+        preNode.right = node;
+        preNode.isRightThread = true;
+    }
 
-        n++;
-        if(n==a){
+    preNode = node;
 
-            break;
+    //处理左子树
+    if(!node.isLeftThread) {
+        preThreadOrder(node.left);
+    }
 
+    //处理右子树
+    if(!node.isRightThread) {
+        preThreadOrder(node.right);
+    }
+}
+
+   //前序线索化遍历
+void preThreadList(Node node) {
+    while(node != null) {
+
+        while(!node.isLeftThread) {
+            System.out.print(node.data + &quot;, &quot;);
+            node = node.left;
         }
-        else {
-            temp = temp.next;
-        }
 
-
-
-
-
+        System.out.print(node.data + &quot;, &quot;);
+        node = node.right;
     }
-    System.out.println(temp);
+}
 
-
-}</code></pre><hr>
-<p>腾讯面试题,反转一个单链表</p>
-<pre><code>   public void reverseSingleLinked(){
-
-    //思路：
-    /*
-
-    创建一个新的单链表头节点，用来辅助生成反转链表
-    根据原单链表的头节点，先遍历出每一个有效节点。(辅助变量从第一个有效节点开始指)
-    遍历到每一个新的节点，就把让头r指向它。但是单单这样是不行的，因为这样只是永远在换r的next的指向值
-    所以，我们要想一个方法，让新节点进来r.next的同时，也要把以前遍历的节点连在一起
-
-    如 h  1 2 3 4
-       r
-    当前的cur假设是2
-
-    这个时候呢，当我把r.next指向2的时候，我的1呢？1的话可以这样：
-
-    在cur等于1的时候，让cur指向r(cur.next=r.next),再把r-&gt;1(r.next=cur),那么就会形成
-
-    当前cur指向的就是1(第一步循环就是得到r的next域是1)
-
-    然后 再当cur=2时，继续cur.next=r.next,这样2和1就可以连起来了，
-
-    然后再用r.next指向2（r.next=cur）,就会形成 r-&gt;2-&gt;1的结果，
-
-    以此类推，当3进来的时候,把3指向r的next域（变成2了），这个时候就是3-&gt;2-&gt;1连起来了，再r-&gt;3(r.next-cur),以此类推，最终就可以连起来
-
-    cur.next=r.next  //先把当前cur指向r的next域，那么节点1在节点2
-
-
-    */
-
-    //实现
-
-    HeroNode cur=head.next;//辅助变量从第一个有效节点开始指)
-
-    HeroNode next=null;//用来后移cur的指向,达到遍历的效果
-
-    HeroNode reverseHead=new HeroNode(0,&quot;&quot;,&quot;&quot;);
-
-    if(head.next==null||head.next.next==null){
-
-        //空的或者只有一个节点，不用反转
-        return;
-
-    }
-    while (true){
-
-        if(cur==null){
-
-            //说明到最后的节点了
-            break;
-        }
-        //否则
-        next=cur.next; //记录下一个cur的指向值
-
-        cur.next=reverseHead.next;
-
-        reverseHead.next=cur;
-        cur=next; //后移
-
-
-
-    }
-
-    //退出循环后，因为你是新建了一个头，所以你的头结点地址和原来的头是不一样的
-    //所以把旧头指向新头的next即可
-
-    head.next=reverseHead.next;
-
-    //遍历一下验证
-    list();
-
-
-}</code></pre><hr>
-<p>百度面试题：从尾到头打印单链表</p>
-<pre><code>public   void  reversePrint(){
-
-    //不建议采用把链表翻转过来再遍历,因为这样会改变链表结构,可能会出问题
-
-    //采用栈，以此遍历节点，压入栈中，再pop弹栈
-
-    //新建一个栈
-    Stack&lt;HeroNode&gt; stack=new Stack&lt;&gt;();
-
-    HeroNode temp=head.next;
-    if(head.next==null){
-
-        return;
-    }
-    while (true){
-
-        if(temp==null){
-
-            break;
-        }
-        stack.push(temp);
-        temp=temp.next;
-
-
-    }
-
-  while (stack.size()&gt;0){
-
-      System.out.println(stack.pop());
-  }
-
-}</code></pre><hr>
-<p>高频面试题：合并两个有序的单链表，合并之后的链表依然有序</p>
-<pre><code>public class mergeLinkedListDemo {
-
-//用递归来解决问题,精辟！
-/*
-如 1-&gt;2-&gt;4
-   1-&gt;3-&gt;4
-
-   合并后希望是这样 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4
-*/
 public static void main(String[] args) {
+    String[] array = {&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;, &quot;H&quot;};
+    Node root = createBinaryTree(array, 0);
 
+    ThreadBinaryTree tree = new ThreadBinaryTree();
+    tree.inThreadOrder(root);
+    System.out.println(&quot;中序按后继节点遍历线索二叉树结果：&quot;);
+    tree.inThreadList(root);
+    System.out.println(&quot;\n中序按前驱节点遍历线索二叉树结果：&quot;);
+    tree.inPreThreadList(root);
 
-    ListNode l1=new ListNode(1);
-    ListNode l1Ne=new ListNode(2);
-    ListNode l1NeNe=new ListNode(4);
-    l1.setNext(l1Ne);
-    l1Ne.setNext(l1NeNe);
-
-    ListNode l2=new ListNode(1);
-    ListNode l2Ne=new ListNode(3);
-    ListNode l2NeNe=new ListNode(4);
-    l2.setNext(l2Ne);
-    l2Ne.setNext(l2NeNe);
-
-
-    ListNode newNode=ListNode.mergeLinkedList(l1,l2);
-
-  System.out.println(newNode);
-
+    Node root2 = createBinaryTree(array, 0);
+    ThreadBinaryTree tree2 = new ThreadBinaryTree();
+    tree2.preThreadOrder(root2);
+    tree2.preNode = null;
+    System.out.println(&quot;\n前序按后继节点遍历线索二叉树结果：&quot;);
+    tree.preThreadList(root2);
 }
+}</code></pre><h3 id="四、小结"><a href="#四、小结" class="headerlink" title="四、小结"></a>四、小结</h3><p>线索化的实质就是将二叉链表中的空指针改为指向前驱节点或后继节点的线索；</p>
+<p>线索化的过程就是修改二叉链表中空指针的过程，可以按照前序、中序、后序的方式进行遍历，分别生成不同的线索二叉树；</p>
+<p>有了线索二叉树之后，我们再次遍历时，就相当于操作一个双向链表。</p>
+<p>使用场景：如果我们在使用二叉树过程中经常需要遍历二叉树或者查找节点的前驱节点和后继节点，可以考虑采用线索二叉树存储结构。</p>
 
-
-}
-
-class  ListNode{
-
-int val;
-ListNode next;
-
-public ListNode getNext() {
-    return next;
-}
-
-@Override
-public String toString() {
-    return &quot;ListNode{&quot; +
-            &quot;val=&quot; + val +
-            &quot;, next=&quot; + next +
-            &apos;}&apos;;
-}
-
-public void setNext(ListNode next) {
-    this.next = next;
-}
-
-public ListNode(int val) {
-    this.val = val;
-}
-
-/*
-好比打架，因为原来两个链表都是默认从小到大排序，也就是，每一组都是从弱到强
-动脑想想
-要想获得所有人的排名（从弱到强）
-首先得拿第一组最弱的和第二组最弱的比，谁输了，也就是谁小，就上排行位
-然后把输的那一组的次弱的拿出来，和第二组（上一轮赢的那一组）进行比较，输的上排行榜，以此类推，
-到了某一组的人物是null, 另一组有人，说明没对手，直接上排行版
-*/
-
-public   static ListNode mergeLinkedList(ListNode l1,ListNode l2){
-
-    if(l1==null){
-
-        return l2;
-    }
-    if(l2==null){
-
-        return  l1;
-    }
-
-    ListNode head=null;
-
-    if(l1.val&lt;=l2.val){
-
-        head=l1;
-        head.next=mergeLinkedList(l1.next,l2);
-
-    }
-    else {
-
-        head=l2;
-        head.next=mergeLinkedList(l1,l2.next);
-
-    }
-
-    return  head;
-}
-}</code></pre><hr>
-<hr>
-<h1 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h1><p>管理单向链表的缺点分析: </p>
-<p>1) 单向链表，查找的方向只能是一个方向，而双向链表可以向前或者向后查找。 </p>
-<p>2) 单向链表不能自我删除，需要靠辅助节点 ，而双向链表，则可以自我删除，所以前面我们单链表删除时节点，总是找到 temp,temp 是待删除节点的前一个节点。</p>
-<h2 id="创建双链表节点"><a href="#创建双链表节点" class="headerlink" title="创建双链表节点"></a>创建双链表节点</h2><pre><code>//首先定义节点
-class  HeroNode2 {
-
-//属性
-int no; //英雄编号
-String name;//英雄姓名
-String nickName;//英雄称号
-HeroNode2 next;//节点的next域，指向下一个节点(它就是连接的下一个对象的地址)
-HeroNode2 pre;//节点的pre域，指向前一个节点。
-
-public String getName() {
-    return name;
-}
-
-public void setName(String name) {
-    this.name = name;
-}
-
-public String getNickName() {
-    return nickName;
-}
-
-public void setNickName(String nickName) {
-    this.nickName = nickName;
-}
-
-//定义构造函数
-//定义英雄节点属性的时候不需要用到next域和pre域，默认为空，因为后面增删查改会对它进行处理,这样才会连起来
-
-public HeroNode2(int no, String name, String nickName) {
-    this.no = no;
-    this.name = name;
-    this.nickName = nickName;
-}
-
-@Override
-public String toString() {
-    return &quot;HeroNode2{&quot; +
-            &quot;no=&quot; + no +
-            &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; +
-            &quot;, nickName=&apos;&quot; + nickName + &apos;\&apos;&apos; +
-            &apos;}&apos;;
-}
-}</code></pre><h2 id="新建一个双链表"><a href="#新建一个双链表" class="headerlink" title="新建一个双链表"></a>新建一个双链表</h2><pre><code>class DoubleLinkedList{
-
-//固定头
-HeroNode2 head=new HeroNode2(0,&quot;&quot;,&quot;&quot;);
-}</code></pre><h2 id="添加（直接链表后面添加）"><a href="#添加（直接链表后面添加）" class="headerlink" title="添加（直接链表后面添加）"></a>添加（直接链表后面添加）</h2><pre><code>    //添加（直接添加到链表的最后）
-
-public void add(HeroNode2 heroNode2){
-
-    //得遍历链表，找到最后一个节点就退出,在节点的后面添加
-    //需要一个辅助变量来辅助遍历,头结点不能动
-
-    //代表从头结点开始，因为添加节点的话如果原来为空链表，
-    // 就要在头节点后面添加，需要与头节点建立联系，所以temp指向头节点是可取的
-    HeroNode2 temp=head;
-
-    while (true){
-
-        //表示是temp指向的节点是链表最后一个节点,退出
-        if(temp.next==null){
-
-            break;
-
-        }
-        //如果不是最后一个节点，temp就持续指向下一个
-
-       temp=temp.next;
-
-    }
-
-    //循环退出，添加
-    //此时temp指向最后一个节点
-    temp.next=heroNode2;
-    heroNode2.pre=temp;
-
-
-}</code></pre><h2 id="添加（编号排序不重复添加）"><a href="#添加（编号排序不重复添加）" class="headerlink" title="添加（编号排序不重复添加）"></a>添加（编号排序不重复添加）</h2><pre><code>//接下来是编号排序（从一开始）且编号唯一的添加
-
-public  void  addOrder(HeroNode2 heroNode2){
-
-    //条件分析：
-    /*
-    插入：1.节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
-          2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
-    不插入:temp.next.no == 传入节点.no,实现唯一插入
-   三个条件只要满足一个就会退出循环，实现插与不插
-    每次插入节点都要遍历链表，如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
-
-     */
-
-    HeroNode2 temp=head; //添加节点与head要联系起来,况且中间插入需要temp指定在要被插入位置的前一位
-    boolean flag=false; //默认插入的节点不重复
-    while (true){
-
-        if(temp.next==null){
-
-            //节点后面插入(无论链表是空还是不空只需要temp.next==null，退出循环即可实现该方式的插入)
-            break;
-        }
-        if (temp.next.no &gt;heroNode2.no){
-            //中间插入需要temp指定在要被插入位置的前一位
-            //2.链表中间插入(temp.next.no &gt; 传入节点.no,即可实现从小到大插入)
-            break;
-        }
-        if (temp.next.no==heroNode2.no){
-
-            //不插入:temp.next.no == 传入节点.no,实现唯一插入
-            flag=true;//重复数据
-            break;
-
-        }
-
-        //如果遍历到的temp都不满足三种条件，那就后移temp,总有一个temp会满足条件。
-        temp = temp.next;
-
-
-    }
-
-    //三个条件只要满足一个就会退出循环，实现插与不插
-    if(flag){
-
-        //重复数据不插入
-        System.out.println(&quot;插入的节点数据重复，无法添加！&quot;+heroNode2.no);
-
-    }
-    else {
-
-        //进行插入操作
-
-       heroNode2.next=temp.next;
-       heroNode2.pre=temp;
-       temp.next=heroNode2;
-       temp.next.pre=heroNode2;
-
-    }
-
-
-
-
-}</code></pre><h2 id="遍历-1"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h2><pre><code>//遍历
-
-public  void list(){
-
-    //遍历链表
-
-    HeroNode2 temp=head.next; //直接遍历操作不操作头节点，所以辅助变量直接指向第一个节点
-    if (head.next == null) {
-
-        //链表为空，直接返回
-        return;
-
-    }
-
-    while (true){
-
-        //如果到最后一个就退出
-
-        if(temp==null){
-
-            //到最后了
-            break;
-
-        }
-        //每遍历一个节点就输出
-        System.out.println(temp);
-
-        //temp指向下一个节点
-        temp=temp.next;
-
-    }
-
-
-
-
-}</code></pre><h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><pre><code> public void  update(HeroNode2 heroNode2){
-
-    //修改节点就要通过遍历找到要被修改的节点，修改数据即可（编号不修改，修改英雄名字或者昵称）
-    //不与头节点联系，所以
-    HeroNode2 temp=head.next; //直接指向第一个节点
-
-    if(temp==null){
-
-        //说明链表为空，直接返回
-        return;
-    }
-    while (true){
-
-
-        //找到了要被修改的数据
-        if(temp.no==heroNode2.no){
-            //进行修改
-            temp.name=heroNode2.name;
-            temp.nickName=heroNode2.nickName;
-            break;
-        }
-        //遍历到最后了也没找到，退出
-//            if(temp==null){
-//                System.out.println(&quot;节点数据未找到！&quot;);
-//                break;
-//
-//            }
-        if(temp.next!=null) {
-            temp = temp.next;
-        }
-        else {
-            System.out.println(&quot;修改未找到数据&quot;);
-            break;
-        }
-    }
-
-
-}    </code></pre><h2 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h2><pre><code>      public  void del(int no){
-
-    //双链表的删除,可以实现temp指向哪里就删除哪里，所以temp从head.next开始
-
-    HeroNode2 temp=head.next;
-
-    boolean flag=false;//默认找不到要删除的节点
-
-    if(head.next==null){
-
-        return;
-
-    }
-
-    while (true){
-
-        if (temp==null){
-
-            //最后一个节点了，也没找到
-        }
-        if(temp.no==no){
-
-            flag=true;
-            break;
-        }
-        temp=temp.next;
-
-    }
-    if(flag){
-        //说明找到了
-
-            temp.pre.next = temp.next;//这是 被删除节点的前一位指向被删除节点的后一位的next域
-            if(temp.next!=null) {
-            //当你删除的 就是最后一个节点时，这个的temp.next.pre会报null,因为temp.next=null,null.pre??报错了,所以得加条件
-            temp.next.pre = temp.pre;//这是 被删除节点的后一位指向被删除节点的前一位的pre域，
-        }
-
-
-    }
-
-
-
-
-}</code></pre>
       
 
       
@@ -1018,7 +426,7 @@ public  void list(){
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">转载随笔</a>
         		</li>
       		
 		</ul>
@@ -1074,7 +482,7 @@ public  void list(){
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E9%93%BE%E8%A1%A8%E5%92%8C%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -1088,18 +496,18 @@ public  void list(){
   
 <nav id="article-nav">
   
-    <a href="/2020/04/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%8D%95%E5%90%91%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E8%A7%A3%E5%86%B3%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/30/%E5%90%8E%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88Java%E7%89%88%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          数据结构-单向环形链表解决约瑟夫问题
+          后序线索化二叉树（Java版）
         
       </div>
     </a>
   
   
-    <a href="/2020/04/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84-%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%98%9F%E5%88%97/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">数据结构-稀疏数组及数组模拟队列</div>
+    <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-顺序存储二叉树和线索化二叉树</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -1126,7 +534,7 @@ public  void list(){
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个节点"><span class="toc-number">1.</span> <span class="toc-text">创建一个节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个单链表"><span class="toc-number">2.</span> <span class="toc-text">创建一个单链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加节点（直接在链表后面添加）"><span class="toc-number">3.</span> <span class="toc-text">添加节点（直接在链表后面添加）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加节点-（排序节点不重复添加）"><span class="toc-number">4.</span> <span class="toc-text">添加节点 （排序节点不重复添加）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遍历"><span class="toc-number">5.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改单链表节点"><span class="toc-number">6.</span> <span class="toc-text">修改单链表节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">7.</span> <span class="toc-text">删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单链表面试题"><span class="toc-number"></span> <span class="toc-text">单链表面试题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#双链表"><span class="toc-number"></span> <span class="toc-text">双链表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建双链表节点"><span class="toc-number"></span> <span class="toc-text">创建双链表节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新建一个双链表"><span class="toc-number"></span> <span class="toc-text">新建一个双链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加（直接链表后面添加）"><span class="toc-number"></span> <span class="toc-text">添加（直接链表后面添加）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加（编号排序不重复添加）"><span class="toc-number"></span> <span class="toc-text">添加（编号排序不重复添加）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遍历-1"><span class="toc-number"></span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改"><span class="toc-number"></span> <span class="toc-text">修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除-1"><span class="toc-number"></span> <span class="toc-text">删除</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、线索二叉树原理"><span class="toc-number">1.</span> <span class="toc-text">一、线索二叉树原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、构建线索二叉树过程"><span class="toc-number">2.</span> <span class="toc-text">二、构建线索二叉树过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、线索二叉树的代码（Java实现）"><span class="toc-number">3.</span> <span class="toc-text">三、线索二叉树的代码（Java实现）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、小结"><span class="toc-number">4.</span> <span class="toc-text">四、小结</span></a></li></ol>
                     </div>
                 </span>
             </div>
