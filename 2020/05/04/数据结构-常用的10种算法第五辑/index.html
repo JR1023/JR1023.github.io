@@ -6,15 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>数据结构-常用的10种算法第五辑 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="求图的某一个顶点到其他顶点的最短距离的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-常用的10种算法第五辑">
+<meta property="og:url" content="http://yoursite.com/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="求图的某一个顶点到其他顶点的最短距离的问题">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/09CB878D9164492E8F503B773743FE32/212">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/C1C54EF20B3D4F0FA4C873CC72112643/214">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20AF2ABE1D744C76B14AA82BED9A5E2B/216">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/6E565F0052774F28A02309631E35C229/218">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CFECB3895CBD4348869CEAFC1F99E2BB/220">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/4EB94EE8825A46F69AB6F98A73C0CA4D/222">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AF3F40A12A8347348B614C18549C6D13/224">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/56612CDC20DE419A99C50234C02BFEFD/226">
+<meta property="article:published_time" content="2020-05-04T07:33:20.000Z">
+<meta property="article:modified_time" content="2020-05-04T07:52:15.563Z">
 <meta property="article:author" content="KamRayn">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/09CB878D9164492E8F503B773743FE32/212">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -152,34 +166,429 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-数据结构-赫夫曼树和赫夫曼编码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-数据结构-常用的10种算法第五辑" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">数据结构-赫夫曼树和赫夫曼编码</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构-常用的10种算法第五辑
     </h1>
   
 
         
-        <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/" class="archive-article-date">
-  	<time datetime="2020-04-30T07:20:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
+        <a href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/" class="archive-article-date">
+  	<time datetime="2020-05-04T07:33:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>树结构的应用-赫夫曼树和编码</p>
-        
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/#more">more >></a>
-        
+        <p>求图的某一个顶点到其他顶点的最短距离的问题</p>
+<a id="more"></a>
+
+<h3 id="迪杰斯特拉算法"><a href="#迪杰斯特拉算法" class="headerlink" title="迪杰斯特拉算法"></a>迪杰斯特拉算法</h3><p>看一个应用场景和问题:</p>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/09CB878D9164492E8F503B773743FE32/212" alt=""></p>
+<p> 1) 战争时期，胜利乡有 7 个村庄(A, B, C, D, E, F, G) ，现在有六个邮差，从 G 点出发，需要分别把邮件分别送到 A, B, C , D, E, F 六个村庄 </p>
+<p> 2) 各个村庄的距离用边线表示(权) ，比如 A – B 距离 5 公里 </p>
+<p> 3) 问：如何计算出 G 村庄到 其它各个村庄的最短距离? 4) 如果从其它点出发到各个点的最短距离又是多少?</p>
+<h4 id="迪杰斯特拉-Dijkstra-算法介绍"><a href="#迪杰斯特拉-Dijkstra-算法介绍" class="headerlink" title="迪杰斯特拉(Dijkstra)算法介绍"></a>迪杰斯特拉(Dijkstra)算法介绍</h4><p> 迪杰斯特拉(Dijkstra)算法是典型最短路径算法，用于计算一个结点到其他结点的最短路径。它的主要特点是以 起始点为中心向外层层扩展(广度优先搜索思想)，直到扩展到终点为止。</p>
+<p> 1) 设置出发顶点为 v，顶点集合 V{v1,v2,vi…}，v 到 V 中各顶点的距离构成距离集合 Dis，Dis{d1,d2,di…}，Dis 集合记录着 v 到图中各顶点的距离(到自身可以看作 0，v 到 vi 距离对应为 di) </p>
+<p> 2) 从 Dis 中选择值最小的 di 并移出 Dis 集合，同时移出 V 集合中对应的顶点 vi，此时的 v 到 vi 即为最短路径</p>
+<p> 3) 更新 Dis 集合，更新规则为：比较 v 到 V 集合中顶点的距离值，与 v 通过 vi 到 V 集合中顶点的距离值，保留 值较小的一个(同时也应该更新顶点的前驱节点为 vi，表明是通过 vi 到达的) </p>
+<p> 4) 重复执行两步骤，直到最短路径顶点为目标顶点即可结束</p>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/C1C54EF20B3D4F0FA4C873CC72112643/214" alt=""></p>
+<hr>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><pre><code>      public class DijkstraAlgorithm {
+
+public static void main(String[] args) {
+
+   // 迪杰斯特拉算法
+
+    /*
+    求一个点到其他点的最短路径。
+    三个数组，一个用来记录顶点的访问情况，一个用来记录顶点的前驱节点，一个用来记录从出发点到各个顶点的最短距离
+     */
+    char[] vertex = { &apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;, &apos;E&apos;, &apos;F&apos;, &apos;G&apos; };
+    int[][] matrix = new int[vertex.length][vertex.length];
+    final int  N=65535;
+    matrix[0]=new int[]{N,5,7,N,N,N,2};
+    matrix[1]=new int[]{5,N,N,9,N,N,3};
+    matrix[2]=new int[]{7,N,N,N,8,N,N};
+    matrix[3]=new int[]{N,9,N,N,N,4,N};
+    matrix[4]=new int[]{N,N,8,N,N,5,4};
+    matrix[5]=new int[]{N,N,N,4,5,N,6};
+    matrix[6]=new int[]{2,3,N,N,4,6,N};
+
+    Graph graph=new Graph(vertex.length,vertex,matrix);
+
+    //graph.showGraph();
+   // graph.update(6);
+    graph.dijkstraAlgorithm(6);
+    System.out.println(Arrays.toString(graph.vv.arr_already));
+    System.out.println(Arrays.toString(graph.vv.arr_pre));
+    System.out.println(Arrays.toString(graph.vv.arr_dis));
+
+    graph.print(6);
+}
+
+ }
+
+
+ class  Graph{
+
+int vertexs;//顶点个数
+char [] data;//顶点数组
+int [] [] weight;//邻接矩阵
+ VisitedVertex vv;
+public Graph(int vertexs, char[] data, int[][] weight) {
+    this.vertexs = vertexs;
+    this.data = data;
+    this.weight = weight;
+}
+
+  //遍历图
+public void showGraph(){
+
+    for(int i=0;i&lt;vertexs;i++){
+
+        for(int j=0;j&lt;vertexs;j++){
+
+
+            System.out.printf(&quot;%12d&quot;,weight[i][j]);;
+
+        }
+        System.out.println();
+    }
+
+}
+
+//先把从第一个节点出发后的情况写出来
+
+//index是出发点的坐标
+public  void update(int index){
+
+
+    //遍历图
+    int len=0;
+
+
+        for(int j=0;j&lt;vertexs;j++){  //只要在每一行的列中寻找就可以了,所以就是遍历每一行的列就可以了
+
+            len=vv.getDis(index)+weight[index][j]; //len就是从出发点到某一个该index的距离+从该index的点到某一个顶点的距离
+                                                    //比如说现在的index是0（A），j是2（B），那么从G点（假设是出发点）出发到
+                                                   //B点，可能的情况是可以直接从G点到B点，也可以能是从G 到  A 再到 B
+                                                   //那么从G点到B点的最短距离，就要拿着两种可能的情况进行比较谁小。。
+            if(vv.isV(j)==false &amp;&amp;  len&lt; vv.getDis(j)){
+
+                //进行更新
+                vv.updateDis(j,len);
+
+                vv.updatePre(j,index);
+
+            }
+
+
+    }
+
+}
+
+
+
+ //写一个方法获取下一个访问的顶点，比如说从G点访问完后，就需要选取G点到哪一个点的距离是最小的，就选取该点作为下一个访问的节点
+
+public  int updateArr(){
+
+
+    int min=65535;
+    int index=0;
+    for(int i=0;i&lt;vertexs;i++){
+
+
+        if(!vv.isV(i) &amp;&amp; vv.getDis(i)&lt;min){
+
+            min=vv.getDis(i);
+            index=i;
+        }
+
+    }
+    vv.arr_already[index]=1;
+    return  index;
+
+}
+
+//核心方法
+public  void dijkstraAlgorithm(int index){
+    vv=new VisitedVertex(vertexs,index);
+       update(index);
+
+    for(int i=1;i&lt;vertexs;i++){
+        index=updateArr();
+        update(index);
+    }
+
+
+
+
+}
+
+public  void print(int index){
+
+    char[] vertex = { &apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;, &apos;E&apos;, &apos;F&apos;, &apos;G&apos; };
+
+    for(int i=0;i&lt;vv.arr_dis.length;i++){
+if(vv.arr_dis[i]!=65535 &amp;&amp; i!=index){
+
+System.out.println(&quot;从&quot;+vertex[index]+&quot;点到&quot;+vertex[i]+&quot;点的最短距离是&quot;+vv.arr_dis[i]);
+     }
+else {
+
+    System.out.println(&quot;从该点到其他点为无效距离！&quot;);
+}
+
+    }
+
+
+
+}
+}
+
+class  VisitedVertex{
+
+ int [] arr_already;//记录访问情况
+  int [] arr_pre; //记录顶点的前驱节点
+  int [] arr_dis; //记录从出发点到各个顶点的最短距离
+
+
+//vertex代表顶点的个数，index代表出发点
+public   VisitedVertex(int vertex,int index){
+
+    arr_already=new int [vertex];
+
+    arr_already[index]=1; //出发点记为已经访问
+    arr_pre=new int[vertex];
+
+    arr_dis=new int [vertex];
+
+    Arrays.fill(arr_dis,65535);
+    arr_dis[index]=0; //记录最短距离的数组,设置出发点到出发点的距离为0
+
+
+
+}
+
+//判断顶点是否被访问
+
+public  boolean isV(int index){
+
+    return  arr_already[index]==1;
+
+}
+
+//获取从出发点到某个顶点的最短距离
+
+public  int getDis(int index){
+
+    return  arr_dis[index];
+
+}
+
+//更新顶点的前驱节点
+
+//index表示是去到了哪个顶点，j表示该顶点的前驱节点是j
+public  void updatePre(int index,int j){
+
+
+    arr_pre[index]=j;
+
+}
+
+//更新从出发点到某个顶点的最短距离
+//index表示是去到了哪个顶点，j表示当前从出发点到该顶点的最短距离
+public  void updateDis(int index,int j){
+
+    arr_dis[index]=j;
+
+}
+
+}</code></pre><h3 id="弗洛伊德算法"><a href="#弗洛伊德算法" class="headerlink" title="弗洛伊德算法"></a>弗洛伊德算法</h3><p>1) 和 Dijkstra 算法一样，弗洛伊德(Floyd)算法也是一种用于寻找给定的加权图中顶点间最短路径的算法。该算法 名称以创始人之一、1978 年图灵奖获得者、斯坦福大学计算机科学系教授罗伯特·弗洛伊德命名 </p>
+<p>2) 弗洛伊德算法(Floyd)计算图中各个顶点之间的最短路径 </p>
+<p>3) 迪杰斯特拉算法用于计算图中某一个顶点到其他顶点的最短路径。 </p>
+<p>4) $\color{green}{弗洛伊德算法 VS 迪杰斯特拉算法：迪杰斯特拉算法通过选定的被访问顶点，求出从出发访问顶点到其他顶点 的最短路径；弗洛伊德算法中每一个顶点都是出发访问点，所以需要将每一个顶点看做被访问顶点，求出从每 一个顶点到其他顶点的最短路径}$</p>
+<h4 id="弗洛伊德-Floyd-算法图解分析"><a href="#弗洛伊德-Floyd-算法图解分析" class="headerlink" title="弗洛伊德(Floyd)算法图解分析"></a>弗洛伊德(Floyd)算法图解分析</h4><p>1) 设置顶点 vi 到顶点 vk 的最短路径已知为 Lik，顶点 vk 到 vj 的最短路径已知为 Lkj，顶点 vi 到 vj 的路径为 Lij， 则 vi 到 vj 的最短路径为：min((Lik+Lkj),Lij)，vk 的取值为图中所有顶点，则可获得 vi 到 vj 的最短路径 </p>
+<p>2) 至于 vi 到 vk 的最短路径 Lik 或者 vk 到 vj 的最短路径 Lkj，是以同样的方式获得</p>
+<p>3) 弗洛伊德(Floyd)算法图解分析-举例说明</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20AF2ABE1D744C76B14AA82BED9A5E2B/216" alt=""></p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/6E565F0052774F28A02309631E35C229/218" alt=""></p>
+<p>弗洛伊德算法的步骤： 第一轮循环中，以 A(下标为：0)作为中间顶点【即把 A 作为中间顶点的所有情况都进行遍历, 就会得到更新距离表 和 前驱关系】， 距离表和前驱关系更新为：</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CFECB3895CBD4348869CEAFC1F99E2BB/220" alt=""></p>
+<p>分析如下： </p>
+<p>1) 以 A 顶点作为中间顶点是，B-&gt;A-&gt;C 的距离由 N-&gt;12，同理 C 到 B；C-&gt;A-&gt;G 的距离由 N-&gt;9，同理 G 到 C </p>
+<p>2) 更换中间顶点，循环执行操作，直到所有顶点都作为中间顶点更新后，计算结束</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/4EB94EE8825A46F69AB6F98A73C0CA4D/222" alt=""></p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AF3F40A12A8347348B614C18549C6D13/224" alt=""></p>
+<p>应用：</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/56612CDC20DE419A99C50234C02BFEFD/226" alt=""></p>
+<h4 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4><pre><code>  public class FloydAlgorithm {
+
+//弗洛伊德算法
+//该算法是求一个无向图中所有的顶点到其他顶点的最小距离，就是以图中的每一个点都要作为出发点，
+// 都会的到每一个顶点到其他顶点的最小的距离
+
+//思路分析：分别以图中的每一个顶点为中间节点,比如以A为中间顶点， 比如说有B-A-C的距离为9，如果9小于原来邻接矩阵中B-C的距离
+ //那么就把9赋给邻接矩阵中B-C对应的权值。同时会有一个邻接矩阵，是存着顶点的前驱节点的，比如 A-A 就是A，A-B 。。。就是A
+//B-C就是B。。。 那么就要同时更新前驱节点，所以这个时候B-C的前驱节点就是A(中间节点)。
+
+//用程序来实现就是三层for循环，第一层是遍历所有节点作为中间节点，第二层是遍历所有节点作为出发点，第三层是遍历所有节点作为终点
+
+ public static void main(String args[]) {
+
+
+     char[] data = {&apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;, &apos;E&apos;, &apos;F&apos;, &apos;G&apos;};
+     int[][] matrix = new int[data.length][data.length];
+     final int N = 65535;
+     matrix[0] = new int[]{0, 5, 7, N, N, N, 2};
+     matrix[1] = new int[]{5, 0, N, 9, N, N, 3};
+     matrix[2] = new int[]{7, N, 0, N, 8, N, N};
+     matrix[3] = new int[]{N, 9, N, 0, N, 4, N};
+     matrix[4] = new int[]{N, N, 8, N, 0, 5, 4};
+     matrix[5] = new int[]{N, N, N, 4, 5, 0, 6};
+     matrix[6] = new int[]{2, 3, N, N, 4, 6, 0};
+
+     Graph graph=new Graph(data,matrix);
+     graph.floydAlgorithm();
+     graph.print();
+ }
+ }
+
+class  Graph{
+
+int [] [] dis;//用来存放各个顶点到其他顶点最小的距离的邻接矩阵，最后的结果就是这个
+int [][]  pre;//用来存放前驱节点
+char [] data; //字符数组
+int [][] martix;//邻接矩阵
+
+public Graph(char[] data, int[][] martix) {
+    this.data = data;
+    this.martix = martix;
+    this.dis=martix;//初始化dis数组
+    this.pre=new int [data.length] [data.length];
+    for(int i=0;i&lt;dis.length;i++){
+
+        for(int j=0;j&lt;dis.length;j++){
+
+            pre[i][j]=i;
+
+        }
+
+    }
+}
+
+
+//输出图
+
+public  void print(){
+
+    for(int i=0;i&lt;dis.length;i++){
+
+
+        for(int k=0;k&lt;dis.length;k++){
+
+            System.out.printf(&quot;%12d&quot;,pre[i][k] );
+
+        }
+        System.out.println();
+        for(int j=0;j&lt;dis.length;j++){
+
+
+            System.out.printf(data[i]+&quot;点到&quot;+data[j]+&quot;点的最小距离为:&quot;+dis[i][j]+&quot; &quot;);
+
+        }
+
+        System.out.println();
+
+
+
+    }
+
+
+}
+
+
+
+//弗洛伊德算法核心方法
+
+public  void  floydAlgorithm(){
+    int len=0;
+    //最外层是中间顶点
+    for(int k=0;k&lt;dis.length;k++){
+
+        //第二层是出发顶点
+        for(int i=0;i&lt;dis.length;i++){
+
+            //第三层是终点
+            for(int j=0;j&lt;dis.length;j++){
+
+              len=dis[i][k]+dis[k][j];
+
+              if(len&lt;dis[i][j]){
+
+                  dis[i][j]=len; //更新dis矩阵对应坐标的权值
+
+                  pre[i][j]=pre[k][j];//前驱矩阵赋值
+              }
+
+
+            }
+
+
+        }
+
+
+
+    }
+
+
+
+
+}
+
+ }</code></pre>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -199,16 +608,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%85%AD%E8%BE%91%EF%BC%88%E5%AE%8C%E7%BB%93%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          数据结构-常用的10种算法第六辑（完结）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%9B%9B%E8%BE%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-常用的10种算法第四辑</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -223,702 +700,34 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-堆排序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86%E6%8E%92%E5%BA%8F/">数据结构-堆排序</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86%E6%8E%92%E5%BA%8F/" class="archive-article-date">
-  	<time datetime="2020-04-30T06:56:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>树结构的实际应用-堆排序</p>
-        
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86%E6%8E%92%E5%BA%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86%E6%8E%92%E5%BA%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#迪杰斯特拉算法"><span class="toc-number">1.</span> <span class="toc-text">迪杰斯特拉算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#迪杰斯特拉-Dijkstra-算法介绍"><span class="toc-number">1.1.</span> <span class="toc-text">迪杰斯特拉(Dijkstra)算法介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码实现"><span class="toc-number">2.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#弗洛伊德算法"><span class="toc-number">3.</span> <span class="toc-text">弗洛伊德算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#弗洛伊德-Floyd-算法图解分析"><span class="toc-number">3.1.</span> <span class="toc-text">弗洛伊德(Floyd)算法图解分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码实现："><span class="toc-number">3.2.</span> <span class="toc-text">代码实现：</span></a></li></ol></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="post-后序线索化二叉树（Java版）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E5%90%8E%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88Java%E7%89%88%EF%BC%89/">后序线索化二叉树（Java版）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/30/%E5%90%8E%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88Java%E7%89%88%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-04-30T06:33:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>后序线索化</p>
-        
-          <a class="article-more-a" href="/2020/04/30/%E5%90%8E%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88Java%E7%89%88%EF%BC%89/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">转载随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E5%90%8E%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88Java%E7%89%88%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-线索二叉树原理及前序、中序线索化（Java实现）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/">线索二叉树原理及前序、中序线索化（Java实现）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-04-30T05:05:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一、线索二叉树原理"><a href="#一、线索二叉树原理" class="headerlink" title="一、线索二叉树原理"></a>一、线索二叉树原理</h3>
-        
-          <a class="article-more-a" href="/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">转载随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-顺序存储二叉树和线索化二叉树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/">数据结构-顺序存储二叉树和线索化二叉树</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-04-30T04:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>顺序存储二叉树</p>
-        
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-二叉树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%A0%91/">数据结构-二叉树</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-04-30T04:15:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>树结构的基础部分：</p>
-        
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-哈希表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/">数据结构-哈希表</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:35:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>哈希表(散列)..</p>
-        
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-查找算法第二辑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">数据结构-查找算法第二辑</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:21:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>插值查找与斐波那契查找算法:</p>
-        
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-查找算法第一辑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">数据结构-查找算法第一辑</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:13:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>查找算法：</p>
-        
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E8%BE%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构-排序算法小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/">数据结构-排序算法小结</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-04-24T18:05:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>常用排序算法总结和对比</p>
-        
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
-    </nav>
   
+
+  
+
+  
+
+  
+
 
 
           </div>
@@ -943,8 +752,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
