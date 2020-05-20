@@ -25,8 +25,9 @@
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/7ba83f20ea406abfc8aa41fa079c8ac9/xmlnote/40E0AD03CF2F4476A358EEB35C1FCA1A/403">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/7ba83f20ea406abfc8aa41fa079c8ac9/xmlnote/F9CD0358DF2B4A4EA9787B850972890F/405">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/7ba83f20ea406abfc8aa41fa079c8ac9/xmlnote/9D0F1AA84C07433DB2DA169F4282AB9C/407">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/7ba83f20ea406abfc8aa41fa079c8ac9/xmlnote/18790C02500841D599C6E67ADD032F8F/409">
 <meta property="article:published_time" content="2020-05-19T06:37:30.000Z">
-<meta property="article:modified_time" content="2020-05-19T15:24:20.123Z">
+<meta property="article:modified_time" content="2020-05-20T04:37:47.939Z">
 <meta property="article:author" content="KamRayn">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
@@ -403,7 +404,54 @@ System.out.println(&quot;main is ok&quot;);
    }
 
 
-}</code></pre>
+}</code></pre><hr>
+<h3 id="加载代码："><a href="#加载代码：" class="headerlink" title="加载代码："></a>加载代码：</h3><pre><code>    public class CodeBlock03 {
+
+//加载代码练习：
+{
+    System.out.println(&quot;CodeBlock03的构造块4444&quot;);
+}
+static {
+
+    System.out.println(&quot;CodeBlock03的静态代码块5555&quot;);
+}
+
+public CodeBlock03() {
+   System.out.println(&quot;CodeBlock03的构造方法6666&quot;);
+}
+
+ public static void main(String args[]) {
+
+    //main是入口，先加载CodeBlock03的静态代码块，也就是先有类的模板（方法区）
+    //jvm规定：优先级  静态&gt;构造块&gt;构造方法   静态的只加载一次
+
+    System.out.println(&quot;我是美丽的分割线===================CodeBlock03的main方法77777&quot;);
+    new CodeJr();
+    System.out.println(&quot;--------------&quot;);
+    new CodeJr();
+    System.out.println(&quot;----------------&quot;);
+    new  CodeBlock03();
+ }
+
+ }
+
+ class CodeJr{
+
+public CodeJr(){
+
+    System.out.println(&quot;Code的构造方法11111&quot;);
+}
+{
+    System.out.println(&quot;code的构造块2222&quot;);
+}
+
+static {
+
+    System.out.println(&quot;code的静态代码块33333&quot;);
+}
+
+ }</code></pre><p><img src="https://note.youdao.com/yws/public/resource/7ba83f20ea406abfc8aa41fa079c8ac9/xmlnote/18790C02500841D599C6E67ADD032F8F/409" alt="">   </p>
+
       
 
       
@@ -546,7 +594,7 @@ System.out.println(&quot;main is ok&quot;);
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#类加载器（Class-loader）："><span class="toc-number">1.</span> <span class="toc-text">类加载器（Class loader）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法区："><span class="toc-number">2.</span> <span class="toc-text">方法区：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈"><span class="toc-number">3.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#栈-堆-方法区的交互关系"><span class="toc-number">3.1.</span> <span class="toc-text">栈+堆+方法区的交互关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆"><span class="toc-number">4.</span> <span class="toc-text">堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆参数调优入门"><span class="toc-number">5.</span> <span class="toc-text">堆参数调优入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GC算法总体概述"><span class="toc-number">6.</span> <span class="toc-text">GC算法总体概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMM"><span class="toc-number">7.</span> <span class="toc-text">JMM</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#类加载器（Class-loader）："><span class="toc-number">1.</span> <span class="toc-text">类加载器（Class loader）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法区："><span class="toc-number">2.</span> <span class="toc-text">方法区：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈"><span class="toc-number">3.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#栈-堆-方法区的交互关系"><span class="toc-number">3.1.</span> <span class="toc-text">栈+堆+方法区的交互关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆"><span class="toc-number">4.</span> <span class="toc-text">堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆参数调优入门"><span class="toc-number">5.</span> <span class="toc-text">堆参数调优入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GC算法总体概述"><span class="toc-number">6.</span> <span class="toc-text">GC算法总体概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMM"><span class="toc-number">7.</span> <span class="toc-text">JMM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加载代码："><span class="toc-number">8.</span> <span class="toc-text">加载代码：</span></a></li></ol>
                     </div>
                 </span>
             </div>
