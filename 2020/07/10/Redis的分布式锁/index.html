@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Java基础面试 | Hexo</title>
+  <title>Redis的分布式锁 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/Java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95/index.html">
+  <meta name="description" content="Redis分布式锁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis的分布式锁">
+<meta property="og:url" content="http://yoursite.com/2020/07/10/Redis%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Redis分布式锁">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-10T07:47:45.000Z">
+<meta property="article:modified_time" content="2020-07-10T08:00:40.982Z">
 <meta property="article:author" content="KamRayn">
 <meta name="twitter:card" content="summary">
   
@@ -152,60 +156,257 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Redis的分布式锁" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/02/%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2020-06-02T07:17:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/02/%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB/">接口和抽象类的区别</a>
+    <h1 class="article-title" itemprop="name">
+      Redis的分布式锁
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Java基础面试</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        <a href="/2020/07/10/Redis%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="archive-article-date">
+  	<time datetime="2020-07-10T07:47:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h3><a id="more"></a>
 
-          
 
+
+
+
+<pre><code> @RestController
+public class IndexController {
+
+@Autowired
+private StringRedisTemplate redisTemplate;
+
+
+@Autowired
+private Redisson redisson;
+@RequestMapping(&quot;/deduct_stock&quot;)
+public  String deductStock(){
+     String lockKey=&quot;product_001&quot;;
+    String clientId= UUID.randomUUID().toString();
+
+    RLock rLock=redisson.getLock(lockKey);//获取一个redisson锁对象
+
+    try{
+        //Boolean result = redisTemplate.opsForValue().setIfAbsent(lockKey, &quot;jr&quot;);
+        //redisTemplate.expire(lockKey,10, TimeUnit.SECONDS);
+  //            Boolean result=redisTemplate.opsForValue().setIfAbsent(lockKey,clientId);
+  //            if(!result){
+ //
+ //                return  &quot;系统繁忙，请稍后再试!&quot;;
+ //            }
+
+        rLock.lock(30,TimeUnit.SECONDS);//加锁
+        int stock = Integer.parseInt(redisTemplate.opsForValue().get(&quot;stock&quot;));
+
+        if(stock&gt;0){
+
+            int realStock=stock-1;
+            redisTemplate.opsForValue().set(&quot;stock&quot;,realStock+&quot;&quot;);
+            System.out.println(&quot;扣减成功，剩余库存:&quot;+realStock);
+        }
+        else {
+
+            System.out.println(&quot;扣减失败，库存不足!&quot;);
+        }
+
+    }
+    finally {
+
+        rLock.unlock(); //释放锁
+ //            if(clientId.equals(redisTemplate.opsForValue().get(lockKey))) {
+ //                redisTemplate.delete(&quot;product_001&quot;);
+//            }
+    }
+
+    return &quot;end&quot;;
+
+
+}
+
+
+}</code></pre><hr>
+<p>面对高并发的环境下这样绝对出问题</p>
+<p>解决方法1：</p>
+<p>对代码块加synchronized，这样只能是在单体运用上才可以（即项目就部署到一个tomcat服务器上），<br>假如对服务器做了集群的话，那么多个线程去访问的时候，不同的线程在不同的服务器上都获取到了相应的synchronized锁，还是有并发争抢问题的</p>
+<p>解决方法2：</p>
+<p>最简单的redis分布式锁,setnx key value  ,只有key不存在的时候才会操作成功，返回true，代码的最后释放锁，也就是删除lockKey;</p>
+<p>但是这样还是存在很多问题的: 要是在释放锁之前的代码出异常了，那么锁就释放不了，就会造成lockKey一直在，这样的话其他线程就一直访问不到</p>
+<p>所以就想到了用try finally,finally里面的逻辑就是释放锁的逻辑</p>
+<p>但是要是在运行的过程中，你整个web应用挂了，那么你的finally就执行不了了，那么redis的key也是一直存在,会造成其他线程访问不了的死锁</p>
+<p>那么又想到设置lockKey的过期时间，但是你要是这样写:redisTemplate.expire(lockKey,10, TimeUnit.SECONDS),也会有可能在设置过期时间之前服务器宕机了，那么就会造成设置过期时间不成功</p>
+<p>所以需要用另外一种方式redisTemplate.opsForValue().setIfAbsent(lockKey,”jr”,10,TimeUnit.SECONDS);</p>
+<p>但是呢，这样又有问题，比如你设置的超时时间是10秒，要是你的一个线程比较慢，比如说执行要15秒，在执行到还没释放锁的代码的时候，你用了10秒这个时候的锁已经过期失效了，但是呢，所以其他线程就可以进来获取锁，当你执行到释放锁的代码时，人家其他线程进来后可能还没执行完，你又把lockKey给删了，那么这样的话就可能造成永久失效的问题</p>
+<p>解决这个问题的话，可以使用uuid生成唯一标识，让每一个线程都有自己的唯一标识，作为lcokKey的value，然后在释放锁的时候判断当前的锁的value值和我当前的clientId是否相同，相同的话就可以释放了</p>
+<p>但是时间的问题怎么解决呢，你可以把当前线程分出一个定时器线程，每隔一定的时间看当前线程的锁是否失效，要是没失效就续命一定的时间，但是这样实现起来是很难的</p>
+<p>所以我们可以用到redisson来实现分布式锁</p>
+<p>RLock rLock=redisson.getLock(lockKey);//获取一个redisson锁对象</p>
+<p>rLock.lock(30,TimeUnit.SECONDS);//加锁</p>
+<p>rLock.unlock(); //释放锁</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://jr1023.github.io/2020/07/10/Redis%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/06/11/SQL%E4%B8%ADINNER-JOIN%E3%80%81LEFT-JOIN%E3%80%81RIGHT-JOIN%E3%80%81FULL-JOIN%E5%8C%BA%E5%88%AB/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SQL中INNER JOIN、LEFT JOIN、RIGHT JOIN、FULL JOIN区别</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis分布式锁"><span class="toc-number">1.</span> <span class="toc-text">Redis分布式锁</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+
 
 
           </div>
@@ -231,9 +432,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
