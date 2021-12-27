@@ -1,0 +1,778 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="求最小生成树的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-常用的10种算法第四辑">
+<meta property="og:url" content="http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%9B%9B%E8%BE%91/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="求最小生成树的问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AAD4FFD31A0642B3BD31833414D82614/198">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/5F89FAC9BC104E1595ACBB7AD51995FB/200">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/845EBC620ADB4B2095229BCBA2E8C112/202">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/FABF51074B9F400CB20ED4F976AD4EF6/204">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/8F87941721D04CBBBE54BF13C09B5091/206">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC57BE37F329404496AE2DFA67A1385E/208">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/BD8F10C562BD4BEF8A1B46CAE2C947BA/210">
+<meta property="article:published_time" content="2020-05-04T07:09:44.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:43.869Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AAD4FFD31A0642B3BD31833414D82614/198"><title>数据结构-常用的10种算法第四辑 | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%9B%9B%E8%BE%91/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-常用的10种算法第四辑</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-05-04</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">3.3k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>求最小生成树的问题</p>
+<span id="more"></span>
+
+
+        <h3 id="普利姆算法应用场景">
+          <a href="#普利姆算法应用场景" class="heading-link"><i class="fas fa-link"></i></a><a href="#普利姆算法应用场景" class="headerlink" title="普利姆算法应用场景"></a>普利姆算法应用场景</h3>
+      <p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AAD4FFD31A0642B3BD31833414D82614/198"></p>
+<ol>
+<li><p>有胜利乡有 7 个村庄(A, B, C, D, E, F, G) ，现在需要修路把 7 个村庄连通 </p>
+</li>
+<li><p>各个村庄的距离用边线表示(权) ，比如 A – B 距离 5 公里 </p>
+</li>
+<li><p>问：如何修路保证各个村庄都能连通，并且总的修建公路总里程最短? </p>
+</li>
+<li><p>求最小生成树的算法主要是普里姆算法和克鲁斯卡尔算法<br>思路: 将 10 条边，连接即可，但是总的里程数不是最小. 正确的思路，就是尽可能的选择少的路线，并且每条路线最小，保证总里程数最少</p>
+</li>
+</ol>
+<p>修路问题本质就是就是最小生成树问题， 先介绍一下最小生成树(Minimum Cost Spanning Tree)，简称 MST。 给定一个带权的无向连通图,如何选取一棵生成树,使树上所有边上权的总和为最小,这叫最小生成树 </p>
+<ol>
+<li><p>N 个顶点，一定有 N-1 条边 </p>
+</li>
+<li><p>包含全部顶点 </p>
+</li>
+<li><p>N-1 条边都在图中</p>
+</li>
+</ol>
+
+        <h3 id="普里姆算法介绍">
+          <a href="#普里姆算法介绍" class="heading-link"><i class="fas fa-link"></i></a><a href="#普里姆算法介绍" class="headerlink" title="普里姆算法介绍"></a>普里姆算法介绍</h3>
+      <p>直接图解吧，文字太难理解了</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/5F89FAC9BC104E1595ACBB7AD51995FB/200"></p>
+<p>代码如下:</p>
+<pre><code>   public class PrimAlgorithm &#123;
+
+
+ public static void main(String args[]) &#123;
+
+
+     //普利姆算法：求一个无向图的最小生成树时，从图上的一个点出发，先求出该点直接相连的最短的路径，
+     // 比如说是A-&gt;B,然后去到B点，再求出该点与其他点直接相连的最小路径（已经走过的路径不要再走）
+
+     char [] data=&#123;&#39;A&#39;,&#39;B&#39;,&#39;C&#39;,&#39;D&#39;,&#39;E&#39;,&#39;F&#39;,&#39;G&#39;&#125;;
+
+     int [][]weight=new int[][]&#123;
+             &#123;10000,5,7,10000,10000,10000,2&#125;,
+             &#123;5,10000,10000,9,10000,10000,3&#125;,
+             &#123;7,10000,10000,10000,8,10000,10000&#125;,
+             &#123;10000,9,10000,10000,10000,4,10000&#125;,
+             &#123;10000,10000,8,10000,10000,5,4&#125;,
+             &#123;10000,10000,10000,4,5,10000,6&#125;,
+             &#123;2,3,10000,10000,4,6,10000&#125;,&#125;;
+     MGraph mGraph = cerateMGraph(data.length, weight, data);
+
+     primAlgorithm(mGraph,1);
+
+
+
+
+ &#125;
+
+ //普利姆算法核心
+
+public  static  void  primAlgorithm(MGraph mGraph,int index)&#123;
+
+     int  visited[]=new int [mGraph.vertexs];  //定义一个数组，比如说1索引的值为1就代表第二个顶点已经被访问
+     int weight=10000;
+     int h1=-1;  //定义行坐标
+     int h2=-1; //定义列坐标
+
+     visited[index]=1;//表示传进来的顶点已经被访问
+
+
+    for(int k=1;k&lt;mGraph.vertexs;k++) &#123;   //第一层for是因为最小生成树有N-1条边，N表示顶点的个数
+
+
+        for (int i = 0; i &lt; mGraph.vertexs; i++) &#123;
+
+            for (int j = 0; j &lt; mGraph.vertexs; j++) &#123;
+
+                //也就是在图的邻接矩阵的一行中寻找进来的顶点与其他顶点的最小距离
+
+                //这个条件表示只有已经访问的顶点并且该顶点已经去过的顶点不能再去,比如A-&gt;B，后,B就不能到A了
+                if (visited[i] == 1 &amp;&amp; visited[j] == 0 &amp;&amp; mGraph.edges[i][j] &lt; weight) &#123;
+
+                    weight = mGraph.edges[i][j];
+                    h1 = i;  //当前的顶点，也就是当前邻接矩阵的行
+                    h2 = j; //j是当前顶点到某个顶点x的距离最小的那个顶点的行，也就是在邻接矩阵中要定位到哪一行
+
+
+                &#125;
+            &#125;
+
+        &#125;
+        visited[h2] = 1;  //循环结束后，h2的值就是表示h1坐标对应的顶点到h2对应的顶点的距离是最小的，这个时候要让
+                          //h2对应的顶点设为已经访问
+        System.out.println(&quot;从&quot; + mGraph.data[h1] + &quot;点到&quot; + mGraph.data[h2] + &quot;点的最短路径为&quot; + weight);
+
+        //重新赋为初始值，避免下一条的最小路径是拿上一条的最小路径比较出来的
+        weight = 10000;
+
+    &#125;
+
+&#125;
+
+ public static void  showGraph(MGraph mGraph)&#123;
+
+
+     for(int [] link: mGraph.edges)&#123;
+
+         System.out.println(Arrays.toString(link));
+     &#125;
+
+ &#125;
+ //生成一个图
+
+public static MGraph cerateMGraph(int vertexs,int [][] egeds,char [] data)&#123;
+
+     MGraph mGraph=new MGraph(vertexs);
+
+     for(int i=0;i&lt;vertexs;i++)&#123;
+
+         mGraph.data[i]=data[i];
+         for(int j=0;j&lt;vertexs;j++)&#123;
+
+             mGraph.edges[i][j]=egeds[i][j];
+
+
+         &#125;
+
+     &#125;
+
+     return  mGraph;
+&#125;
+
+ &#125;
+
+ //定义一个图
+ class  MGraph&#123;
+
+ int vertexs;//顶点的个数
+ char [] data;//顶点数组
+ int [] [] edges;//邻接矩阵
+
+
+
+public MGraph(int vertexs) &#123;
+    this.vertexs = vertexs;
+
+    data=new char[vertexs];
+    edges=new int [vertexs][vertexs];
+&#125;
+&#125;
+</code></pre>
+<hr>
+
+        <h3 id="克鲁斯卡尔算法">
+          <a href="#克鲁斯卡尔算法" class="heading-link"><i class="fas fa-link"></i></a><a href="#克鲁斯卡尔算法" class="headerlink" title="克鲁斯卡尔算法"></a>克鲁斯卡尔算法</h3>
+      <p>应用场景-公交站问题</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/845EBC620ADB4B2095229BCBA2E8C112/202"></p>
+<ol>
+<li><p>某城市新增 7 个站点(A, B, C, D, E, F, G) ，现在需要修路把 7 个站点连通 </p>
+</li>
+<li><p>各个站点的距离用边线表示(权) ，比如 A – B 距离 12 公里 3) 问：如何修路保证各个站点都能连通，并且总的修建公路总里程最短?</p>
+</li>
+</ol>
+<p> 基本思想:</p>
+<ol>
+<li><p>克鲁斯卡尔(Kruskal)算法，是用来求加权连通图的最小生成树的算法。 </p>
+</li>
+<li><p>基本思想：按照权值从小到大的顺序选择 n-1 条边，并保证这 n-1 条边不构成回路 </p>
+</li>
+<li><p>具体做法：首先构造一个只含 n 个顶点的森林，然后依权值从小到大从连通网中选择边加入到森林中，并使森 林中不产生回路，直至森林变成一棵树为止</p>
+</li>
+</ol>
+
+        <h4 id="克鲁斯卡尔算法图解说明">
+          <a href="#克鲁斯卡尔算法图解说明" class="heading-link"><i class="fas fa-link"></i></a><a href="#克鲁斯卡尔算法图解说明" class="headerlink" title="克鲁斯卡尔算法图解说明"></a>克鲁斯卡尔算法图解说明</h4>
+      <p>在含有 n 个顶点的连通图中选择 n-1 条边，构成一棵极小连通子图，并使该连通子图中 n-1 条边上权值之和达到 最小，则称其为连通网的最小生成树。</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/FABF51074B9F400CB20ED4F976AD4EF6/204"></p>
+<p>例如，对于如上图 G4 所示的连通网可以有多棵权值总和不相同的生成树。</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/8F87941721D04CBBBE54BF13C09B5091/206"></p>
+
+        <h5 id="克鲁斯卡尔算法图解">
+          <a href="#克鲁斯卡尔算法图解" class="heading-link"><i class="fas fa-link"></i></a><a href="#克鲁斯卡尔算法图解" class="headerlink" title="克鲁斯卡尔算法图解"></a>克鲁斯卡尔算法图解</h5>
+      <p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/EC57BE37F329404496AE2DFA67A1385E/208"></p>
+<p>第 1 步：将边&lt;E,F&gt;加入 R 中。 边&lt;E,F&gt;的权值最小，因此将它加入到最小生成树结果 R 中。 </p>
+<p>第 2 步：将边&lt;C,D&gt;加入 R 中。 上一步操作之后，边&lt;C,D&gt;的权值最小，因此将它加入到最小生成树结果 R 中。 </p>
+<p>第 3 步：将边&lt;D,E&gt;加入 R 中。 上一步操作之后，边&lt;D,E&gt;的权值最小，因此将它加入到最小生成树结果 R 中。</p>
+<p>第 4 步：将边&lt;B,F&gt;加入 R 中。 上一步操作之后，边&lt;C,E&gt;的权值最小，但&lt;C,E&gt;会和已有的边构成回路；因此，跳过边&lt;C,E&gt;。同理，跳 过边&lt;C,F&gt;。将边&lt;B,F&gt;加入到最小生成树结果 R 中。 </p>
+<p>第 5 步：将边&lt;E,G&gt;加入 R 中。 上一步操作之后，边&lt;E,G&gt;的权值最小，因此将它加入到最小生成树结果 R 中。 </p>
+<p>第 6 步：将边&lt;A,B&gt;加入 R 中。 上一步操作之后，边&lt;F,G&gt;的权值最小，但&lt;F,G&gt;会和已有的边构成回路；因此，跳过边&lt;F,G&gt;。同理，跳 过边&lt;B,C&gt;。将边&lt;A,B&gt;加入到最小生成树结果 R 中。</p>
+<p> 此时，最小生成树构造完成！它包括的边依次是：&lt;E,F&gt; &lt;C,D&gt; &lt;D,E&gt; &lt;B,F&gt; &lt;E,G&gt; &lt;A,B&gt;。</p>
+<p>问题分析：</p>
+<p>根据前面介绍的克鲁斯卡尔算法的基本思想和做法，我们能够了解到，克鲁斯卡尔算法重点需要解决的以下两个问题：</p>
+<p>问题一 对图的所有边按照权值大小进行排序。 </p>
+<p>问题二 将边添加到最小生成树中时，怎么样判断是否形成了回路。 </p>
+<p>问题一很好解决，采用排序算法进行排序即可。</p>
+<p>问题二，处理方式是：记录顶点在”最小生成树”中的终点，顶点的终点是”在最小生成树中与它连通的最大顶点”。 然后每次需要将一条边添加到最小生存树时，判断该边的两个顶点的终点是否重合，重合的话则会构成回路。</p>
+<p>那么如何判断是否构成回路呢？</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/BD8F10C562BD4BEF8A1B46CAE2C947BA/210"></p>
+<p>在将&lt;E,F&gt; &lt;C,D&gt; &lt;D,E&gt;加入到最小生成树 R 中之后，这几条边的顶点就都有了终点： </p>
+<p>(01) C 的终点是 F。</p>
+<p>(02) D 的终点是 F。 </p>
+<p>(03) E 的终点是 F。 </p>
+<p>(04) F 的终点是 F。 关于终点的说明： </p>
+<ol>
+<li><p>就是将所有顶点按照从小到大的顺序排列好之后；某个顶点的终点就是”与它连通的最大顶点”。 </p>
+</li>
+<li><p>因此，接下来，虽然&lt;C,E&gt;是权值最小的边。但是 C 和 E 的终点都是 F，即它们的终点相同，因此，将&lt;C,E&gt; 加入最小生成树的话，会形成回路。这就是判断回路的方式。也就是说，我们加入的边的两个顶点不能都指向同一 个终点，否则将构成回路。【后面有代码说明】</p>
+</li>
+</ol>
+
+        <h3 id="代码实现">
+          <a href="#代码实现" class="heading-link"><i class="fas fa-link"></i></a><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3>
+      <pre><code>        public class KruskalCase &#123;
+
+
+private  int vertexs;//图中顶点的个数
+private  int edgNum;//图中边的个数
+private  char [] data;//顶点字符数组
+private  int [][] weight;//邻接矩阵
+private  static  final int  INF=Integer.MAX_VALUE;
+ public static void main(String args[]) &#123;
+
+
+     //克鲁斯卡尔算法
+
+     //基本思路分析：就是把一个带权图N个顶点，构成一颗边为N-1的极小连通图。
+     /*
+     把图中的边按照权值进行排序，从小到大，依次连接，但是不能构成回路。
+
+     构成回路的条件是当前加入的边的两个顶点的终点不能一样。顶点的终点是一个顶点所能连通的最大顶点。
+
+      */
+
+
+     char[] data = &#123;&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;&#125;;
+
+     int matrix[][] = &#123;
+             /*A*//*B*//*C*//*D*//*E*//*F*//*G*/
+             /*A*/ &#123;   0,  12, INF, INF, INF,  16,  14&#125;,
+             /*B*/ &#123;  12,   0,  10, INF, INF,   7, INF&#125;,
+             /*C*/ &#123; INF,  10,   0,   3,   5,   6, INF&#125;,
+             /*D*/ &#123; INF, INF,   3,   0,   4, INF, INF&#125;,
+             /*E*/ &#123; INF, INF,   5,   4,   0,   2,   8&#125;,
+             /*F*/ &#123;  16,   7,   6, INF,   2,   0,   9&#125;,
+             /*G*/ &#123;  14, INF, INF, INF,   8,   9,   0&#125;&#125;;
+
+
+
+       KruskalCase kruskalCase=new KruskalCase(data,matrix);
+
+
+
+
+
+
+     kruskalCase.kruskalCase();
+
+ &#125;
+
+ public  void  kruskalCase()&#123;
+
+     //定义一个接收结果的Edge集合
+     Edge [] rest=new Edge[this.edgNum];
+     int index=0;//接收数组的下标
+     int [] end=new int [this.edgNum];//存放当前最小生成树的每一个顶点的终点值，【1,2,3】代表第一个字符的终点是1索引对应的字符
+
+     Edge[] edges = getEdges();
+     sortEdges(edges);
+     //遍历边的集合，依次连接，不能有回路
+     for(int i=0;i&lt;edges.length;i++)&#123;
+
+         int m=getPosition(edges[i].start);//获取当前边的起点下标
+
+         int n=getPosition(edges[i].end);//获取当前边的末点下标
+
+
+         //获取起点的终点
+         int end1 = getEnd(end,m);
+
+         //获取末点的终点
+         int end2=getEnd(end,n);
+
+         if(end1!=end2)&#123;
+             //说明可以添加
+
+            end[end1]=end2;//
+
+             rest[index++]=edges[i];
+         &#125;
+
+     &#125;
+
+     print(rest,index);
+ &#125;
+
+ //初始化字符数组和邻接矩阵
+
+public  KruskalCase(char [] data, int [] [] weight)&#123;
+
+     this.vertexs=data.length;
+
+     this.data=new char[vertexs];
+     this.weight=new int [vertexs] [vertexs];
+     //初始化字符数组
+     for(int i=0;i&lt;vertexs;i++)&#123;
+
+         this.data[i]=data[i];
+
+     &#125;
+
+     //初始化邻接矩阵
+    for(int i=0;i&lt;vertexs;i++)&#123;
+
+
+        for (int j=0;j&lt;vertexs;j++)&#123;
+
+            this.weight[i][j]=weight[i][j];
+        &#125;
+    &#125;
+
+    //统计边的个数
+
+    for(int i=0;i&lt;vertexs;i++)&#123;
+
+        for (int j=i+1;j&lt;vertexs;j++)&#123;
+
+            if(weight[i][j]!=INF) &#123;
+                this.edgNum++;
+            &#125;
+        &#125;
+
+    &#125;
+
+
+&#125;
+
+public  void print(Edge [] rest,int index)&#123;
+
+     for(int i=0;i&lt;index;i++)&#123;
+
+         System.out.println(rest[i]);
+     &#125;
+
+
+&#125;
+
+//定位一个顶点在数组中的下标
+
+public  int getPosition(char c)&#123;
+
+     for(int i=0;i&lt;this.data.length;i++)&#123;
+
+         if(c==this.data[i])&#123;
+
+             return  i;
+         &#125;
+
+     &#125;
+     return  -1;
+
+&#125;
+
+
+//存放某个顶点的终点
+
+public  int getEnd(int [] end,int a)&#123;
+
+  while (end[a]!=0)&#123;
+
+      //如果当前顶点在终点数组中有对应的终点，但是可能这个终点值是局部的，那么就继续去它的终点值对应的索引去寻找下一个终点值
+      //直到没有发现终点值了就返回
+      //比如说啊，在加入了边 E,F  C,D  D,E 后数组就会变成 0 0 3 5 5 0 0...
+      //那么加入C,E后,因为之前C的位置有个局部终点是3，那么就去到3的索引找到一个值是5，还是不等于0，那么就去到5这个索引发现值为0了，那么
+      //就返回5,那么进行比较的时候就回路
+      a=end[a];
+  &#125;
+  return  a; //如果如果循环不执行，那么说明数组中没有该点的终点，就先认为该点的终点是本身
+
+&#125;
+
+
+//获取边的集合
+public  Edge[] getEdges()&#123;
+     Edge[] edges=new Edge[edgNum];
+     int index=0;
+     for(int i=0;i&lt;vertexs;i++)&#123;
+
+         for (int j=i+1;j&lt;vertexs;j++)&#123;
+
+             if( this.weight[i][j]!=INF )&#123;
+
+                 edges[index++]=new Edge(this.data[i],this.data[j],weight[i][j]);
+
+             &#125;
+         &#125;
+
+     &#125;
+
+     return  edges;
+
+&#125;
+
+//对边的集合进行排序
+
+public  void sortEdges(Edge [] edges)&#123;
+
+     //这里采用冒泡排序
+
+
+    for(int i=0;i&lt;edges.length-1;i++)&#123;
+
+        for (int j=0;j&lt;edges.length-i-1;j++)&#123;
+
+            if(edges[j].weight&gt;edges[j+1].weight)&#123;
+
+                Edge temp=edges[j];
+                edges[j]=edges[j+1];
+                edges[j+1]=temp;
+
+            &#125;
+
+        &#125;
+
+    &#125;
+
+
+&#125;
+&#125;
+
+//边类
+class  Edge&#123;
+
+ char start;//起始点
+ char end;//末位点
+ int weight;//边的权值
+
+
+public Edge(char start, char end, int weight) &#123;
+    this.start = start;
+    this.end = end;
+    this.weight = weight;
+&#125;
+
+@Override
+public String toString() &#123;
+    return &quot;Edge&#123;&quot; +
+            &quot;start=&quot; + start +
+            &quot;, end=&quot; + end +
+            &quot;, weight=&quot; + weight +
+            &#39;&#125;&#39;;
+&#125;
+&#125;
+</code></pre>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%9B%9B%E8%BE%91/">http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%9B%9B%E8%BE%91/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">数据结构-常用的10种算法第五辑</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/"><span class="paginator-prev__text">数据结构-常用的10种算法第三辑</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%AE%E5%88%A9%E5%A7%86%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">
+          普利姆算法应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%AE%E9%87%8C%E5%A7%86%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">
+          普里姆算法介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8B%E9%B2%81%E6%96%AF%E5%8D%A1%E5%B0%94%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">
+          克鲁斯卡尔算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%8B%E9%B2%81%E6%96%AF%E5%8D%A1%E5%B0%94%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E8%AF%B4%E6%98%8E"><span class="toc-number">3.1.</span> <span class="toc-text">
+          克鲁斯卡尔算法图解说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%8B%E9%B2%81%E6%96%AF%E5%8D%A1%E5%B0%94%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3"><span class="toc-number">3.1.1.</span> <span class="toc-text">
+          克鲁斯卡尔算法图解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.</span> <span class="toc-text">
+          代码实现</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>

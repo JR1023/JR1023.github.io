@@ -1,0 +1,703 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="平衡二叉树问题解决：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-平衡二叉树AVL">
+<meta property="og:url" content="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91AVL/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="平衡二叉树问题解决：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CD89E82E03154C8ABF7E458040FD5F7D/150">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/757CF8B5D79042A58E94E77591B0D127/152">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/ED3C037A9EE14B88A409F7AA76419E52/154">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/217D68B2E2F546C5B4D8E626E038FE85/156">
+<meta property="article:published_time" content="2020-04-30T08:24:55.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:36.328Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CD89E82E03154C8ABF7E458040FD5F7D/150"><title>数据结构-平衡二叉树AVL | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91AVL/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-平衡二叉树AVL</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-04-30</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.7k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>平衡二叉树问题解决：</p>
+<span id="more"></span>
+
+<p>给你一个数列{1,2,3,4,5,6}，要求创建一颗二叉排序树(BST), 并分析问题所在.</p>
+<p>  左边 BST 存在的问题分析: </p>
+<ol>
+<li>左子树全部为空，从形式上看，更像一个单链表.</li>
+<li>插入速度没有影响 </li>
+<li>查询速度明显降低(因为需要依次比较), 不能发挥 BST的优势，因为每次还需要比较左子树，其查询速度比 单链表还慢 </li>
+<li>解决方案-平衡二叉树(AVL)</li>
+</ol>
+
+        <h4 id="基本介绍">
+          <a href="#基本介绍" class="heading-link"><i class="fas fa-link"></i></a><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h4>
+      <ol>
+<li><p>平衡二叉树也叫平衡二叉搜索树（Self-balancing binary search tree）又被称为 AVL 树， 可以保证查询效率较高。</p>
+</li>
+<li><p>具有以下特点：它是一 棵空树或它的左右两个子树的高度差的绝对值不超过 1，并且左右两个子树都是一棵 平衡二叉树。平衡二叉树的常用实现方法有红黑树、AVL、替罪羊树、Treap、伸展树等。 </p>
+</li>
+<li><p>举例说明, 看看下面哪些 AVL 树, 为什么?</p>
+</li>
+</ol>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CD89E82E03154C8ABF7E458040FD5F7D/150"></p>
+
+        <h4 id="左旋转">
+          <a href="#左旋转" class="heading-link"><i class="fas fa-link"></i></a><a href="#左旋转" class="headerlink" title="左旋转"></a>左旋转</h4>
+      <p>  给你一个数列，创建出对应的平衡二叉树.数列 {4,3,6,5,7,8}</p>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/757CF8B5D79042A58E94E77591B0D127/152"></p>
+
+        <h4 id="右旋转">
+          <a href="#右旋转" class="heading-link"><i class="fas fa-link"></i></a><a href="#右旋转" class="headerlink" title="右旋转"></a>右旋转</h4>
+      <p>  给你一个数列，创建出对应的平衡二叉树.数列 {10,12, 8, 9, 7, 6}</p>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/ED3C037A9EE14B88A409F7AA76419E52/154"></p>
+
+        <h4 id="双旋转">
+          <a href="#双旋转" class="heading-link"><i class="fas fa-link"></i></a><a href="#双旋转" class="headerlink" title="双旋转"></a>双旋转</h4>
+      <p>  前面的两个数列，进行单旋转(即一次旋转)就可以将非平衡二叉树转成平衡二叉树,但是在某些情况下，单旋转 不能完成平衡二叉树的转换。比如数列 int[] arr = { 10, 11, 7, 6, 8, 9 }; 运行原来的代码可以看到，并没有转成 AVL 树</p>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/217D68B2E2F546C5B4D8E626E038FE85/156"></p>
+<p>   解决思路分析 </p>
+<ol>
+<li><p>当符号右旋转的条件时 </p>
+</li>
+<li><p>如果它的左子树的右子树高度大于它的左子树的高度</p>
+</li>
+<li><p>先对当前这个结点的左节点进行左旋转 </p>
+</li>
+<li><p>在对当前结点进行右旋转的操作即可</p>
+</li>
+</ol>
+<p>   全部代码:</p>
+<pre><code>     public class AVLTreeDemo &#123;
+
+//平衡二叉树
+
+//规定：它是一 棵空树或它的左右两个子树的高度差的绝对值不超过 1，并且左右两个子树都是一棵 平衡二叉树。
+
+public static void main(String args[]) &#123;
+
+   // int[] arr = &#123;4,3,6,5,7,8&#125;;
+    //int[] arr = &#123; 10, 12, 8, 9, 7, 6 &#125;;
+    int[] arr = &#123; 10, 11, 7, 6, 8, 9 &#125;;
+    AVLTree avlTree=new AVLTree();
+
+    for(int i=0; i &lt; arr.length; i++) &#123;
+        avlTree.add(new Node(arr[i]));
+    &#125;
+
+
+    System.out.println(&quot;中序遍历&quot;);
+    avlTree.inOrder();
+    System.out.println(&quot;当前树的高度&quot;+avlTree.getRoot().height());
+    System.out.println(&quot;当前左子树的高度&quot;+avlTree.getRoot().leftHeight());
+    System.out.println(&quot;当前右子树的高度&quot;+avlTree.getRoot().rightHeight());
+
+
+&#125;
+
+
+&#125;
+
+
+   class  AVLTree&#123;
+
+   private  Node root;
+
+   public Node getRoot() &#123;
+       return root;
+   &#125;
+
+   public void setRoot(Node root) &#123;
+       this.root = root;
+   &#125;
+
+   //添加
+   public  void add(Node node)&#123;
+
+       if(root!=null)&#123;
+
+           root.add(node);
+
+
+       &#125;
+
+       else&#123;
+
+
+           root=node;
+
+       &#125;
+
+
+   &#125;
+
+
+   //中序遍历
+
+   public  void inOrder()&#123;
+
+       if(root!=null)&#123;
+
+           root.inOrder(root);
+
+       &#125;
+       else&#123;
+
+           System.out.println(&quot;二叉树为空，无法遍历！&quot;);
+       &#125;
+
+
+   &#125;
+  &#125;
+
+class  Node &#123;
+
+int value;
+Node left;
+Node right;
+
+public Node(int value) &#123;
+    this.value = value;
+&#125;
+
+public int getValue() &#123;
+    return value;
+&#125;
+
+public void setValue(int value) &#123;
+    this.value = value;
+&#125;
+
+public Node getLeft() &#123;
+    return left;
+&#125;
+
+public void setLeft(Node left) &#123;
+    this.left = left;
+&#125;
+
+public Node getRight() &#123;
+    return right;
+&#125;
+
+public void setRight(Node right) &#123;
+    this.right = right;
+&#125;
+
+@Override
+public String toString() &#123;
+    return &quot;Node&#123;&quot; +
+            &quot;value=&quot; + value +
+            &#39;&#125;&#39;;
+&#125;
+
+
+//添加节点（二叉排序树）
+
+public  void add(Node node)&#123;
+
+
+    if(node==null)&#123;
+
+        return;
+    &#125;
+
+    //判断加进来的节点应该去到当前节点的哪一边
+    //左边
+    if(this.value&gt;node.getValue())&#123;
+
+        if(left!=null)&#123;
+
+            //那就要递归去找了
+            left.add(node);
+        &#125;
+        else&#123;
+
+            //直接挂在左节点
+            left=node;
+        &#125;
+
+    &#125;
+
+    else&#123;
+
+
+        //说明是在右边
+
+        if(right!=null)&#123;
+
+            right.add(node);
+        &#125;
+        else&#123;
+
+            right=node;
+        &#125;
+
+    &#125;
+    //添加完节点后
+
+    if(rightHeight()-leftHeight()&gt;1 )&#123;
+
+        //满足根节点的右节点(1)的高度-根节点的左节点的高度 &gt;,那就满足向左旋转的整体要求
+        // (高度，举例：这个高度就是从(1)这个节点开始，选一条路径最长直到叶子节点的路径，其中有几个节点高度就是几)
+
+        if( right!=null&amp;&amp;right.leftHeight()&gt;right.rightHeight())&#123;
+
+            //重点是只要&gt;就行了，不是整体判断条件的 &gt;1!!!!!!
+            //这里满是根节点的右节点的左节点的高度&gt;根节点的右节点的右节点的高度,那么先进行局部右旋转(重点是只要&gt;就行了，不是整体判断条件的&gt;1!!!!!!)
+            //向右旋转
+            right.rightSpin();  //就是以当前根节点的右节点作为根节点去旋转
+
+            //再向左旋转
+            leftSpin(); //这个还是整体旋转了，就以原根节点进行旋转
+        &#125;
+        else &#123;
+
+            //不满足局部要求
+            //整体向左旋转
+
+            leftSpin();
+        &#125;
+
+        return;
+    &#125;
+
+    if(leftHeight()-rightHeight()&gt;1)&#123;
+
+        if(left!=null &amp;&amp; left.rightHeight()&gt;left.leftHeight())&#123;
+
+
+            left.leftSpin();
+
+            rightSpin();
+
+        &#125;
+        else&#123;
+
+            rightHeight();
+        &#125;
+
+
+    &#125;
+
+
+
+&#125;
+
+
+//中序遍历
+
+public  void inOrder(Node node)&#123;
+
+    if(node.getLeft()!=null)&#123;
+
+        inOrder(node.getLeft());
+
+    &#125;
+
+    System.out.println(node);
+
+    if(node.getRight()!=null)&#123;
+
+        inOrder(node.getRight());
+
+    &#125;
+
+
+
+&#125;
+
+//写一个方法：输出以该节点为根节点的树的高度
+
+public  int height()&#123;
+
+
+    //重点是后面的加1，就是说当一个代码回退的时候每一层都会带着1回来，逐步递增
+    return Math.max(left==null ? 0:left.height(),right==null ? 0:right.height())+1;
+
+
+&#125;
+
+//求一个节点作为根节点的左子树的高度
+
+public  int leftHeight()&#123;
+
+        if(left!=null) &#123;
+            return left.height();
+        &#125;
+        else &#123;
+            return 0;
+        &#125;
+&#125;
+
+//求一个节点作为根节点的右子树的高度
+public  int rightHeight()&#123;
+
+     if(right!=null) &#123;
+         return right.height();
+     &#125;
+     else &#123;
+         return  0;
+     &#125;
+&#125;
+
+
+//左旋转
+
+public  void leftSpin()&#123;
+
+
+    //当做高度和深度概念一样，从1开始
+    //即右子树的高度 - 左子树的高度大于1 (右子树最外层)
+
+    //需要一个新的节点，值是当前节点（从根节点开始的，所以值是根节点）
+
+    Node newNode=new Node(this.value);
+
+    //然后新节点的左节点指向当前节点的左节点
+
+    newNode.left=left;
+
+    //新节点的右节点指向当前节点的右节点的左节点。
+
+    newNode.right=right.left;
+
+    //当前节点的值换为当前右节点的值
+
+    this.value=right.value;
+
+    //把当前节点的右节点设为当前节点的右节点的右节点
+
+    right=right.right;
+
+    //把当前节点的左节点设为新的节点
+
+    left=newNode;
+
+
+&#125;
+
+public  void rightSpin()&#123;
+
+
+    //左子树的高度-右子树的高度&gt;1（左子树最外层）
+
+
+     //创建一个新的节点值为根节点
+   Node newNode=new Node(this.value);
+    //新节点的右子树是当前节点的右子树
+  newNode.right=right;
+    //新节点的左子树是当前节点的左子树的右子树
+  newNode.left=left.right;
+    //当前节点的值设为左节点的值
+
+   this.value=left.value;
+    //当前节点的左子树设为当前节点的左子树的左子树
+
+    left=left.left;
+    //当前节点的右子树设为当前新的节点
+
+    right=newNode;
+&#125;
+
+
+&#125;
+</code></pre>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91AVL/">http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91AVL/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%BE/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">数据结构-图</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91/"><span class="paginator-prev__text">数据结构-二叉排序树</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">
+          基本介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A6%E6%97%8B%E8%BD%AC"><span class="toc-number">2.</span> <span class="toc-text">
+          左旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%B3%E6%97%8B%E8%BD%AC"><span class="toc-number">3.</span> <span class="toc-text">
+          右旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E6%97%8B%E8%BD%AC"><span class="toc-number">4.</span> <span class="toc-text">
+          双旋转</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>

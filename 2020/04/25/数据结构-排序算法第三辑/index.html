@@ -1,0 +1,685 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="归并排序与基数排序：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-排序算法第三辑">
+<meta property="og:url" content="http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="归并排序与基数排序：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/3CD9BAC588A64D3C8CCFC1F75B863C4F/71">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/859771A71D1C42CB902147AB122FE493/73">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/084D7A02753D41A2BEFA749E81DFB77D/75">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E0159661F5724F4E90600B74F8708563/77">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AC9A56C2FFC440DDBB2CBF6B437E7E49/79">
+<meta property="article:published_time" content="2020-04-24T17:48:49.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:37.900Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/3CD9BAC588A64D3C8CCFC1F75B863C4F/71"><title>数据结构-排序算法第三辑 | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-排序算法第三辑</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-04-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.5k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>归并排序与基数排序：</p>
+<span id="more"></span>
+
+
+        <h3 id="归并排序">
+          <a href="#归并排序" class="heading-link"><i class="fas fa-link"></i></a><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3>
+      <p>归并排序（MERGE-SORT）是利用归并的思想实现的排序方法，该算法采用经典的分治（divide-and-conquer） 策略（分治法将问题分(divide)成一些小的问题然后递归求解，而治(conquer)的阶段则将分的阶段得到的各答案”修 补”在一起，即分而治之)。</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/3CD9BAC588A64D3C8CCFC1F75B863C4F/71"></p>
+<p>再来看看治阶段，我们需要将两个已经有序的子序列合并成一个有序序列，比如上图中的最后一次合并，要将 [4,5,7,8]和[1,2,3,6]两个已经有序的子序列，合并为最终序列[1,2,3,4,5,6,7,8]，来看下实现步骤</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/859771A71D1C42CB902147AB122FE493/73"></p>
+<p>代码如下：（思路分析）</p>
+<pre><code>public class MergeSortDemo &#123;
+
+//归并排序
+
+ public static void main(String args[]) &#123;
+
+
+
+     /*
+     基本思想和思路分析：
+
+
+     分：归并排序就是把一个数组的元素先分成两个部分，假设mid1= （0+arr.length-1）/2左边是从 0 到mid，右边是从mid+1到数组末尾，按照
+
+     该种方法，再将分为两个部分的数组元素，左边：（左边： mid2=(0+mid1)/2,0到mid2,右边mid2+1到mid1 ）,右边：同样道理...依此类推来分直到每一个部分的元素被分为单个元素。
+
+      比如 ： 84571362
+
+      8457  1362
+
+   84  57   13  62
+
+ 8 4   5 7   1 3   6 2
+
+ 治：先从最细分的开始合并，
+
+
+ 分应该是一个递归的过程，就是细分到最细了就从栈的上往下合并，也就是从最细的到完整的。
+
+ 单个元素的合并，哪几个单元素是之前被一个部分拆下来的，就把它们按照有序的方式合并成原来的部分。逐步合并成完整的，每一次合并都要把合并后的
+ 序列放到一个新的数组中，最后合并完了再把这个中间数组拷贝到原数组。
+
+ 比如：  48   57   13   26
+
+          4578   1236
+
+           12345678
+
+
+     */
+
+
+     int [] arr=&#123; 8,4,5,7,1,3,6,2&#125;;
+     int [] temp=new int[arr.length];
+
+     System.out.println(&quot;前&quot;+ Arrays.toString(arr));
+     breakArr(arr,0,arr.length-1,temp);
+     System.out.println(&quot;后&quot;+Arrays.toString(arr));
+
+
+
+
+
+ &#125;
+
+ //分解数组
+ public  static void breakArr(int [] arr,int left,int right,int [] temp)&#123;
+
+
+
+     //什么时候不再分解了
+     if(left&lt;right)&#123;
+
+         int mid=(left+right)/2;
+         //向左递归分解
+         breakArr(arr,left,mid,temp);
+
+         //向右递归分解
+
+         breakArr(arr,mid+1,right,temp);
+
+         //栈顶进行合并，就是左递归一直到最后不能递归了，就执行分解操作，同样道理
+
+         merge(arr,temp,left,right);
+
+
+
+         //程序是这样执行的，首先从开始进来分解完左边，再去分解左边，再去分解左边，直到左边不能再被分解了就回退到上一级别（3）
+         // 的部分向右分解进入下一级别，右边分解完（分一次）就不能分解了，然后回退上一级别(也就是3)，3这个级别再执行合并。然后3这个级别
+         //都执行完了就回退到上一级别（2），2呢，就继续执行它的向右分解的代码，直到。。。。。执行回退到该级别，就进行合并..
+
+     &#125;
+
+
+
+
+ &#125;
+
+
+ //合并的方法
+ public  static void merge(int arr[],int [] temp,int left,int right)&#123;
+
+
+     //arr是原数组，temp是临时数组，left是左指针，就是最左边的索引，right是右指针，就是最右边的索引
+
+
+     int i=left;//i是会移动的，是左边的可移动指针，初始值为左边的索引
+     int mid=(left+right)/2;  //中间
+     int j=mid+1;//j是可移动的右边的指针，初始值为右边的索引
+     int t=0;//t是临时数组的索引
+
+
+     //合并的时候，比如拿最后一次合并来说，有两个有序的部分， 先拿左边的部分的第一个元素与右边的第一个元素相比，如果左边第一个元素比右边
+     //第一个元素小，那么就把左边第一个元素移到临时数组中，然后左边的元素移到下一个，继续和右边第一个元素比较，反之则把右边第一个元素移到临时数组,右边的
+     //元素右移，和左边第一个元素比较。。。就这样比下去，直到有一个部分的元素都比完了，就把另外一个部分的剩余的元素按照索引填进临时数组里。
+
+     while (i&lt;=mid &amp;&amp; j&lt;=right)&#123;
+
+         if(arr[i]&lt;=arr[j])&#123;
+             //左边的元素小于右边的
+             temp[t]=arr[i];
+             i++;
+             t++;
+
+         &#125;
+         else&#123;
+
+             //左边的元素大于右边的
+
+             temp[t]=arr[j];
+             j++;
+             t++;
+
+         &#125;
+
+     &#125;
+
+     //循环结束，如果还有某个部分的元素剩余
+
+     //左边的元素有剩余
+     while (i&lt;=mid)&#123;
+
+         temp[t]=arr[i];
+         i++;
+         t++;
+
+     &#125;
+
+     //右边有元素剩余
+     while (j&lt;=right)&#123;
+
+         temp[t]=arr[j];
+         j++;
+         t++;
+     &#125;
+
+
+     //现在是把临时数组的元素拷贝到原数组
+
+     //每一次合并完就要拷贝进原数组。每一次的临时数组都会从0开始覆盖原数组，直到最后合并成有序的了，
+     // 就从0开始覆盖原数组，就完事了
+
+     int tempLeft=left; //从left开始。这样一个部分的左右两个部分合并才不会造成合并了左后进去原数组了，但是合并了右部分后进入原数组把左的覆盖掉。
+     t=0;
+     while (tempLeft&lt;=right)&#123;
+
+         arr[tempLeft]=temp[t];
+
+         t++;
+         tempLeft++;
+
+     &#125;
+
+
+
+
+
+
+ &#125;
+
+
+
+&#125;
+</code></pre>
+<hr>
+<hr>
+
+        <h3 id="基数排序">
+          <a href="#基数排序" class="heading-link"><i class="fas fa-link"></i></a><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3>
+      <p>直接上图：</p>
+<p>将数组 {53, 3, 542, 748, 14, 214} 使用基数排序, 进行升序排序</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/084D7A02753D41A2BEFA749E81DFB77D/75"><br><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/E0159661F5724F4E90600B74F8708563/77"><br><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AC9A56C2FFC440DDBB2CBF6B437E7E49/79"></p>
+<p>代码实现（思路分析）:</p>
+<pre><code> public class RadixSort &#123;
+
+//基数排序
+
+//基本思想与思路：
+
+
+/*
+定义10个桶，每一个桶是一个一维数组，
+数组元素的最大位数是n（若n=3）
+第一次把数组中的元素的个位数一一拿出来，是多少就放在相应下标的桶里。
+放完后，就把桶中的数据取出按顺序取出来放在原数组里面。
+清空桶的数据
+第二次就把数组中的元素的10位数一一拿出来，是多少就放在相应下标的桶里
+再把桶中的数据按顺序拿出来放在原数组。
+清空桶的数据
+第三次就把百位数拿出来。。。还是这样操作
+ */
+
+
+ public static void main(String args[]) &#123;
+
+
+     int [] arr=&#123;53, 3, 542, 748, 14, 214&#125;;
+     //一步一步来。
+
+     //定义一个二维数组，bucket[10][?],为了防止栈溢出，?设为arr.length。
+
+     int [] [] bucket=new int [10][arr.length];
+     //从桶中拿数据的时候，你得知道每一个桶中有多少数据，这样才能把数据取出来放在数组里
+
+     //所以定义个一维数组来记录每一个桶中的数据  bucketElementCount[0],代表下标为0的桶的个数
+
+      int [] bucketElementCount=new int[10];
+      System.out.println(&quot;排序前&quot;+Arrays.toString(arr));
+      radixSort(arr,bucket,bucketElementCount);
+      System.out.println(&quot;排序后&quot;+Arrays.toString(arr));
+
+
+
+
+
+      /*
+     //第一步，取个位数。
+
+        System.out.println(&quot;前&quot;+ Arrays.toString(arr));
+
+
+     //遍历数组
+     for (int i=0;i&lt;arr.length;i++)&#123;
+
+          int digits=arr[i]%10;  //取模10就可以得到其个位数
+         bucket[digits][bucketElementCount[digits]]=arr[i];
+         bucketElementCount[digits]++;
+     &#125;
+
+      //遍历桶，放进原数组
+     int index=0;
+     for(int k=0;k&lt;bucketElementCount.length;k++)&#123;
+
+         //可能存在有的桶没有值，所以要做判断
+         if(bucketElementCount[k]!=0)&#123;
+
+             //说明下标为k的桶是有数据的
+
+             for(int l=0;l&lt;bucketElementCount[k];l++)&#123;
+
+                 //把桶的值放进数组里面
+                 arr[index]=bucket[k][l];
+                 index++;
+
+             &#125;
+
+         &#125;
+
+
+
+
+     &#125;
+
+
+
+  System.out.println(&quot;后&quot;+Arrays.toString(arr));
+
+*/
+
+ &#125;
+
+ public static  void radixSort(int [] arr,int [][]bucket,int [] bucketElementCount )&#123;
+
+     //整合一下
+
+     //判断数组中的最大位数的长度是多少，这样才可以知道需要进行多少次才到达有序。数组中最大数的位数为多少，就要进行多少次的排序操作
+
+     //定义一个最大值,假设是数组的第一个数组
+
+     int max= arr[0];
+     for(int i=0;i&lt;arr.length;i++)&#123;
+
+         if(arr[i]&gt;max)&#123;
+
+             max=arr[i];
+         &#125;
+
+     &#125;
+
+     //求最大值的长度
+     int maxLength=(max+&quot;&quot;).length();
+
+     int count=0;
+     //那就循环maxLength次
+
+     for(int i=0,n=1;i&lt;maxLength;i++,n*=10)&#123;
+
+       count++;
+
+         //遍历数组
+         for (int j=0;j&lt;arr.length;j++)&#123;
+
+             int digits=arr[j]/n%10;  //分别取模10的倍数
+             bucket[digits][bucketElementCount[digits]]=arr[j]; //bucket[每一轮的各个个/十/百...位数][记录每一轮中的各个个/十/百..位数的个数]
+             bucketElementCount[digits]++;
+         &#125;
+
+         //遍历桶，放进原数组
+         int index=0;
+         for(int k=0;k&lt;bucketElementCount.length;k++)&#123;
+
+
+             //bucketElementCount[?] ?表示某一轮的个/百/..位数，总体表示有多少个
+             //可能存在有的桶没有值，所以要做判断,因为没有值的桶，bucketElementCount这个数组不会记录进去
+             if(bucketElementCount[k]!=0)&#123;
+
+                 //说明下标为k的桶是有数据的,只要bucketElementCount[k]有数据。说明bucket[k][？]是有数据的 ，？就是bucketElementCount[k]
+
+                 for(int l=0;l&lt;bucketElementCount[k];l++)&#123;
+
+                     //把桶的值放进数组里面
+                     arr[index]=bucket[k][l];
+                     index++;
+
+                 &#125;
+
+             &#125;
+             //清空桶的数据个数,防止对下一次造成影响
+
+            bucketElementCount[k]=0;  //!!!不然的话就会把原来的数据放进数组里面.
+
+
+
+         &#125;
+System.out.println(&quot;第&quot;+count+Arrays.toString(arr));
+
+     &#125;
+
+
+
+
+ &#125;
+
+
+&#125;
+</code></pre>
+<p>基数排序的说明: </p>
+<ol>
+<li><p>基数排序是对传统桶排序的扩展，速度很快。</p>
+</li>
+<li><p>基数排序是经典的空间换时间的方式，占用内存很大, 当对海量数据排序时，容易造成 OutOfMemoryError 。 </p>
+</li>
+<li><p>基数排序时稳定的。[注:假定在待排序的记录序列中，存在多个具有相同的关键字的记录，若经过排序，这些 记录的相对次序保持不变，即在原序列中，r[i]=r[j]，且 r[i]在 r[j]之前，而在排序后的序列中，r[i]仍在 r[j]之前， 则称这种排序算法是稳定的；否则称为不稳定的] </p>
+</li>
+<li><p>有负数的数组，我们一般不用基数排序来进行排序</p>
+</li>
+</ol>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/">http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%89%E8%BE%91/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">数据结构-排序算法小结</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/04/24/Java%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E5%9B%BE%E6%96%87%E5%B9%B6%E8%8C%82%E7%9A%84%E8%A7%A3%E9%87%8A/"><span class="paginator-prev__text">Java快速排序-图文并茂的解释</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">
+          归并排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">
+          基数排序</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>

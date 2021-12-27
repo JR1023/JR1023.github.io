@@ -1,0 +1,1326 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="顺序存储二叉树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-顺序存储二叉树和线索化二叉树">
+<meta property="og:url" content="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="顺序存储二叉树">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/34D4D8FE711E45F387C2E2EC79786AA4/103">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/64CE9DE4CB894BFE9F1E5516E9AC1201/105">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/22F8846E46BF47DF9ACEC38FEC222590/107">
+<meta property="article:published_time" content="2020-04-30T04:42:33.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:36.355Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/34D4D8FE711E45F387C2E2EC79786AA4/103"><title>数据结构-顺序存储二叉树和线索化二叉树 | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-顺序存储二叉树和线索化二叉树</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-04-30</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">4.6k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>顺序存储二叉树</p>
+<span id="more"></span>
+
+<p>从数据存储来看，数组存储方式和树的存储方式可以相互转换，即数组可以转换成树，树也可以转换成数组</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/34D4D8FE711E45F387C2E2EC79786AA4/103"></p>
+<p>特点：</p>
+<ol>
+<li><p>顺序二叉树通常只考虑完全二叉树 </p>
+</li>
+<li><p>第 n 个元素的左子节点为 2 * n + 1 </p>
+</li>
+<li><p>第 n 个元素的右子节点为 2 * n + 2 </p>
+</li>
+<li><p>第 n 个元素的父节点为 (n-1) / 2 </p>
+</li>
+<li><p>n : 表示二叉树中的第几个元素(按 0 开始编号如图所示)</p>
+</li>
+</ol>
+
+        <h3 id="顺序存储二叉树遍历">
+          <a href="#顺序存储二叉树遍历" class="heading-link"><i class="fas fa-link"></i></a><a href="#顺序存储二叉树遍历" class="headerlink" title="顺序存储二叉树遍历"></a>顺序存储二叉树遍历</h3>
+      <p>给你一个数组 {1,2,3,4,5,6,7}，要求以二叉树前，中，后序遍历的方式进行遍历。</p>
+<p>代码如下：</p>
+<pre><code> public class ArrBinaryTreeDemo &#123;
+
+
+//顺序存储二叉树
+
+//树可以转成数组，数组也可以转成树
+//如int [] arr=&#123;1,2,3,4,5,6&#125;,那么从索引0开始，二叉树从上到下，从左到右也是按照数组的索引来排的，对应的也是数组的数据
+
+ public static void main(String args[]) &#123;
+
+
+     //顺序存储二叉树按照前序，中序，后序遍历
+
+     //测试前序遍历
+     int [] arr=&#123;1,2,3,4,5,6,7&#125;;
+     ArrBinary arrBinary=new ArrBinary(arr);
+
+      arrBinary.preOrderStart();
+
+      //中序
+    System.out.println(&quot;前序完成&quot;);
+
+     arrBinary.inOrderStart();
+
+     System.out.println(&quot;中序完成&quot;);
+     //后序
+
+     arrBinary.postOrderStart();
+
+     System.out.println(&quot;后序完成&quot;);
+
+ &#125;
+
+
+
+
+&#125;
+
+//顺序存储二叉树类
+class ArrBinary&#123;
+
+
+private  int [] arr;  //需要一个数组
+
+public ArrBinary(int[] arr) &#123;
+    this.arr = arr;
+&#125;
+
+
+public  void  preOrderStart()&#123;
+
+    preOrder(0);
+&#125;
+public  void  inOrderStart()&#123;
+
+    inOrder(0);
+&#125;
+public  void  postOrderStart()&#123;
+
+    postOrder(0);
+&#125;
+
+//前序遍历
+public  void preOrder(int index)&#123;
+
+    //先输出当前节点
+    System.out.println(arr[index]);
+
+    //左边
+    if(2 * index+1&lt;arr.length)&#123;
+
+        //去左边的节点
+        preOrder(2 * index+1);
+
+    &#125;
+
+    //右边
+    if(2 * index+2&lt;arr.length)&#123;
+
+        //去右边的节点
+        preOrder(2 * index+2);
+    &#125;
+
+&#125;
+
+
+//中序遍历
+
+public  void inOrder(int index)&#123;
+
+    //先左边
+
+    if(2 * index+1&lt;arr.length)&#123;
+
+        inOrder(2 * index+1);
+    &#125;
+
+    System.out.println(arr[index]);
+
+    //右边
+
+    if(2 * index + 2&lt;arr.length)&#123;
+
+        inOrder(2 * index + 2);
+
+    &#125;
+
+&#125;
+//后序遍历
+
+public  void postOrder(int index)&#123;
+
+    //先左边
+
+    if(2 * index+1&lt;arr.length)&#123;
+
+        postOrder((2 * index+1));
+    &#125;
+    //右边
+
+    if(2 * index + 2&lt;arr.length)&#123;
+
+        postOrder(2 * index + 2);
+
+    &#125;
+
+    System.out.println(arr[index]);
+&#125;
+
+
+&#125;
+</code></pre>
+<hr>
+<hr>
+
+        <h3 id="线索化二叉树">
+          <a href="#线索化二叉树" class="heading-link"><i class="fas fa-link"></i></a><a href="#线索化二叉树" class="headerlink" title="线索化二叉树"></a>线索化二叉树</h3>
+      <p> 问题：将数列 {1, 3, 6, 8, 10, 14 } 构建成一颗二叉树. n+1=7</p>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/64CE9DE4CB894BFE9F1E5516E9AC1201/105"></p>
+<ol>
+<li>当我们对上面的二叉树进行中序遍历时，数列为 {8, 3, 10, 1, 6, 14 } </li>
+<li>但是 6, 8, 10, 14 这几个节点的 左右指针，并没有完全的利用上. </li>
+<li>如果我们希望充分的利用 各个节点的左右指针， 让各个节点可以指向自己的前后节点,怎么办? </li>
+<li>解决方案-线索二叉树</li>
+</ol>
+
+        <h3 id="线索二叉树基本介绍">
+          <a href="#线索二叉树基本介绍" class="heading-link"><i class="fas fa-link"></i></a><a href="#线索二叉树基本介绍" class="headerlink" title="线索二叉树基本介绍"></a>线索二叉树基本介绍</h3>
+      <ol>
+<li><p>n 个结点的二叉链表中含有 n+1 【公式 2n-(n-1)=n+1】 个空指针域。利用二叉链表中的空指针域，存放指向 该结点在某种遍历次序下的前驱和后继结点的指针（这种附加的指针称为”线索”） </p>
+</li>
+<li><p>这种加上了线索的二叉链表称为线索链表，相应的二叉树称为线索二叉树(Threaded BinaryTree)。根据线索性质 的不同，线索二叉树可分为前序线索二叉树、中序线索二叉树和后序线索二叉树三种 </p>
+</li>
+<li><p>一个结点的前一个结点，称为前驱结点 4) 一个结点的后一个结点，称为后继结点</p>
+</li>
+</ol>
+
+        <h3 id="线索二叉树应用案例">
+          <a href="#线索二叉树应用案例" class="heading-link"><i class="fas fa-link"></i></a><a href="#线索二叉树应用案例" class="headerlink" title="线索二叉树应用案例"></a>线索二叉树应用案例</h3>
+      <p>应用案例说明：将下面的二叉树，进行中序线索二叉树。中序遍历的数列为 {8, 3, 10, 1, 14, 6}</p>
+<p>中序遍历的结果：{8, 3, 10, 1, 14, 6}</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/22F8846E46BF47DF9ACEC38FEC222590/107"></p>
+<p>说明: 当线索化二叉树后，Node 节点的 属性 left 和 right ，有如下情况: </p>
+<ol>
+<li><p>left 指向的是左子树，也可能是指向的前驱节点. 比如 ① 节点 left 指向的左子树, 而 ⑩ 节点的 left 指向的 就是前驱节点. </p>
+</li>
+<li><p>right 指向的是右子树，也可能是指向后继节点，比如 ① 节点 right 指向的是右子树，而⑩ 节点的 right 指向 的是后继节点.</p>
+</li>
+</ol>
+
+        <h3 id="遍历线索化二叉树">
+          <a href="#遍历线索化二叉树" class="heading-link"><i class="fas fa-link"></i></a><a href="#遍历线索化二叉树" class="headerlink" title="遍历线索化二叉树"></a>遍历线索化二叉树</h3>
+      <p>全部代码如下：</p>
+<pre><code>public class ThreadedBinaryTreeDemo &#123;
+
+//线索化二叉树
+
+
+//如一个二叉树中序遍历的结果：&#123;8, 3, 10, 1, 14, 6&#125;
+
+/*
+* 8为例,8的前驱节点是null,后继节点是3， 3的前驱节点是8,后继节点是10
+*
+* 比如在某一个节点，如果该节点的左指针原来是空的，那么就把它的左指针指向它的前驱节点，
+* 如果它的右指针是空的，那么右指针就指向它的后继节点，如果该节点原来的左或者右已经有指向了，那就不要动它
+* */
+
+
+
+
+ public static void main(String args[]) &#123;
+
+
+     //测试中序线索化
+     HeroNode2 root = new HeroNode2(1, &quot;tom&quot;);
+     HeroNode2 node2 = new HeroNode2(3, &quot;jack&quot;);
+     HeroNode2 node3 = new HeroNode2(6, &quot;smith&quot;);
+     HeroNode2 node4 = new HeroNode2(8, &quot;mary&quot;);
+     HeroNode2 node5 = new HeroNode2(10, &quot;king&quot;);
+     HeroNode2 node6 = new HeroNode2(14, &quot;dim&quot;);
+
+
+     //二叉树，后面我们要递归创建, 现在简单处理使用手动创建
+     root.setLeft(node2);
+     root.setRight(node3);
+     node2.setLeft(node4);
+     node2.setRight(node5);
+     node3.setLeft(node6);
+     root.setParent(null);
+     node2.setParent(root);
+     node3.setParent(root);
+     node4.setParent(node2);
+     node5.setParent(node2);
+     node6.setParent(node3);
+     ThreadedBinaryTree threadedBinaryTree=new ThreadedBinaryTree(root);
+
+     //以10来测试，看线索化后的10的左右指针
+
+     //threadedBinaryTree.threadedBinaryTreeInOrder();
+//
+//         System.out.println(node5.getLeft());
+//         System.out.println(node5.getRight());
+
+//         threadedBinaryTree.threadedBinaryTreepreOrder();
+////
+//       System.out.println(node5.getLeft());
+//         System.out.println(node5.getRight());
+
+        //threadedBinaryTree.threadedBinaryTreeList2();
+
+        threadedBinaryTree.threadedBinaryTreepostOrder();
+
+//            System.out.println(node5.getLeft());
+//            System.out.println(node5.getRight());
+
+
+        threadedBinaryTree.threadedBinaryTreepostOrderList();
+
+
+ &#125;
+
+
+
+
+
+&#125;
+
+
+
+class  ThreadedBinaryTree&#123;
+
+private    HeroNode2  root;
+private  HeroNode2 pre;
+
+public ThreadedBinaryTree(HeroNode2 root) &#123;
+    this.root = root;
+&#125;
+
+
+  public  void  threadedBinaryTreeInOrder()&#123;
+
+this.threadedBinaryTreeInOrder(root);
+
+&#125;
+
+   public  void  threadedBinaryTreepreOrder()&#123;
+
+this.threadedBinaryTreepreOrder(root);
+
+&#125;
+   public  void  threadedBinaryTreepostOrder()&#123;
+
+this.threadedBinaryTreepostOrder(root);
+
+&#125;
+
+//线索化二叉树的方法（中序）
+
+public  void   threadedBinaryTreeInOrder(HeroNode2 node)&#123;
+
+    if(node==null)&#123;
+        //节点为空
+        return;
+    &#125;
+
+    //中序线索化
+
+
+    //先左边
+    threadedBinaryTreeInOrder(node.getLeft());
+
+    //处理当前节点
+    //先处理左指针
+
+    if(node.getLeft()==null)&#123;
+
+        //左指针为空的情况下，那么就可以指向前驱节点了
+        node.setLeft(pre);
+        node.setLeftType(1);
+
+    &#125;
+
+    //接下来到右节点,指向后继节点这种操作可以让node移动了一个位置再指向，比如说&#123;8, 3, 10, 1, 14, 6&#125;,
+    // 当前是8,然后node移动到3的时候，那么你让pre同时也指向node的前一个也就是8,那么pre在指向3就可以了
+
+    if(pre!=null &amp;&amp; pre.getRight()==null)&#123;
+
+        //前置节点不为空并且其右指针是没有指向的时候就可以操作后继节点了
+
+        pre.setRight(node);
+        pre.setRightType(1);
+    &#125;
+
+    //让pre指向node,这样从8开始的话，当到3的时候上面的pre就是8，这样8就可以和3连接上了
+
+    pre=node;
+
+    //右边
+
+    threadedBinaryTreeInOrder(node.getRight());
+
+
+
+&#125;
+//线索化二叉树的方法（前序）
+
+public  void   threadedBinaryTreepreOrder(HeroNode2 node)&#123;
+
+
+    //前序线索化因为是从上往下走的，所以会遇到一个节点（左指针为空）的左指针指向上一个节点，这样在继续遍历的时候会造成死循环
+    if(node==null)&#123;
+        //节点为空
+        return;
+    &#125;
+
+    //前序线索化
+
+
+
+    //处理当前节点
+    //先处理左指针
+
+    if(node.getLeft()==null)&#123;
+
+        //左指针为空的情况下，那么就可以指向前驱节点了
+        node.setLeft(pre);
+        node.setLeftType(1);
+
+    &#125;
+
+    //接下来到右节点,指向后继节点这种操作可以让node移动了一个位置再指向，比如说&#123;8, 3, 10, 1, 14, 6&#125;,
+    // 当前是8,然后node移动到3的时候，那么你让pre同时也指向node的前一个也就是8,那么pre在指向3就可以了
+
+    if(pre!=null &amp;&amp; pre.getRight()==null)&#123;
+
+        //前置节点不为空并且其右指针是没有指向的时候就可以操作后继节点了
+
+        pre.setRight(node);
+        pre.setRightType(1);
+    &#125;
+
+    //让pre指向node,这样从8开始的话，当到3的时候上面的pre就是8，这样8就可以和3连接上了
+
+    pre=node;
+
+
+    //左边
+     //这里要加条件，避免造成死循环
+    if(node.getLeftType()==0) &#123;
+        threadedBinaryTreepreOrder(node.getLeft());
+    &#125;
+    //右边
+  if(node.getRightType()==0) &#123;
+threadedBinaryTreepreOrder(node.getRight());
+  &#125;
+
+
+&#125;
+
+
+//中序线索化二叉树遍历的方法
+//因为线索化后节点之间的连接会发生了一些变化，所以不能采用原来的遍历方式
+
+//说一下遍历的思想,（这个时候所有节点的指针域都被利用了，直接判断节点是null的就可以退出循环了）就是中序的话，
+// 先找到第一个leftType==1的节点，当前节点不是的话就一直向左边找，这样终究会找到第一个leftType==1的节点，
+//
+// 然后输出这个节点，然后去看看该节点的右节点是不是后继节点（rightType==1）,
+
+//如果是的话就把node指针指向该节点并输出这个节点，继续循环找它的右节点，还是 这样判断。
+//
+// 如果不是的话那么node就指向它的下一个右节点节点，再执行上面的循环。。（哎哟，只可意会不可言传啊。。太难了）
+
+public  void  threadedBinaryTreeList()&#123;
+
+    //从左向右遍历，找后继节点
+
+
+    //因为是中序线索的
+    //从根节点开始，一直找左边一直找到一个leftType==1的节点
+    //说明这个就是中序线索化最开始的节点
+
+    HeroNode2 node=root;
+
+    while (node!=null)&#123;
+
+        //因为是中序线索化，所以不用判断一直向左找第一个节点会出现null指针异常，因为中序遍历总是向左会找到第一个节点
+        //但是如果是从右向左遍历就不一样了，可能一直向右找最后一个节点会造成空指针
+    while (node.getLeftType()==0)&#123;
+
+        node=node.getLeft();
+
+    &#125;
+      //最外层的while循环执行第一次的时候，并且执行到小while循环退出说明找到第一个节点，并且其leftType==1
+    System.out.println(node);
+
+      while (node.getRightType()==1)&#123;
+
+          //说明该节点的右指针指向的直接就是后继节点
+          node=node.getRight();
+          System.out.println(node);
+
+      &#125;
+
+      //否则循环退出，该node节点的右节点指向的是原来的右子树，那么就要把node替换到它的右节点，让这个右节点能够重新判断寻找
+
+        node=node.getRight();
+
+
+
+    &#125;
+
+
+
+
+&#125;
+
+public  void  threadedBinaryTreeList2()&#123;
+
+
+
+    //中序遍历的第二种方式，找前驱节点，从最后一个后继节点开始
+
+    HeroNode2 node=root;
+
+    //1、找最后一个节点
+   // 但是如果是从右向左遍历就不一样了，可能一直向右找最后一个节点会造成空指针.所以要做判断。。
+    while(node.getRight()!= null &amp;&amp; node.getRightType()==0) &#123;
+        node = node.getRight();
+    &#125;
+
+    while(node != null) &#123;
+        System.out.print(node + &quot;, &quot;);
+
+        //如果左指针是线索
+        if(node.getLeftType()==1) &#123;
+            node = node.getLeft();
+
+        &#125; else &#123;    //如果左指针不是线索，找到左子树开始的节点
+            node = node.getLeft();
+            while(node.getRight() != null &amp;&amp; node.getRightType()==0) &#123;
+                node = node.getRight();
+            &#125;
+        &#125;
+    &#125;
+
+&#125;
+
+
+public  void  threadedBinaryTreePreList()&#123;
+
+    //前序线索化的遍历，思路：从根节点开始，先向左找，碰到leftType==0的就输出，如果leftType==1就退出循环，输出该节点，
+    // 然后node节点移动到它的右节点，继续循环判断
+
+   //画个图,搞一遍，就是这个思路
+
+    HeroNode2 node2=root;
+    while (node2!=null)&#123;
+
+        while (node2.getLeftType()==0)&#123;
+
+            System.out.println(node2);
+            node2=node2.getLeft();
+
+        &#125;
+
+        System.out.println(node2);
+
+        node2=node2.getRight();
+
+
+    &#125;
+
+
+
+&#125;
+
+//后序线索化
+
+public  void  threadedBinaryTreepostOrder(HeroNode2 node2)&#123;
+
+
+    //后序线索化
+
+    //后序遍历和中序一样，不用考虑节点可能会造成死循环
+
+        if(node2==null)&#123;
+
+            return;
+        &#125;
+    //左边
+        threadedBinaryTreepostOrder(node2.getLeft());
+
+
+        //右边
+
+        threadedBinaryTreepostOrder(node2.getRight());
+
+
+        //处理当前节点
+
+        if(node2.getLeft()==null)&#123;
+
+            //设置前驱节点
+            node2.setLeft(pre);
+            node2.setLeftType(1);
+        &#125;
+
+        if(pre!=null &amp;&amp; pre.getRight()==null)&#123;
+
+            pre.setRight(node2);
+            pre.setRightType(1);
+        &#125;
+
+        pre=node2;  //处理完当前节点后，前驱节点指向当前节点，node节点继续去到下一个节点(2)的时候，pre就是2的前一个节点
+
+&#125;
+
+
+//后序线索化遍历
+
+public  void  threadedBinaryTreepostOrderList()&#123;
+
+    //思路分析
+    /*
+
+
+     */
+
+    //1、找后序遍历方式开始的节点
+//        HeroNode2 node = root;
+//        while(node != null &amp;&amp; node.getLeftType()==0) &#123;
+ //            node = node.getLeft();
+//        &#125;
+ //
+//        HeroNode2 preNode = null;
+//        while(node != null) &#123;
+//            //右节点是线索
+//            if(node.getRightType()==1) &#123;
+//                System.out.print(node);
+//                preNode = node;
+//                node = node.getRight();
+//
+//            &#125; else &#123;
+//                //如果上个处理的节点是当前节点的右节点
+//                if(node.getRight() == preNode) &#123;
+//                    System.out.print(node);
+//                    if(node == root) &#123;
+ //                        return;
+//                    &#125;
+//
+//                    preNode = node;
+//                    node = node.getParent();
+//
+//                &#125; else &#123;    //如果从左节点的进入则找到有子树的最左节点
+//                    node = node.getRight();
+//                    while(node != null &amp;&amp; node.getLeftType()==0) &#123;
+//                        node = node.getLeft();
+//                    &#125;
+//                &#125;
+//            &#125;
+  //        &#125;
+  //
+
+
+    HeroNode2 node2=root;  //从根节点开始遍历
+
+    HeroNode2 preNode =null;
+
+
+        //先找到最左边的节点（刚开始）
+
+        while (node2!=null&amp;&amp;node2.getLeftType()==0)&#123;
+
+            node2=node2.getLeft();
+
+        &#125;
+
+        while (node2!=null) &#123;
+
+
+            if (node2.getRightType() == 1) &#123;
+
+                System.out.println(node2);
+
+                preNode = node2;
+
+                node2 = node2.getRight();
+            &#125;
+            //循环退出说明已经不满足rightType==1,那么就要判断当前节点的的前置节点的位置了，如果前置节点是在当前节点的右节点
+            //就要移动当前节点到父节点的位置，也就是操作父节点，如果前置节点是在当前节点的左节点那，那么就直接移动到当前节点的右节点
+            else &#123;
+                if (node2.getRight() == preNode) &#123;
+
+                    //先输出当前节点
+                    System.out.println(node2);
+                    if(node2==root)&#123;
+
+                        return;
+                    &#125;
+                    preNode = node2; //前置节点指向当前
+                    node2 = node2.getParent();
+
+
+                &#125; else &#123;
+
+                    //说明前置节点在当前节点的左节点
+                    //移动到当前节点的右节点就行了
+
+                    node2 = node2.getRight();
+
+                    while (node2!=null &amp;&amp; node2.getLeftType()==0)&#123;
+                        node2=node2.getLeft();
+
+                    &#125;
+
+                &#125;
+
+
+            &#125;
+        &#125;
+
+
+
+
+
+
+
+&#125;
+
+
+&#125;
+
+class  HeroNode2&#123;
+private int no;//编号值
+private  String name;//名称
+private  HeroNode2 left; //指向左节点
+private  HeroNode2 right;//指向右节点
+private  HeroNode2 pre;//一个节点的前驱节点,默认为空
+private  int leftType=0; //约定leftType=0表示左指针是连接着左子树的，=1表示是连接着前驱节点的
+private  int rightType=0;//约定rightType=0表示右指针是连接着右子树的，=1表示是连接着后驱节点的
+//这样约定会方便后面的遍历
+private  HeroNode2 parent;
+
+
+
+
+
+
+public HeroNode2(int no, String name) &#123;
+    this.no = no;
+    this.name = name;
+&#125;
+
+
+public int getNo() &#123;
+    return no;
+&#125;
+
+public void setNo(int no) &#123;
+    this.no = no;
+&#125;
+
+public String getName() &#123;
+    return name;
+&#125;
+
+public void setName(String name) &#123;
+    this.name = name;
+&#125;
+
+public HeroNode2 getLeft() &#123;
+    return left;
+&#125;
+
+public void setLeft(HeroNode2 left) &#123;
+    this.left = left;
+&#125;
+
+public HeroNode2 getRight() &#123;
+    return right;
+&#125;
+
+public void setRight(HeroNode2 right) &#123;
+    this.right = right;
+&#125;
+
+public int getLeftType() &#123;
+    return leftType;
+&#125;
+
+public void setLeftType(int leftType) &#123;
+    this.leftType = leftType;
+&#125;
+
+public int getRightType() &#123;
+    return rightType;
+&#125;
+
+public void setRightType(int rightType) &#123;
+    this.rightType = rightType;
+&#125;
+
+public HeroNode2 getParent() &#123;
+    return parent;
+&#125;
+
+public void setParent(HeroNode2 parent) &#123;
+    this.parent = parent;
+&#125;
+
+@Override
+public String toString() &#123;
+    return &quot;HeroNode&#123;&quot; +
+            &quot;no=&quot; + no +
+            &quot;, name=&#39;&quot; + name + &#39;\&#39;&#39; +
+            &#39;&#125;&#39;;
+&#125;
+
+//开始写方法
+
+
+
+
+//前序遍历的方法
+
+public  void  preOrder()&#123;
+
+    //先输出父节点
+    System.out.println(this);
+
+    //判断左节点是否为空
+    if(this.left!=null)&#123;
+
+        //继续前序遍历
+        this.left.preOrder();
+
+    &#125;
+    //判断右节点是否为空
+    if(this.right!=null)&#123;
+
+        //继续前序遍历
+        this.right.preOrder();
+    &#125;
+
+
+
+&#125;
+
+//中序遍历的方法
+public  void inOrder()&#123;
+
+    //先判断左节点是否为空，不为空的话继续中序遍历
+
+    if(this.left!=null)&#123;
+
+        this.left.inOrder();
+
+    &#125;
+    //输出父节点
+    System.out.println(this);
+
+    //判断右节点是否为空，不为空继续中序遍历
+    if (this.right!=null)&#123;
+
+        this.right.inOrder();
+    &#125;
+
+&#125;
+
+//后序遍历的方法
+
+public  void postOrder()&#123;
+
+    // 先判断左节点是否为空，不为空的话继续后序遍历
+    if(this.left!=null)&#123;
+
+        this.left.postOrder();
+    &#125;
+
+    //判断右节点是否为空，不为空继续后序遍历
+    if (this.right!=null)&#123;
+
+        this.right.postOrder();
+    &#125;
+
+    System.out.println(this);
+
+
+&#125;
+
+
+//前序查找
+
+public  HeroNode2 preOrderSearch(int no)&#123;
+    System.out.println(&quot;进入前序查找&quot;);
+    if(this.no==no)&#123;
+
+        //如果当前进来的节点就是要找的，直接返回
+        return this;
+
+    &#125;
+
+    //不满足的话就向左边递归
+
+
+    HeroNode2 resNode=null;   //这个值的设置就是为了纪录你进到一个节点里面是不是你要找的，如果找到了它的值就不是空了，不然就是null;
+    if(this.left!=null)&#123;
+
+        //如果向左递归找到了就返回,就没必要向右边递归了,所以要提前定义一个变量来接收
+        resNode=this.left.preOrderSearch(no);
+
+    &#125;
+    if(resNode!=null)&#123;
+
+        return  resNode;
+    &#125;
+    if(this.right!=null)&#123;
+
+        resNode=this.right.preOrderSearch(no);
+
+    &#125;
+
+    //这个时候一定要返回了，无论resNode空还是不空,因为要有递归退出条件
+
+    return  resNode;
+
+
+
+&#125;
+
+//中序遍历
+
+public  HeroNode2 inOrderSearch(int no)&#123;
+
+    HeroNode2 resNode=null;//这个值的设置就是为了纪录你进到一个节点里面是不是你要找的，如果找到了它的值就不是空了，不然就是null;
+
+    //先向左边
+
+    if(this.left!=null)&#123;
+
+        resNode=this.left.inOrderSearch(no);
+    &#125;
+    if(resNode!=null)&#123;
+
+        return  resNode;
+    &#125;
+
+    System.out.println(&quot;进入中序查找&quot;);
+    if(this.no==no)&#123;
+
+        return  this;
+
+    &#125;
+
+    //否则就向右边
+
+    if(this.right!=null)&#123;
+
+        resNode=this.right.inOrderSearch(no);
+
+    &#125;
+
+    return  resNode;
+
+
+&#125;
+
+
+
+//后序查找
+
+public  HeroNode2 postOrderSearch(int no)&#123;
+
+    //先左边
+    HeroNode2 resNode=null;//这个值的设置就是为了纪录你进到一个节点里面是不是你要找的，如果找到了它的值就不是空了，不然就是null;
+
+    //先向左边
+
+    if(this.left!=null)&#123;
+
+        resNode=this.left.postOrderSearch(no);
+    &#125;
+    if(resNode!=null)&#123;
+
+        return  resNode;
+    &#125;
+
+    if(this.right!=null)&#123;
+
+        resNode =this.right.postOrderSearch(no);
+
+    &#125;
+    if(resNode!=null)&#123;
+
+        return  resNode;
+    &#125;
+
+    System.out.println(&quot;进入后序查找&quot;);
+    if(this.no==no)&#123;
+
+        return  this;
+    &#125;
+
+    return  resNode;
+&#125;
+
+
+
+//删除
+
+public  void delNo(int no)&#123;
+
+
+ /*
+    1. 因为我们的二叉树是单向的，所以我们是判断当前结点的子结点是否需要删除结点，而不能去判断 当前这个结点是不是需要删除结点
+
+    2. 如果当前结点的左子结点不为空，并且左子结点 就是要删除结点，就将 this.left = null; 并且就返回 (结束递归删除)
+
+    3. 如果当前结点的右子结点不为空，并且右子结点 就是要删除结点，就将 this.right= null ;并且就返回 (结束递归删除)
+
+    4. 如果第 2 和第 3 步没有删除结点，那么我们就需要向左子树进行递归删除
+
+    5. 如果第 4 步也没有删除结点，则应当向右子树进行递归删除.
+
+  */
+
+    if(this.left!=null &amp;&amp;this.left.no==no)&#123;
+
+        //说明该节点的左节点符合条件
+        this.left=null;
+        return;
+
+    &#125;
+    if(this.right!=null &amp;&amp;this.right.no==no)&#123;
+
+        //说明该节点的右节点符合条件
+        this.right=null;
+        return;
+
+    &#125;
+
+    //否则呢，就要递归向左寻找
+
+    if(this.left!=null)&#123;
+
+        this.left.delNo(no);
+    &#125;
+
+    //递归向右寻找
+    if(this.right!=null)&#123;
+
+        this.right.delNo(no);
+    &#125;
+
+
+&#125;
+
+
+
+
+
+
+
+&#125;
+</code></pre>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/">http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E5%92%8C%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/04/30/%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%8E%9F%E7%90%86%E5%8F%8A%E5%89%8D%E5%BA%8F%E3%80%81%E4%B8%AD%E5%BA%8F%E7%BA%BF%E7%B4%A2%E5%8C%96%EF%BC%88Java%E5%AE%9E%E7%8E%B0%EF%BC%89/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">线索二叉树原理及前序、中序线索化（Java实现）</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%A0%91/"><span class="paginator-prev__text">数据结构-二叉树</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86"><span class="toc-number">1.</span> <span class="toc-text">
+          顺序存储二叉树遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">2.</span> <span class="toc-text">
+          线索化二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">
+          线索二叉树基本介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">
+          线索二叉树应用案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">5.</span> <span class="toc-text">
+          遍历线索化二叉树</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="哈希表(散列)..">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-哈希表">
+<meta property="og:url" content="http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="哈希表(散列)..">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/1DCC20A8E9964D9DA05CF24D25E24585/89">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/73A4253EDE0545EEB03BFF5183E56FDE/91">
+<meta property="article:published_time" content="2020-04-24T18:35:06.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:39.396Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/1DCC20A8E9964D9DA05CF24D25E24585/89"><title>数据结构-哈希表 | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-哈希表</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-04-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.2k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>哈希表(散列)..</p>
+<span id="more"></span>
+
+
+        <h3 id="哈希表-散列-Google-上机题">
+          <a href="#哈希表-散列-Google-上机题" class="heading-link"><i class="fas fa-link"></i></a><a href="#哈希表-散列-Google-上机题" class="headerlink" title="哈希表(散列)-Google 上机题"></a>哈希表(散列)-Google 上机题</h3>
+      <ol>
+<li>看一个实际需求，google 公司的一个上机题: </li>
+<li>有一个公司,当有新的员工来报道时,要求将该员工的信息加入(id,性别,年龄,住址..),当输入该员工的 id 时,要求查 找到该员工的 所有信息. </li>
+<li>要求: 不使用数据库,尽量节省内存,速度越快越好=&gt;哈希表(散列)</li>
+</ol>
+
+        <h3 id="哈希表的基本介绍">
+          <a href="#哈希表的基本介绍" class="heading-link"><i class="fas fa-link"></i></a><a href="#哈希表的基本介绍" class="headerlink" title="哈希表的基本介绍"></a>哈希表的基本介绍</h3>
+      <p>  散列表（Hash table，也叫哈希表），是根据关键码值(Key value)而直接进行访问的数据结构。也就是说，它通 过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。这个映射函数叫做散列函数，存放记录的数组 叫做散列表。</p>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/1DCC20A8E9964D9DA05CF24D25E24585/89"></p>
+<p>  google 公司的一个上机题:</p>
+<p>  有一个公司,当有新的员工来报道时,要求将该员工的信息加入(id,性别,年龄,名字,住址..),当输入该员工的 id 时, 要求查找到该员工的 所有信息. 要求: </p>
+<ol>
+<li>不使用数据库,,速度越快越好=&gt;哈希表(散列) </li>
+<li>添加时，保证按照 id 从低到高插入 [课后思考：如果 id 不是从低到高插入，但要求各条链表仍是从低到 高，怎么解决?] </li>
+<li>使用链表来实现哈希表, 该链表不带表头[即: 链表的第一个结点就存放雇员信息] </li>
+<li>思路分析并画出示意图</li>
+</ol>
+<p>  <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/73A4253EDE0545EEB03BFF5183E56FDE/91"></p>
+<hr>
+<hr>
+<p>  代码如下：</p>
+<pre><code>    public class HashTabDemo &#123;
+
+//哈希表
+
+//哈希表的底层是一个数组，数组的每一个索引中存放着一张链表。
+//通过散列函数找到添加数据在哪个索引，从而可以在该索引的链表中添加数据。
+
+/*
+题目：
+有一个公司,当有新的员工来报道时,要求将该员工的信息加入(id,性别,年龄,名字,住址..),
+当输入该员工的 id 时, 要求查找到该员工的 所有信息. 要求: 1) 不使用数据库,,速度越快越好=&gt;哈希表(散列)
+2) 添加时，保证按照 id 从低到高插入 [课后思考：如果 id 不是从低到高插入，但要求各条链表仍是从低到 高,怎么解决?]
+3) 使用链表来实现哈希表, 该链表不带表头[即: 链表的第一个结点就存放雇员信息]
+*/
+
+
+ public static void main(String args[]) &#123;
+
+     HashTab hashTab=new HashTab(7);
+
+     //写一个菜单
+     Scanner  scanner=new Scanner(System.in);
+
+     String key=&quot;&quot;;
+
+     while (true)&#123;
+
+
+         System.out.println(&quot;add 添加雇员&quot;);
+         System.out.println(&quot;list 遍历雇员&quot;);
+         System.out.println(&quot;getEmp 查看某个雇员&quot;);
+         System.out.println(&quot;exit 退出程序&quot;);
+         key=scanner.next();
+
+         switch (key)&#123;
+
+             case &quot;add&quot;:
+                 System.out.println(&quot;请输入雇员的id&quot;);
+                 int empId=scanner.nextInt();
+                 System.out.println(&quot;请输入雇员的名字&quot;);
+                 String empName=scanner.next();
+                 Emp emp=new Emp(empId,empName);
+                 hashTab.add(emp);
+                 break;
+
+
+             case &quot;list&quot;:
+                 hashTab.list();
+                 break;
+
+             case &quot;getEmp&quot;:
+
+                 System.out.println(&quot;请输入要查找雇员的id&quot;);
+                 int empId2=scanner.nextInt();
+                 hashTab.getEmpById(empId2);
+                 break;
+
+             case &quot;exit&quot;:
+
+                 System.exit(0);
+         &#125;
+
+     &#125;
+
+
+ &#125;
+
+&#125;
+
+class  Emp&#123;
+
+//这是雇员类。因为链表的每一个节点存放的就是雇员
+
+int id;  //雇员id
+String name; //雇员姓名
+Emp next; //next域，指向下一个雇员节点
+
+public Emp(int id, String name) &#123;
+    this.id = id;
+    this.name = name;
+&#125;
+
+ &#125;
+
+
+class EmpLinkedList&#123;
+
+//链表类
+
+private  Emp head; //雇员链表的头指针，这个链表没有头节点，头指针直接指向第一个节点，默认null
+
+Emp empHead=new Emp(0,&quot;&quot;); //顺序添加插入的时候用到的头节点，适应有头节点的情况
+//首先呢，要编写一些方法，因为真正操作哈希表是在哈希表类中进行的，所以先在链表类中定义这些方法，方便哈希表的调用
+
+
+//遍历链表
+
+public  void list()&#123;
+
+
+    if(head==null)&#123;
+
+        //说明没有数据。
+        System.out.println(&quot;该链表没有数据&quot;);
+        return;
+
+    &#125;
+
+    //否则就需要一个辅助指针帮助遍历
+
+    Emp cur=head;//初始指向头指针
+
+    while (true)&#123;
+
+     System.out.println(&quot;雇员的id为&quot;+cur.id);
+
+
+        if(cur.next==null)&#123;
+
+            //说明到达最后了
+            break;
+
+        &#125;
+
+        cur=cur.next;
+
+    &#125;
+
+
+/*
+    if(empHead.next==null)&#123;
+
+        //说明没有数据。
+        System.out.println(&quot;该链表没有数据&quot;);
+        return;
+
+    &#125;
+
+    //否则就需要一个辅助指针帮助遍历
+
+    Emp cur=empHead.next;//初始指向头指针
+
+    while (true)&#123;
+
+        System.out.println(&quot;雇员的id为&quot;+cur.id);
+
+
+        if(cur.next==null)&#123;
+
+            //说明到达最后了
+            break;
+
+        &#125;
+
+        cur=cur.next;
+
+    &#125;
+*/
+&#125;
+
+
+
+
+public void  add (Emp emp)&#123;
+
+
+    //添加雇员
+
+    if(head==null)&#123;
+
+        //头指针指向为空,直接赋值给头指针
+
+        head=emp;
+        return;
+
+    &#125;
+    //否则说明是有元素的
+
+    //那么就要用一个辅助指针来找到链表的最后一个元素,在最后插入(这里假设添加的顺序是id不重复从小到大按顺序添加)
+
+    Emp cur=head;
+    while (true)&#123;
+
+        //找到最后一个节点
+
+        if(cur.next==null)&#123;
+
+            cur.next=emp;
+            break;
+        &#125;
+        cur=cur.next;
+
+    &#125;
+
+    //循环结束后就已经添加进去了。
+    System.out.println(&quot;添加成功&quot;);
+
+&#125;
+
+
+//id不重复的按照顺序添加(这种情况是有头节点的)
+public  void add2(Emp emp)&#123;
+
+ Emp temp=empHead;
+ boolean flag=false;
+ while (true)&#123;
+
+     if(temp.next==null)&#123;
+
+         //说明是初始就位空数据或者是遍历到最后了还是不满足中间插入的条件，那就只能在最后面插入了
+
+         break;
+     &#125;
+     if(temp.next.id==emp.id)&#123;
+
+         //说明有重复元素
+         flag=true;
+         break;
+
+     &#125;
+     if(temp.next.id&gt;emp.id)&#123;
+
+         //当前的这个temp的下一个节点都比你传进来的元素的id大了，那么呢你这个元素就应该插在这里当前的temp和temp.next的中间
+         //当前这个temp肯定是比你这个元素的id值小了，不然它在上一次循环中就会被确定下来并退出了。
+         break;
+
+     &#125;
+
+     temp=temp.next;
+
+ &#125;
+
+ if(flag)&#123;
+
+     System.out.println(&quot;链表中已有重复元素，无法添加&quot;);
+ &#125;
+ else&#123;
+
+     emp.next=temp.next;
+     temp.next=emp;
+System.out.println(&quot;添加成功！&quot;);
+ &#125;
+
+
+&#125;
+
+//没有头节点的按顺序添加
+public  void add3(Emp emp)&#123;
+
+
+//这是没有头节点的情况的,也是可以运行的
+
+ Emp cur=head;
+
+ if(head==null)&#123;
+
+     head=emp;
+
+ &#125;
+ else &#123;
+
+     boolean flag = false;
+     while (true) &#123;
+
+         if (cur.next == null) &#123;
+
+             //说明是初始就位空数据或者是遍历到最后了还是不满足中间插入的条件，那就只能在最后面插入了
+
+             break;
+         &#125;
+         if (cur.next.id == emp.id) &#123;
+
+             //说明有重复元素
+             flag = true;
+             break;
+
+         &#125;
+         if (cur.next.id &gt; emp.id) &#123;
+
+             //当前的这个temp的下一个节点都比你传进来的元素的id大了，那么呢你这个元素就应该插在这里当前的temp和temp.next的中间
+             //当前这个temp肯定是比你这个元素的id值小了，不然它在上一次循环中就会被确定下来并退出了。要是没有头节点的话，你的指针直接指向第一个元素
+             //那么当你这个元素比传进来的元素小的话，你会
+             break;
+
+         &#125;
+
+         cur = cur.next;
+
+     &#125;
+
+     if (flag) &#123;
+
+         System.out.println(&quot;链表中已有重复元素，无法添加&quot;);
+     &#125; else &#123;
+
+         emp.next = cur.next;
+         cur.next = emp;
+         System.out.println(&quot;添加成功！&quot;);
+     &#125;
+ &#125;
+
+&#125;
+
+
+
+
+
+//根据雇员id查询雇员信息
+
+public  Emp getEmpById(int id)&#123;
+
+    //遍历链表，找到相应的id退出
+
+
+    if (head==null)&#123;
+
+
+        return null;
+    &#125;
+
+
+    Emp cur=head;
+    while (true)&#123;
+        if(cur.id==id)&#123;
+
+            break;
+
+        &#125;
+
+         if(cur.next==null)&#123;
+
+             cur=cur.next;
+             break;
+         &#125;
+        cur=cur.next;
+
+
+    &#125;
+
+    return  cur;
+
+
+
+
+&#125;
+
+
+&#125;
+
+
+class  HashTab&#123;
+
+//哈希表类
+private  EmpLinkedList[] empLinkedLists;  //链表数组
+
+private  int size;// 链表数组的大小
+
+
+public HashTab(int size) &#123;
+
+    empLinkedLists=new EmpLinkedList[size]; //初始化链表数组，但是链表数组里面的每一个链表实体还没有初始化,
+
+                                             // 链表数组里面的每一个索引的数据都是链表实体
+    for (int i=0;i&lt;empLinkedLists.length;i++)&#123;
+
+        empLinkedLists[i]=new EmpLinkedList();
+
+    &#125;
+    this.size = size;
+&#125;
+
+
+public void  add(Emp emp)&#123;
+
+    //添加雇员。
+    //需要一个散列函数来指定应该在链表数组的哪一个位置
+
+    int hashNo= hashFunction(emp.id);
+
+    //添加
+    System.out.println(&quot;雇员即将被添加到第&quot;+(hashNo+1)+&quot;条链表&quot;);
+    empLinkedLists[hashNo].add3(emp);
+
+
+
+&#125;
+
+
+//散列
+public  int hashFunction(int id)&#123;
+
+    return  id % size;
+
+&#125;
+
+
+//遍历
+
+public  void list()&#123;
+
+    for(int i=0;i&lt;empLinkedLists.length;i++)&#123;
+
+        System.out.println(&quot;当前链表为第&quot;+(i+1)+&quot;个&quot;);
+        empLinkedLists[i].list();
+        System.out.println();
+
+    &#125;
+
+&#125;
+
+
+//根据id查询雇员
+
+public  void getEmpById(int id)&#123;
+
+
+    int hashNo=hashFunction(id);
+
+
+    Emp empById = empLinkedLists[hashNo].getEmpById(id);
+
+    if(empById!=null)&#123;
+        System.out.println(&quot;已经找到了，当前雇员在&quot;+(hashNo+1)+&quot;条链表，id为&quot;+id);
+
+    &#125;
+    else&#123;
+
+        System.out.println(&quot;没有找到喔！&quot;);
+    &#125;
+
+
+&#125;
+&#125;    
+</code></pre>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/">http://jr1023.github.io/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%93%88%E5%B8%8C%E8%A1%A8/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%A0%91/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">数据结构-二叉树</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/04/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%8C%E8%BE%91/"><span class="paginator-prev__text">数据结构-查找算法第二辑</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8-%E6%95%A3%E5%88%97-Google-%E4%B8%8A%E6%9C%BA%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">
+          哈希表(散列)-Google 上机题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">
+          哈希表的基本介绍</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>

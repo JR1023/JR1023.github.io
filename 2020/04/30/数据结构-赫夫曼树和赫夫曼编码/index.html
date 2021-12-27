@@ -1,0 +1,1214 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="树结构的应用-赫夫曼树和编码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-赫夫曼树和赫夫曼编码">
+<meta property="og:url" content="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="树结构的应用-赫夫曼树和编码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/F1FD1E2938364AB88A22EADAF4F083A8/144">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20914A1479374FEAA42D4BCD9FB50A38/146">
+<meta property="article:published_time" content="2020-04-30T07:20:16.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:39.286Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/F1FD1E2938364AB88A22EADAF4F083A8/144"><title>数据结构-赫夫曼树和赫夫曼编码 | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-赫夫曼树和赫夫曼编码</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-04-30</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">4.8k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>树结构的应用-赫夫曼树和编码</p>
+<span id="more"></span>
+
+        <h3 id="赫夫曼树">
+          <a href="#赫夫曼树" class="heading-link"><i class="fas fa-link"></i></a><a href="#赫夫曼树" class="headerlink" title="赫夫曼树"></a>赫夫曼树</h3>
+      <ol>
+<li><p>给定 n 个权值作为 n 个叶子结点，构造一棵二叉树，若该树的带权路径长度(wpl)达到最小，称这样的二叉树为 最优二叉树，也称为哈夫曼树(Huffman Tree), 还有的书翻译为霍夫曼树。 </p>
+</li>
+<li><p>赫夫曼树是带权路径长度最短的树，权值较大的结点离根较近</p>
+</li>
+</ol>
+
+        <h3 id="赫夫曼树几个重要概念和举例说明">
+          <a href="#赫夫曼树几个重要概念和举例说明" class="heading-link"><i class="fas fa-link"></i></a><a href="#赫夫曼树几个重要概念和举例说明" class="headerlink" title="赫夫曼树几个重要概念和举例说明"></a>赫夫曼树几个重要概念和举例说明</h3>
+      <ol>
+<li><p>路径和路径长度：在一棵树中，从一个结点往下可以达到的孩子或孙子结点之间的通路，称为路径。通路<br>中分支的数目称为路径长度。若规定根结点的层数为 1，则从根结点到第 L 层结点的路径长度为 L-1</p>
+</li>
+<li><p> 结点的权及带权路径长度：若将树中结点赋给一个有着某种含义的数值，则这个数值称为该结点的权。结 点的带权路径长度为：从根结点到该结点之间的路径长度与该结点的权的乘积</p>
+</li>
+<li><p>树的带权路径长度：树的带权路径长度规定为所有叶子结点的带权路径长度之和，记为 WPL(weighted path length) ,权值越大的结点离根结点越近的二叉树才是最优二叉树。</p>
+</li>
+<li><p>WPL 最小的就是赫夫曼树</p>
+</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/F1FD1E2938364AB88A22EADAF4F083A8/144"></p>
+<hr>
+
+        <h3 id="赫夫曼树创建思路图解">
+          <a href="#赫夫曼树创建思路图解" class="heading-link"><i class="fas fa-link"></i></a><a href="#赫夫曼树创建思路图解" class="headerlink" title="赫夫曼树创建思路图解"></a>赫夫曼树创建思路图解</h3>
+      <ol>
+<li><p>从小到大进行排序, 将每一个数据，每个数据都是一个节点 ， 每个节点可以看成是一颗最简单的二叉树 </p>
+</li>
+<li><p>取出根节点权值最小的两颗二叉树 </p>
+</li>
+<li><p>组成一颗新的二叉树, 该新的二叉树的根节点的权值是前面两颗二叉树根节点权值的和</p>
+</li>
+<li><p>再将这颗新的二叉树，以根节点的权值大小 再次排序， 不断重复 1-2-3-4 的步骤，直到数列中，所有的数 据都被处理，就得到一颗赫夫曼树</p>
+</li>
+</ol>
+<hr>
+<p>代码如下:</p>
+<pre><code> public class HuffmanTree &#123;
+
+//哈夫曼树
+
+//要求：给你一个数列，比如说：&#123;13, 7, 8, 3, 29, 6, 1&#125;，把它转成哈夫曼树
+
+
+
+ public static void main(String args[]) &#123;
+
+     //测试生成哈夫曼树
+     int arr[] = &#123; 13, 7, 8, 3, 29, 6, 1 &#125;;
+     Node hafumanRoot = toHuffmanTree(arr);
+
+     preOrder(hafumanRoot);
+
+ &#125;
+
+
+ public  static  void preOrder(Node root)&#123;
+
+     if(root!=null)&#123;
+
+         root.preOrder(root);
+     &#125;
+     else&#123;
+
+         System.out.println(&quot;二叉树为空！&quot;);
+     &#125;
+
+
+ &#125;
+
+   public static  Node toHuffmanTree(int [] arr)&#123;
+
+     //对于传进来的数组，先把它进行遍历，把用每一个数据生成节点放进List集合中，方便操作
+
+   List&lt;Node&gt; nodes=new ArrayList&lt;&gt;();
+   for(int value:arr)&#123;
+
+       nodes.add(new Node(value));
+
+   &#125;
+
+
+   //接着就是生成哈夫曼树的操作
+
+   //基本思路就是，先用排序后的两个节点组成一个二叉树，根节点是两个节点的值的和，
+   // 再拿这个新的二叉树的根节点值与剩下的排序，再拿前两个的数据组成新的二叉树，依此循环下去，
+   // 直到数组中就剩最后一个哈夫曼树的根节点
+
+
+   while (nodes.size()&gt;1)&#123;
+
+       //因为就剩最后一个哈夫曼树的根节点的话就表示完成
+
+
+       //对集合中的Node排序
+       Collections.sort(nodes);
+
+       //取集合中第一个当左节点
+
+       Node nodeLeft = nodes.get(0);
+       Node nodeRight = nodes.get(1);
+
+       //组成新的二叉树
+
+       Node parent=new Node(nodeLeft.getData()+nodeRight.getData());
+
+       parent.setLeft(nodeLeft);
+       parent.setRight(nodeRight);
+
+       //然后删除被取出的两个节点
+
+       nodes.remove(nodeLeft);
+       nodes.remove(nodeRight);
+
+       //把组成的二叉树的节点放进集合中
+
+       nodes.add(parent);
+   &#125;
+
+   //循环结束，返回哈夫曼树的根节点
+   return nodes.get(0);
+
+
+
+   &#125; 
+
+
+ 
+&#125;
+
+
+//节点类，每一个数据都是一个二叉树的节点  实现 Comparable可以对Node进行排序
+class  Node  implements  Comparable&lt;Node&gt;&#123;
+
+private  int data; //数据
+private  Node left;//指向左边节点
+private  Node right;//指向右节点
+
+public Node(int data) &#123;
+    this.data = data;
+&#125;
+
+public int getData() &#123;
+    return data;
+&#125;
+
+public void setData(int data) &#123;
+    this.data = data;
+&#125;
+
+public Node getLeft() &#123;
+    return left;
+&#125;
+
+public void setLeft(Node left) &#123;
+    this.left = left;
+&#125;
+
+public Node getRight() &#123;
+    return right;
+&#125;
+
+public void setRight(Node right) &#123;
+    this.right = right;
+&#125;
+
+@Override
+public String toString() &#123;
+    return &quot;Node&#123;&quot; +
+            &quot;data=&quot; + data +
+            &#39;&#125;&#39;;
+&#125;
+
+@Override
+public int compareTo(Node o) &#123;
+
+
+    //这里是从小到大排序
+
+    return this.data-o.data;
+&#125;
+
+
+//前序遍历
+
+public  void preOrder(Node node)&#123;
+
+    System.out.println(node);
+
+    if(node.getLeft()!=null)&#123;
+
+        preOrder(node.getLeft());
+
+    &#125;
+    if(node.getRight()!=null)&#123;
+
+        preOrder(node.getRight());
+    &#125;
+
+&#125;
+&#125;
+</code></pre>
+<hr>
+<hr>
+
+        <h3 id="赫夫曼编码">
+          <a href="#赫夫曼编码" class="heading-link"><i class="fas fa-link"></i></a><a href="#赫夫曼编码" class="headerlink" title="赫夫曼编码"></a>赫夫曼编码</h3>
+      <ol>
+<li><p>赫夫曼编码也翻译为 哈夫曼编码(Huffman Coding)，又称霍夫曼编码，是一种编码方式, 属于一种程序算法 </p>
+</li>
+<li><p>赫夫曼编码是赫哈夫曼树在电讯通信中的经典的应用之一。 </p>
+</li>
+<li><p>赫夫曼编码广泛地用于数据文件压缩。其压缩率通常在 20%～90%之间 </p>
+</li>
+<li><p>赫夫曼码是可变字长编码(VLC)的一种。Huffman 于 1952 年提出一种编码方法，称之为最佳编码</p>
+</li>
+</ol>
+<p>传输的 字符串 </p>
+<ol>
+<li><p>i like like like java do you like a java </p>
+</li>
+<li><p>d:1 y:1 u:1 j:2 v:2 o:2 l:4 k:4 e:4 i:5 a:5 :9 // 各个字符对应的个数 </p>
+</li>
+</ol>
+<hr>
+<p> 按照上面字符出现的次数构建一颗赫夫曼树, 次数作为权值 步骤： 构成赫夫曼树的步骤：</p>
+<ol>
+<li>从小到大进行排序, 将每一个数据，每个数据都是一个节点 ， 每个节点可以看成是一颗最简单的二叉树 </li>
+<li>取出根节点权值最小的两颗二叉树 </li>
+<li>组成一颗新的二叉树, 该新的二叉树的根节点的权值是前面两颗二叉树根节点权值的和 </li>
+<li>再将这颗新的二叉树，以根节点的权值大小 再次排序， 不断重复 1-2-3-4 的步骤，直到数列中，所有的数据都被处理， 就得到一颗赫夫曼树</li>
+</ol>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20914A1479374FEAA42D4BCD9FB50A38/146"></p>
+<p> 根据赫夫曼树，给各个字符,规定编码 (前缀编码)， 向左的路径为 0 向右的路径为 1 ， 编码 如下:</p>
+<p>  o: 1000 u: 10010 d: 100110 y: 100111 i: 101 a : 110 k: 1110 e: 1111 j: 0000 v: 0001 l: 001 </p>
+<p>   : 01 </p>
+<p>  按照上面的赫夫曼编码，我们的”i like like like java do you like a java” 字符串对应的编码为 (注 意这里我们使用的无损压缩) 10101001101111011110100110111101111010011011110111101000011000011100110011110000110 01111000100100100110111101111011100100001100001110</p>
+<p>  注意, 这个赫夫曼树根据排序方法不同，也可能不太一样，这样对应的赫夫曼编码也不完全一样，但是 wpl 是 一样的，都是最小的, 最后生成的赫夫曼编码的长度是一样</p>
+<p>  全部代码（压缩，解压，文件压缩，文件解压）</p>
+<pre><code>   public class HafumanCode &#123;
+
+
+static  Map&lt;Byte,String&gt; hfumaCodeTa=new HashMap&lt;&gt;();
+
+ public static void main(String args[]) &#123;
+
+     //测试生成哈夫曼树
+
+     String str=&quot;i like like like java do you like a java&quot;;
+
+     byte[] strBytes = str.getBytes();
+
+//         List&lt;Node2&gt; node2s = auxiliarycreatehafuManTree(strBytes);
+//
+//         Node2 hafumanRoot = createhafuManTree(node2s);
+//
+////         System.out.println(hafumanRoot);
+////
+////         System.out.println(&quot;看看前序遍历&quot;);
+//        preOrder(hafumanRoot);
+
+
+//         //测试生成的哈夫曼码表Map&lt;Byte,String&gt;
+//       StringBuilder builder=new StringBuilder();
+//         createHafumanTab(hafumanRoot,&quot;&quot;,builder);
+//
+//         Map&lt;Byte, String&gt; hafumanTabb = createHafumanTab(strBytes);
+//         for (Map.Entry&lt;Byte,String&gt; map: hafumanTabb.entrySet())&#123;
+//
+//             System.out.println(map.getKey()+&quot;:&quot;+map.getValue());
+//
+//         &#125;
+
+
+     //测试压缩
+
+//         byte[] hafumanCompression = hafumanCompression(strBytes);
+
+//             for (byte b:hafumanCompression)&#123;
+//
+//             System.out.println(b);
+//         &#125;
+
+     //测试解压
+
+//         byte[] decode = decode(hafumanCompression, createHafumanTab(strBytes));
+
+
+//         for(byte a:decode)&#123;
+//             System.out.println(a);
+//         &#125;
+
+//         System.out.println(new String(decode));
+
+     //测试压缩文件
+
+//         String sourceFilePath=&quot;D://测试压缩.txt&quot;;
+//         String comPreFilePath=&quot;D://测试压缩.zip&quot;;
+//
+//         Filecompression(sourceFilePath,comPreFilePath);
+//         System.out.println(&quot;压缩成功&quot;);
+
+
+     //测试解压
+     String sourceComPreFilePath=&quot;D://测试压缩.zip&quot;;
+   String unzipFilePath=&quot;D://测试压缩2.txt&quot;;
+   Unzipfile(sourceComPreFilePath,unzipFilePath);
+   System.out.println(&quot;解压完成&quot;);
+
+ &#125;
+
+
+
+
+
+
+
+
+
+/*
+ 首先呢，先进行压缩操作，就是把一个字符串中的所有的字符出现的次数作为权值（对应每一个字符），
+ 构建成哈夫曼树，左边的节点路径为0，右边的节点路径为1。
+形成类似的
+比如字符串：i like like like java do you like a java
+形成类似的东西o: 1000 u: 10010 d: 100110 y: 100111 i: 101 a : 110 k: 1110 e: 1111 j: 0000 v: 0001 l: 001 : 01
+这种哈夫曼表的结构可以用 Map&lt;byte,String&gt; 来存储
+
+
+
+*/
+
+
+//实现文件的压缩（给你一张图片，无损压缩）
+
+public static  void  Filecompression(String sourceFilePath,String comPreFilePath)&#123;
+
+    //sourceFilePath原文件的路径，comPreFilePath解压后的文件的路径
+
+    //创建文件输入流
+
+    FileInputStream fileInputStream=null;  //文件输入流，读取源文件
+    ObjectOutputStream  objectOutputStream=null;//对象输出流，将压缩后的字节数组和哈夫曼编码对照表写入
+    OutputStream outputStream=null; //文件输出流，写入压缩文件
+
+
+    try &#123;
+
+        fileInputStream=new FileInputStream(sourceFilePath);
+
+        byte [] bytes=new byte[fileInputStream.available()];
+        fileInputStream.read(bytes);
+
+        byte[] bytes1 = hafumanCompression(bytes);//压缩完后得到的字节数组
+
+        Map&lt;Byte, String&gt; hafumanTab = createHafumanTab(bytes);//哈夫曼编码表
+
+        outputStream=new FileOutputStream(comPreFilePath);
+        objectOutputStream=new ObjectOutputStream(outputStream);
+
+        objectOutputStream.writeObject(bytes1); //对象输出流将压缩后的字节数组写入压缩文件
+        objectOutputStream.writeObject(hafumanTab);//对象输出流将哈夫曼码表写入压缩文件
+
+
+
+
+
+
+    &#125;
+    catch (Exception e)&#123;
+
+        System.out.println(e.getMessage());
+    &#125;
+
+    finally &#123;
+
+
+        try &#123;
+            fileInputStream.close();
+            outputStream.close();
+            objectOutputStream.close();
+
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+
+&#125;
+
+
+//文件解压
+
+public  static  void Unzipfile(String sourceComPreFilePath,String unzipFilePath)&#123;
+
+    FileInputStream fileInputStream=null;//读取原压缩文件
+
+    FileOutputStream fileOutputStream=null;//写入解压文件
+
+    ObjectInputStream objectInputStream=null;//读取压缩文件的哈夫曼编码表和字节数组
+
+
+    try &#123;
+        fileInputStream=new FileInputStream(sourceComPreFilePath);
+
+        objectInputStream=new ObjectInputStream(fileInputStream);
+
+        byte [] bytes= (byte [])objectInputStream.readObject(); //读取压缩后的字节数组
+        Map&lt;Byte,String&gt; map  =(Map&lt;Byte,String&gt;)objectInputStream.readObject();//读取编码表
+
+        //解压
+        byte[] decode = decode(bytes, map);
+
+        fileOutputStream=new FileOutputStream(unzipFilePath);
+        fileOutputStream.write(decode);
+
+
+    &#125; catch (Exception e) &#123;
+        e.printStackTrace();
+    &#125;
+    finally &#123;
+
+        try &#123;
+            fileInputStream.close();
+            objectInputStream.close();
+            fileOutputStream.close();
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+
+
+&#125;
+
+
+//解压数据
+//思路分析：首先呢，是需要把压缩后形成的字节数组遍历出来，每遍历到一个值，就把该值转成int,然后利用Integer的包装类
+//转成二进制（需要注意的是，原来生成哈夫曼编码表的map集合中的每一个叶子节点对应的编码在压缩成字节的时候，
+// 其实那个编码（比如说10101000）就看成是补码,转成byte类型的数据的时候是先把补码转成原码后的十进制值才是压缩后形成yte数组中的值。）
+//，然后，当你用包装类把byte数组中的值转成功二进制的时候，会是32位（int是4个字节），那么就要截取后8位，形成的值就是原来的编码。
+//假如byte数组中的值是正数的话，它转成二进制后，位数后不够8位，比如77，转成后变成了1001101，那么就要补高位，就是与256（100000000）相与就可以了
+//然后要是最后一个字节的话，就不用补高位了，它转成后是啥就是啥，但是它要是负数的话就要截取后8位了。
+
+
+//flag是判断是否是最后一个字节，如果是的话，就不用补高位,temp是遍历压缩后的字节数组的每一个元素
+public static String toBitStr(boolean flag,byte b)&#123;
+
+    String s=null;
+    int a=b;
+    if(flag)&#123;
+
+       // 不是最后一个字节
+        a|=256;  //按位或，如果是负数的话保持不变，如果是正数的话就会补齐位数。（如1001101会变成101001101,后面再截取8位就可以了）
+         s = Integer.toBinaryString(a);
+
+        s = s.substring(s.length() - 8);//截取后8位
+
+    &#125;
+
+    else&#123;
+        s=Integer.toBinaryString(a);
+
+        if(a&lt;0)&#123;
+
+            s=s.substring(s.length()-8);
+
+        &#125;
+
+    &#125;
+ return  s;
+
+&#125;
+
+
+//解压的方法，需要一个压缩后生成的字节数组，还有哈夫曼编码对照表
+public  static  byte[]  decode(byte[] byteHafumanCode,Map&lt;Byte,String&gt; hfumaCodeTa )&#123;
+
+    StringBuilder builder=new StringBuilder();
+    for(int i=0;i&lt;byteHafumanCode.length;i++)&#123;
+
+        boolean flag=(i==byteHafumanCode.length-1);
+
+        String s = toBitStr(!flag, byteHafumanCode[i]);
+
+        builder.append(s);
+    &#125;
+
+    Map&lt;String,Byte&gt; map=new HashMap&lt;String,Byte&gt;();//用一个map来存放，比如key:100010 value:97，方便还原
+    //接下来要把哈夫曼编码对照表的数据调过来
+
+    for (Map.Entry&lt;Byte,String&gt; m:hfumaCodeTa.entrySet())&#123;
+
+        map.put(m.getValue(),m.getKey());
+
+    &#125;
+
+
+    //接下来就是比对了
+
+    List&lt;Byte&gt; list=new ArrayList&lt;&gt;(); //定义这个集合来存放匹配到的数据
+
+    //遍历字符串
+
+    for(int i=0;i&lt;builder.length();)&#123;
+
+        //定义一个计数器，从i开始的位置，匹配到了就退出
+
+        int count=1;
+        boolean f=true;
+        while (f)&#123;
+
+            String substring = builder.substring(i, i+count);
+
+            if(map.get(substring)==null)&#123;
+
+                //如果对照表中没有这个串对应的值，count++
+                count++;
+
+            &#125;
+            else&#123;
+
+                //说明匹配到了
+
+                list.add(map.get(substring));
+                f=false;
+
+            &#125;
+
+
+        &#125;
+
+        i=i+count;
+
+
+    &#125;
+
+
+    //循环结束，list集合中就存在着对应的匹配值，现在把list转成byte[]
+
+    byte [] decodeHafuman=new byte[list.size()];
+    for (int i=0;i&lt;list.size();i++)&#123;
+
+        decodeHafuman[i]=list.get(i);
+
+    &#125;
+
+    return  decodeHafuman;
+
+&#125;
+
+
+//数据压缩，把类似100000100...每8位一个字节，转化成十进制数(byte类型),得到一个Byte[]数组，这就是哈夫曼的压缩
+
+//参数是原来的字符串字节数组
+public static byte[]  hafumanCompression(byte[] strByte)&#123;
+
+    Map&lt;Byte, String&gt; hafumanTab = createHafumanTab(strByte);
+    //需要按照字符串顺序，把它们的对应的编码这些东西存到StringBulider中，然后进行截取。。
+    StringBuilder builder=new StringBuilder();
+    for(byte b:strByte)&#123;
+
+        builder.append(hfumaCodeTa.get(b));
+
+    &#125;
+//System.out.println(builder.toString());
+    //然后进行每8位截取求值
+    //定义一个接收字节数组
+    int len=0;
+    if(builder.length()%8==0)&#123;
+
+        len=builder.length()/8;
+
+    &#125;
+    else&#123;
+
+        len=builder.length()/8+1;
+    &#125;
+    byte[] byteHafumanCode=new byte[len];
+    int index=0;
+    Byte a=null;
+    for(int i=0;i&lt;builder.length();i+=8)&#123;
+
+        // i 0 8 16 24
+        //首先判断截取的8位是否是在字符串的长度之内
+
+        if(i+8&gt;builder.length())&#123;
+
+             a=(byte)Integer.parseInt(builder.substring(i),2);//直接截取从该位置到最后的字符,
+                                                         // 输出该字符串的二进制转成10进制再强转byte的数据
+
+        &#125;
+        else&#123;
+
+            //满足8位
+             a=(byte)Integer.parseInt(builder.substring(i,i+8),2);//从i 开始，到i+8前一位截取，不包括i+8
+                                                            // 输出该字符串的二进制转成10进制再强转byte的数据
+
+            //byte转int后，byte是1字节，int是4字节，所以取int的该十进制的值的后8位，第一位当符号位。符号位如果是1的话，
+            // 记住，负数用补码来存储，转成原码是符号位除外，其他为取反，再加1
+        &#125;
+
+        byteHafumanCode[index]=a;
+        index++;
+
+
+    &#125;
+
+
+
+    return  byteHafumanCode;
+
+
+
+
+
+&#125;
+
+
+
+//重载生成哈夫曼编码Map&lt;Byte,String&gt;的方法，方便调用
+
+//参数是原字符串的字节数组
+public  static Map&lt;Byte,String&gt;createHafumanTab(byte [] strByte) &#123;
+
+    //生成哈夫曼树得到哈夫曼的根节点
+    Node2 root = createhafuManTree(auxiliarycreatehafuManTree(strByte));
+  StringBuilder builder=new StringBuilder();
+    if(root!=null)&#123;
+
+        createHafumanTab(root,&quot;&quot;,builder);
+
+        return hfumaCodeTa;
+    &#125;
+
+    else&#123;
+
+        return  null;
+    &#125;
+
+
+&#125;
+//现在需要得到哈夫曼表，像这样o: 1000 u: 10010 d: 100110 y: 100111 i: 101 a : 110 k: 1110 e: 1111 j: 0000 v: 0001 l: 001 : 01
+
+//参数：hafumanRoot哈夫曼树的根节点，code(左边为0,右边为1，stringBuilder拼接路径code)
+
+
+public  static void createHafumanTab(Node2 hafumanRoot,String code,StringBuilder stringBuilder)&#123;
+
+    //分别从根节点的左边和右边进行递归直到找到叶子节点
+
+    StringBuilder builder=new StringBuilder(stringBuilder);
+        builder.append(code);
+    if(hafumanRoot.getData()==null)&#123;
+
+           //说明不是叶子节点
+
+        //向左递归寻找
+        if(hafumanRoot.getLeft()!=null) &#123;
+            createHafumanTab(hafumanRoot.getLeft(), &quot;0&quot;, builder);
+        &#125;
+        if(hafumanRoot.getRight()!=null) &#123;
+            createHafumanTab(hafumanRoot.getRight(), &quot;1&quot;, builder);
+        &#125;
+    &#125;
+    else&#123;
+
+
+
+
+        hfumaCodeTa.put(hafumanRoot.getData(),builder.toString());
+    &#125;
+
+//        StringBuilder stringBuilder2 = new StringBuilder(stringBuilder);
+//        //将code 加入到 stringBuilder2
+//        stringBuilder2.append(code);
+//        if(hafumanRoot != null) &#123; //如果node == null不处理
+//            //判断当前node 是叶子结点还是非叶子结点
+//            if(hafumanRoot.getData() == null) &#123; //非叶子结点
+//                //递归处理
+//                //向左递归
+//                createHafumanTab(hafumanRoot.getLeft(), &quot;0&quot;, stringBuilder2);
+//                //向右递归
+//                createHafumanTab(hafumanRoot.getRight(), &quot;1&quot;, stringBuilder2);
+//            &#125; else &#123; //说明是一个叶子结点
+//                //就表示找到某个叶子结点的最后
+//                hfumaCodeTa.put(hafumanRoot.getData(), stringBuilder2.toString());
+//            &#125;
+//        &#125;
+
+    &#125;
+
+//辅助生成哈夫曼树
+//参数是原字符串的byte数组
+public static List&lt;Node2&gt; auxiliarycreatehafuManTree(byte [] strByte)&#123;
+
+//封装一个List&lt;Node2&gt;集合
+List&lt;Node2&gt; node2=new ArrayList&lt;&gt;();
+
+Map&lt;Byte,Integer&gt;  counts=new HashMap&lt;&gt;(); //用来记录字节以及出现的次数
+for(byte b:strByte)&#123;
+
+    Integer count = counts.get(b);
+
+    if(count==null)&#123;
+        //说明没有该字节
+
+        counts.put(b,1);
+
+    &#125;
+    else &#123;
+
+        counts.put(b,count+1);//已经存在的字节的个数
+
+    &#125;
+
+&#125;
+
+//遍历counts
+
+for(Map.Entry&lt;Byte,Integer&gt; m:counts.entrySet())&#123;
+
+    node2.add(new Node2(m.getKey(),m.getValue()));
+
+&#125;
+
+
+return  node2;
+
+&#125;
+
+//生成哈夫曼树
+public  static  Node2 createhafuManTree(List&lt;Node2&gt; node2)&#123;
+
+//生成哈夫曼树
+
+while (node2.size()&gt;1) &#123;
+    Collections.sort(node2);
+
+    //取前两个
+    Node2 leftNode = node2.get(0);
+    Node2 rightNode = node2.get(1);
+
+    //生成新二叉树
+    Node2 parent=new Node2(null,leftNode.getWeight() + rightNode.getWeight());
+    parent.setLeft(leftNode);
+    parent.setRight(rightNode);
+
+    node2.remove(leftNode);
+    node2.remove(rightNode);
+
+    node2.add(parent);
+
+
+&#125;
+
+   return  node2.get(0);
+&#125;
+
+public static void preOrder(Node2 root)&#123;
+
+
+if(root!=null)&#123;
+
+    root.preOrder(root);
+
+&#125;
+
+
+&#125;
+
+
+&#125;
+
+class  Node2  implements  Comparable&lt;Node2&gt;&#123;
+
+private  Byte data; //数据
+private  int weight; //权重
+private  Node2 left;//左节点
+private  Node2 right;//右节点
+
+
+public Node2(Byte data, int weight) &#123;
+    this.data = data;
+    this.weight = weight;
+&#125;
+
+
+@Override
+public String toString() &#123;
+    return &quot;Node2&#123;&quot; +
+            &quot;data=&quot; + data +
+            &quot;, weight=&quot; + weight +
+            &#39;&#125;&#39;;
+&#125;
+
+public Byte getData() &#123;
+    return data;
+&#125;
+
+public void setData(  Byte data) &#123;
+    this.data = data;
+&#125;
+
+public int getWeight() &#123;
+    return weight;
+&#125;
+
+public void setWeight(int weight) &#123;
+    this.weight = weight;
+&#125;
+
+public Node2 getLeft() &#123;
+    return left;
+&#125;
+
+public void setLeft(Node2 left) &#123;
+    this.left = left;
+&#125;
+
+public Node2 getRight() &#123;
+    return right;
+&#125;
+
+public void setRight(Node2 right) &#123;
+    this.right = right;
+&#125;
+
+@Override
+public int compareTo(Node2 o) &#123;
+
+
+    //这个方法啊（this.age相当于参数o1,o.age相当于参数o2,但是在原码中o1,o2是调过来的
+    //比如说 1,2,6,5,4,3
+
+    //当你设置if(this.age&gt;o.age)&#123;
+    //
+    //            return 1;
+    //        &#125;
+    //        else if(this.age&lt;o.age)&#123;
+    //
+    //            return -1;
+    //        &#125;
+    //        else &#123;
+    //
+    //            return 0;
+    //        &#125;
+    // 你设置this.age的时候是当前age嘛，(比如1和2比较)所以就是1（o1），那么o.age就是2(o2)，
+    // 但是在源码中 2其实是o1,1其实是o2,那么你在源码中是o1&gt;o2的，所以就返回的是1,既然返回1了，源码的执行就会去到升序的方法
+    // 循环找，一直找到返回-1的，就是o1&lt;o2,然后就记录o1的位置，然后进行二分插入升序排序
+
+    //当你设置 if(this.age&gt;o.age)&#123;
+    //
+    //            return -1;
+    //        &#125;
+    //        else if(this.age&lt;o.age)&#123;
+    //
+    //            return 1;
+    //        &#125;
+    //        else &#123;
+    //
+    //            return 0;
+    //        &#125;
+    //
+    // ）
+    // 比如1,2比较，源码中1是o2,2是o1,这个时候o1&gt;o2返回的是-1，那么就会进入降序的方法，直到找到返回1的，就是o1&lt;o2,然后
+    //就反转o2前面的数据，即从o2位置到开始位置反转过来，然后再进行二分降序排序。
+
+
+    //这个就是升序的，也可以写成  return this.age-o.age;
+    // 降序的话可以写成o.age-this.age(举个例子:o.age-this.age&gt;0的时候其实就是this.age-o.age&lt;0的时候，也就是说你o.age-this.age&gt;0返回的值就是
+    //this.age-o.age &lt;0的时候返回的值，比如说o.age-this.age=1 &gt;0（返回1），那么this.age-o.age&lt;0返回的也是1，这样就去到了降序)
+    return this.weight-o.weight;
+&#125;
+
+
+//前序遍历
+
+public  void preOrder(Node2 node2)&#123;
+
+    System.out.println(node2);
+
+    if(node2.getLeft()!=null)&#123;
+
+        preOrder(node2.getLeft());
+    &#125;
+    if(node2.getRight()!=null)&#123;
+
+        preOrder(node2.getRight());
+    &#125;
+
+
+&#125;
+&#125;
+</code></pre>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">http://jr1023.github.io/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%92%8C%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/04/30/Comparable%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%90%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Comparable接口的理解与使用</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/04/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%A0%86%E6%8E%92%E5%BA%8F/"><span class="paginator-prev__text">数据结构-堆排序</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">
+          赫夫曼树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5%E5%92%8C%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">
+          赫夫曼树几个重要概念和举例说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%AB%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%88%9B%E5%BB%BA%E6%80%9D%E8%B7%AF%E5%9B%BE%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">
+          赫夫曼树创建思路图解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%AB%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">
+          赫夫曼编码</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>

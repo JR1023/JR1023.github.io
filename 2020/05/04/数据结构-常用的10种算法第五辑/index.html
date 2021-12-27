@@ -1,0 +1,738 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/favicon_images/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/favicon_images/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="求图的某一个顶点到其他顶点的最短距离的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-常用的10种算法第五辑">
+<meta property="og:url" content="http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/index.html">
+<meta property="og:site_name" content="JR&#39;s Blog">
+<meta property="og:description" content="求图的某一个顶点到其他顶点的最短距离的问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/09CB878D9164492E8F503B773743FE32/212">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/C1C54EF20B3D4F0FA4C873CC72112643/214">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20AF2ABE1D744C76B14AA82BED9A5E2B/216">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/6E565F0052774F28A02309631E35C229/218">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CFECB3895CBD4348869CEAFC1F99E2BB/220">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/4EB94EE8825A46F69AB6F98A73C0CA4D/222">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AF3F40A12A8347348B614C18549C6D13/224">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/56612CDC20DE419A99C50234C02BFEFD/226">
+<meta property="article:published_time" content="2020-05-04T07:33:20.000Z">
+<meta property="article:modified_time" content="2021-12-23T06:56:43.827Z">
+<meta property="article:author" content="JR">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/09CB878D9164492E8F503B773743FE32/212"><title>数据结构-常用的10种算法第五辑 | JR's Blog</title><link ref="canonical" href="http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">JR's Blog</div><div class="header-banner-info__subtitle">I knew you were coming, so I waited</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">数据结构-常用的10种算法第五辑</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-05-04</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-12-23</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.8k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>求图的某一个顶点到其他顶点的最短距离的问题</p>
+<span id="more"></span>
+
+
+        <h3 id="迪杰斯特拉算法">
+          <a href="#迪杰斯特拉算法" class="heading-link"><i class="fas fa-link"></i></a><a href="#迪杰斯特拉算法" class="headerlink" title="迪杰斯特拉算法"></a>迪杰斯特拉算法</h3>
+      <p>看一个应用场景和问题:</p>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/09CB878D9164492E8F503B773743FE32/212"></p>
+<ol>
+<li>战争时期，胜利乡有 7 个村庄(A, B, C, D, E, F, G) ，现在有六个邮差，从 G 点出发，需要分别把邮件分别送到 A, B, C , D, E, F 六个村庄 </li>
+<li>各个村庄的距离用边线表示(权) ，比如 A – B 距离 5 公里 </li>
+<li>问：如何计算出 G 村庄到 其它各个村庄的最短距离? 4) 如果从其它点出发到各个点的最短距离又是多少?</li>
+</ol>
+
+        <h4 id="迪杰斯特拉-Dijkstra-算法介绍">
+          <a href="#迪杰斯特拉-Dijkstra-算法介绍" class="heading-link"><i class="fas fa-link"></i></a><a href="#迪杰斯特拉-Dijkstra-算法介绍" class="headerlink" title="迪杰斯特拉(Dijkstra)算法介绍"></a>迪杰斯特拉(Dijkstra)算法介绍</h4>
+      <p> 迪杰斯特拉(Dijkstra)算法是典型最短路径算法，用于计算一个结点到其他结点的最短路径。它的主要特点是以 起始点为中心向外层层扩展(广度优先搜索思想)，直到扩展到终点为止。</p>
+<ol>
+<li><p>设置出发顶点为 v，顶点集合 V{v1,v2,vi…}，v 到 V 中各顶点的距离构成距离集合 Dis，Dis{d1,d2,di…}，Dis 集合记录着 v 到图中各顶点的距离(到自身可以看作 0，v 到 vi 距离对应为 di) </p>
+</li>
+<li><p>从 Dis 中选择值最小的 di 并移出 Dis 集合，同时移出 V 集合中对应的顶点 vi，此时的 v 到 vi 即为最短路径</p>
+</li>
+<li><p>更新 Dis 集合，更新规则为：比较 v 到 V 集合中顶点的距离值，与 v 通过 vi 到 V 集合中顶点的距离值，保留 值较小的一个(同时也应该更新顶点的前驱节点为 vi，表明是通过 vi 到达的) </p>
+</li>
+<li><p>重复执行两步骤，直到最短路径顶点为目标顶点即可结束</p>
+</li>
+</ol>
+<p> <img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/C1C54EF20B3D4F0FA4C873CC72112643/214"></p>
+<hr>
+
+        <h3 id="代码实现">
+          <a href="#代码实现" class="heading-link"><i class="fas fa-link"></i></a><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3>
+      <pre><code>      public class DijkstraAlgorithm &#123;
+
+public static void main(String[] args) &#123;
+
+   // 迪杰斯特拉算法
+
+    /*
+    求一个点到其他点的最短路径。
+    三个数组，一个用来记录顶点的访问情况，一个用来记录顶点的前驱节点，一个用来记录从出发点到各个顶点的最短距离
+     */
+    char[] vertex = &#123; &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39; &#125;;
+    int[][] matrix = new int[vertex.length][vertex.length];
+    final int  N=65535;
+    matrix[0]=new int[]&#123;N,5,7,N,N,N,2&#125;;
+    matrix[1]=new int[]&#123;5,N,N,9,N,N,3&#125;;
+    matrix[2]=new int[]&#123;7,N,N,N,8,N,N&#125;;
+    matrix[3]=new int[]&#123;N,9,N,N,N,4,N&#125;;
+    matrix[4]=new int[]&#123;N,N,8,N,N,5,4&#125;;
+    matrix[5]=new int[]&#123;N,N,N,4,5,N,6&#125;;
+    matrix[6]=new int[]&#123;2,3,N,N,4,6,N&#125;;
+
+    Graph graph=new Graph(vertex.length,vertex,matrix);
+
+    //graph.showGraph();
+   // graph.update(6);
+    graph.dijkstraAlgorithm(6);
+    System.out.println(Arrays.toString(graph.vv.arr_already));
+    System.out.println(Arrays.toString(graph.vv.arr_pre));
+    System.out.println(Arrays.toString(graph.vv.arr_dis));
+
+    graph.print(6);
+&#125;
+
+ &#125;
+
+
+ class  Graph&#123;
+
+int vertexs;//顶点个数
+char [] data;//顶点数组
+int [] [] weight;//邻接矩阵
+ VisitedVertex vv;
+public Graph(int vertexs, char[] data, int[][] weight) &#123;
+    this.vertexs = vertexs;
+    this.data = data;
+    this.weight = weight;
+&#125;
+
+  //遍历图
+public void showGraph()&#123;
+
+    for(int i=0;i&lt;vertexs;i++)&#123;
+
+        for(int j=0;j&lt;vertexs;j++)&#123;
+
+
+            System.out.printf(&quot;%12d&quot;,weight[i][j]);;
+
+        &#125;
+        System.out.println();
+    &#125;
+
+&#125;
+
+//先把从第一个节点出发后的情况写出来
+
+//index是出发点的坐标
+public  void update(int index)&#123;
+
+
+    //遍历图
+    int len=0;
+
+
+        for(int j=0;j&lt;vertexs;j++)&#123;  //只要在每一行的列中寻找就可以了,所以就是遍历每一行的列就可以了
+
+            len=vv.getDis(index)+weight[index][j]; //len就是从出发点到某一个该index的距离+从该index的点到某一个顶点的距离
+                                                    //比如说现在的index是0（A），j是2（B），那么从G点（假设是出发点）出发到
+                                                   //B点，可能的情况是可以直接从G点到B点，也可以能是从G 到  A 再到 B
+                                                   //那么从G点到B点的最短距离，就要拿着两种可能的情况进行比较谁小。。
+            if(vv.isV(j)==false &amp;&amp;  len&lt; vv.getDis(j))&#123;
+
+                //进行更新
+                vv.updateDis(j,len);
+
+                vv.updatePre(j,index);
+
+            &#125;
+
+
+    &#125;
+
+&#125;
+
+
+
+ //写一个方法获取下一个访问的顶点，比如说从G点访问完后，就需要选取G点到哪一个点的距离是最小的，就选取该点作为下一个访问的节点
+
+public  int updateArr()&#123;
+
+
+    int min=65535;
+    int index=0;
+    for(int i=0;i&lt;vertexs;i++)&#123;
+
+
+        if(!vv.isV(i) &amp;&amp; vv.getDis(i)&lt;min)&#123;
+
+            min=vv.getDis(i);
+            index=i;
+        &#125;
+
+    &#125;
+    vv.arr_already[index]=1;
+    return  index;
+
+&#125;
+
+//核心方法
+public  void dijkstraAlgorithm(int index)&#123;
+    vv=new VisitedVertex(vertexs,index);
+       update(index);
+
+    for(int i=1;i&lt;vertexs;i++)&#123;
+        index=updateArr();
+        update(index);
+    &#125;
+
+
+
+
+&#125;
+
+public  void print(int index)&#123;
+
+    char[] vertex = &#123; &#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39; &#125;;
+
+    for(int i=0;i&lt;vv.arr_dis.length;i++)&#123;
+if(vv.arr_dis[i]!=65535 &amp;&amp; i!=index)&#123;
+
+System.out.println(&quot;从&quot;+vertex[index]+&quot;点到&quot;+vertex[i]+&quot;点的最短距离是&quot;+vv.arr_dis[i]);
+     &#125;
+else &#123;
+
+    System.out.println(&quot;从该点到其他点为无效距离！&quot;);
+&#125;
+
+    &#125;
+
+
+
+&#125;
+&#125;
+
+class  VisitedVertex&#123;
+
+ int [] arr_already;//记录访问情况
+  int [] arr_pre; //记录顶点的前驱节点
+  int [] arr_dis; //记录从出发点到各个顶点的最短距离
+
+
+//vertex代表顶点的个数，index代表出发点
+public   VisitedVertex(int vertex,int index)&#123;
+
+    arr_already=new int [vertex];
+
+    arr_already[index]=1; //出发点记为已经访问
+    arr_pre=new int[vertex];
+
+    arr_dis=new int [vertex];
+
+    Arrays.fill(arr_dis,65535);
+    arr_dis[index]=0; //记录最短距离的数组,设置出发点到出发点的距离为0
+
+
+
+&#125;
+
+//判断顶点是否被访问
+
+public  boolean isV(int index)&#123;
+
+    return  arr_already[index]==1;
+
+&#125;
+
+//获取从出发点到某个顶点的最短距离
+
+public  int getDis(int index)&#123;
+
+    return  arr_dis[index];
+
+&#125;
+
+//更新顶点的前驱节点
+
+//index表示是去到了哪个顶点，j表示该顶点的前驱节点是j
+public  void updatePre(int index,int j)&#123;
+
+
+    arr_pre[index]=j;
+
+&#125;
+
+//更新从出发点到某个顶点的最短距离
+//index表示是去到了哪个顶点，j表示当前从出发点到该顶点的最短距离
+public  void updateDis(int index,int j)&#123;
+
+    arr_dis[index]=j;
+
+&#125;
+
+&#125;
+</code></pre>
+
+        <h3 id="弗洛伊德算法">
+          <a href="#弗洛伊德算法" class="heading-link"><i class="fas fa-link"></i></a><a href="#弗洛伊德算法" class="headerlink" title="弗洛伊德算法"></a>弗洛伊德算法</h3>
+      <ol>
+<li><p>和 Dijkstra 算法一样，弗洛伊德(Floyd)算法也是一种用于寻找给定的加权图中顶点间最短路径的算法。该算法 名称以创始人之一、1978 年图灵奖获得者、斯坦福大学计算机科学系教授罗伯特·弗洛伊德命名 </p>
+</li>
+<li><p>弗洛伊德算法(Floyd)计算图中各个顶点之间的最短路径 </p>
+</li>
+<li><p>迪杰斯特拉算法用于计算图中某一个顶点到其他顶点的最短路径。 </p>
+</li>
+<li><p>$\color{green}{弗洛伊德算法 VS 迪杰斯特拉算法：迪杰斯特拉算法通过选定的被访问顶点，求出从出发访问顶点到其他顶点 的最短路径；弗洛伊德算法中每一个顶点都是出发访问点，所以需要将每一个顶点看做被访问顶点，求出从每 一个顶点到其他顶点的最短路径}$</p>
+</li>
+</ol>
+
+        <h4 id="弗洛伊德-Floyd-算法图解分析">
+          <a href="#弗洛伊德-Floyd-算法图解分析" class="heading-link"><i class="fas fa-link"></i></a><a href="#弗洛伊德-Floyd-算法图解分析" class="headerlink" title="弗洛伊德(Floyd)算法图解分析"></a>弗洛伊德(Floyd)算法图解分析</h4>
+      <ol>
+<li><p>设置顶点 vi 到顶点 vk 的最短路径已知为 Lik，顶点 vk 到 vj 的最短路径已知为 Lkj，顶点 vi 到 vj 的路径为 Lij， 则 vi 到 vj 的最短路径为：min((Lik+Lkj),Lij)，vk 的取值为图中所有顶点，则可获得 vi 到 vj 的最短路径 </p>
+</li>
+<li><p>至于 vi 到 vk 的最短路径 Lik 或者 vk 到 vj 的最短路径 Lkj，是以同样的方式获得</p>
+</li>
+<li><p>弗洛伊德(Floyd)算法图解分析-举例说明</p>
+</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/20AF2ABE1D744C76B14AA82BED9A5E2B/216"></p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/6E565F0052774F28A02309631E35C229/218"></p>
+<p>弗洛伊德算法的步骤： 第一轮循环中，以 A(下标为：0)作为中间顶点【即把 A 作为中间顶点的所有情况都进行遍历, 就会得到更新距离表 和 前驱关系】， 距离表和前驱关系更新为：</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/CFECB3895CBD4348869CEAFC1F99E2BB/220"></p>
+<p>分析如下： </p>
+<ol>
+<li><p>以 A 顶点作为中间顶点是，B-&gt;A-&gt;C 的距离由 N-&gt;12，同理 C 到 B；C-&gt;A-&gt;G 的距离由 N-&gt;9，同理 G 到 C </p>
+</li>
+<li><p>更换中间顶点，循环执行操作，直到所有顶点都作为中间顶点更新后，计算结束</p>
+</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/4EB94EE8825A46F69AB6F98A73C0CA4D/222"></p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/AF3F40A12A8347348B614C18549C6D13/224"></p>
+<p>应用：</p>
+<p><img src="https://note.youdao.com/yws/public/resource/c1aa3442f95e016630f952f214a11dac/xmlnote/56612CDC20DE419A99C50234C02BFEFD/226"></p>
+
+        <h4 id="代码实现：">
+          <a href="#代码实现：" class="heading-link"><i class="fas fa-link"></i></a><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4>
+      <pre><code>  public class FloydAlgorithm &#123;
+
+//弗洛伊德算法
+//该算法是求一个无向图中所有的顶点到其他顶点的最小距离，就是以图中的每一个点都要作为出发点，
+// 都会的到每一个顶点到其他顶点的最小的距离
+
+//思路分析：分别以图中的每一个顶点为中间节点,比如以A为中间顶点， 比如说有B-A-C的距离为9，如果9小于原来邻接矩阵中B-C的距离
+ //那么就把9赋给邻接矩阵中B-C对应的权值。同时会有一个邻接矩阵，是存着顶点的前驱节点的，比如 A-A 就是A，A-B 。。。就是A
+//B-C就是B。。。 那么就要同时更新前驱节点，所以这个时候B-C的前驱节点就是A(中间节点)。
+
+//用程序来实现就是三层for循环，第一层是遍历所有节点作为中间节点，第二层是遍历所有节点作为出发点，第三层是遍历所有节点作为终点
+
+ public static void main(String args[]) &#123;
+
+
+     char[] data = &#123;&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;&#125;;
+     int[][] matrix = new int[data.length][data.length];
+     final int N = 65535;
+     matrix[0] = new int[]&#123;0, 5, 7, N, N, N, 2&#125;;
+     matrix[1] = new int[]&#123;5, 0, N, 9, N, N, 3&#125;;
+     matrix[2] = new int[]&#123;7, N, 0, N, 8, N, N&#125;;
+     matrix[3] = new int[]&#123;N, 9, N, 0, N, 4, N&#125;;
+     matrix[4] = new int[]&#123;N, N, 8, N, 0, 5, 4&#125;;
+     matrix[5] = new int[]&#123;N, N, N, 4, 5, 0, 6&#125;;
+     matrix[6] = new int[]&#123;2, 3, N, N, 4, 6, 0&#125;;
+
+     Graph graph=new Graph(data,matrix);
+     graph.floydAlgorithm();
+     graph.print();
+ &#125;
+ &#125;
+
+class  Graph&#123;
+
+int [] [] dis;//用来存放各个顶点到其他顶点最小的距离的邻接矩阵，最后的结果就是这个
+int [][]  pre;//用来存放前驱节点
+char [] data; //字符数组
+int [][] martix;//邻接矩阵
+
+public Graph(char[] data, int[][] martix) &#123;
+    this.data = data;
+    this.martix = martix;
+    this.dis=martix;//初始化dis数组
+    this.pre=new int [data.length] [data.length];
+    for(int i=0;i&lt;dis.length;i++)&#123;
+
+        for(int j=0;j&lt;dis.length;j++)&#123;
+
+            pre[i][j]=i;
+
+        &#125;
+
+    &#125;
+&#125;
+
+
+//输出图
+
+public  void print()&#123;
+
+    for(int i=0;i&lt;dis.length;i++)&#123;
+
+
+        for(int k=0;k&lt;dis.length;k++)&#123;
+
+            System.out.printf(&quot;%12d&quot;,pre[i][k] );
+
+        &#125;
+        System.out.println();
+        for(int j=0;j&lt;dis.length;j++)&#123;
+
+
+            System.out.printf(data[i]+&quot;点到&quot;+data[j]+&quot;点的最小距离为:&quot;+dis[i][j]+&quot; &quot;);
+
+        &#125;
+
+        System.out.println();
+
+
+
+    &#125;
+
+
+&#125;
+
+
+
+//弗洛伊德算法核心方法
+
+public  void  floydAlgorithm()&#123;
+    int len=0;
+    //最外层是中间顶点
+    for(int k=0;k&lt;dis.length;k++)&#123;
+
+        //第二层是出发顶点
+        for(int i=0;i&lt;dis.length;i++)&#123;
+
+            //第三层是终点
+            for(int j=0;j&lt;dis.length;j++)&#123;
+
+              len=dis[i][k]+dis[k][j];
+
+              if(len&lt;dis[i][j])&#123;
+
+                  dis[i][j]=len; //更新dis矩阵对应坐标的权值
+
+                  pre[i][j]=pre[k][j];//前驱矩阵赋值
+              &#125;
+
+
+            &#125;
+
+
+        &#125;
+
+
+
+    &#125;
+
+
+
+
+&#125;
+
+ &#125;
+</code></pre>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://JR1023.github.io">JR</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/">http://jr1023.github.io/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E4%BA%94%E8%BE%91/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://jr1023.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%85%AD%E8%BE%91%EF%BC%88%E5%AE%8C%E7%BB%93%EF%BC%89/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">数据结构-常用的10种算法第六辑（完结）</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/05/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B8%B8%E7%94%A8%E7%9A%8410%E7%A7%8D%E7%AE%97%E6%B3%95%E7%AC%AC%E5%9B%9B%E8%BE%91/"><span class="paginator-prev__text">数据结构-常用的10种算法第四辑</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">
+          迪杰斯特拉算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89-Dijkstra-%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">
+          迪杰斯特拉(Dijkstra)算法介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">
+          代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B7%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">
+          弗洛伊德算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B7-Floyd-%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">
+          弗洛伊德(Floyd)算法图解分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="toc-number">3.2.</span> <span class="toc-text">
+          代码实现：</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/bg_images/蓝天.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">花海</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">0</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>JR</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.6.2</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>
